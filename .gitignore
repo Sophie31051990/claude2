@@ -2,3 +2,8 @@
 node_modules/
 *.log
 renders/tmp/
+video/media/
+video/node_modules/
+video/narration.wav
+video/renders/
+video/snapshots/
