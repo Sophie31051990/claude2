@@ -237,7 +237,7 @@ Sprechertext:
 
 ---
 
-## Kapitel 6 · Zusammenfassung und kleine Transferaufgabe (8:37–9:37)
+## Kapitel 6 · Zusammenfassung und mein Wunsch (8:37–9:37)
 
 ### Szene 6.1 · Fünf Fragen vor jeder Übergabe (8:37–9:05)
 Bild: Fünf nummerierte Karten, je eine Akzentfarbe hell, erscheinen synchron:
@@ -250,11 +250,11 @@ Bild: Fünf nummerierte Karten, je eine Akzentfarbe hell, erscheinen synchron:
 Sprechertext:
 > Vor jeder Übergabe stellt ihr euch fünf Fragen. Darf ich diese Daten in diesem Tool verwenden? Habe ich alles gelesen und verstanden? Habe ich relevante Fakten und Quellen geprüft? Ist die Übergabe kurz, verständlich und hilfreich? Und ist mein KI-Einsatz transparent?
 
-### Szene 6.2 · Deine kleine Aufgabe (9:05–9:30)
-Bild: F3 rechts. Links fünf Schritte als Pfeilkette: Selbst überlegen → KI nutzen → Prüfen → Kürzen → KI-Einsatz benennen. Hinweis-Karte: «Kein KI-Zugang? Überarbeite die Beispielantwort im Begleitmaterial.»
+### Szene 6.2 · Mein Wunsch (9:05–9:30)
+Bild: F3 rechts (langsamer Zoom). Links drei Karten erscheinen nacheinander: «Gemeinsames Verständnis» (Blau hell) · «Sinnvoll, verantwortungsvoll, transparent» (Grün hell) · «Mehr Qualität. Echte Effizienz. Für alle.» (Magenta hell). Darunter kleiner Hinweis: «Begleitmaterial: alle Prompts, Prüffragen und Quellen».
 
 Sprechertext:
-> Probiert es gleich an einer kleinen eigenen Aufgabe aus. Erst selbst überlegen. Dann KI nutzen. Das Ergebnis prüfen, kürzen und die KI-Unterstützung benennen. Wer keinen KI-Zugang hat, überarbeitet die Beispielantwort aus dem Begleitmaterial. Und schaut am Ende ehrlich auf den Aufwand: Hat KI euch und den anderen geholfen? Oder wäre ein eigener Text besser gewesen? Auch diese Entscheidung gehört dazu.
+> Ich wünsche mir, dass wir alle nach diesem Video das gleiche Verständnis von KI haben. Dass wir sie sinnvoll, verantwortungsvoll und transparent nutzen. Und dass wir so gemeinsam zu mehr Qualität und echter Effizienz beitragen, für alle Beteiligten. Alle Prompts, die fünf Fragen und die Quellen findet ihr im Begleitmaterial. Und wenn etwas unklar ist, sprecht mich gern an.
 
 ### Szene 6.3 · Leitsatz (9:30–9:37)
 Bild: Leitsatz gross, drei Zeilen erscheinen nacheinander (wie Szene 2.4). Keine eigene Sprache; der Leitsatz wird in Kapitel 7 gesprochen.
