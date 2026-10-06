@@ -473,7 +473,7 @@ def scene_html(s):
         for k, (wd, q, col) in enumerate(qs):
             h += card(c, 'q' + str(k), f'<span class="num" style="background:{COL[col][0]}">{k + 1}</span>{q}', 150, 240 + k * 112, 1620, bg=COL[col][1], fs=36)
             rel = c.kw(wd, 2 if wd == 'Übergabe' else 1) - 0.3
-            if k == 4: rel = c.kw('Und', 1) - 0.1
+            if k == 4: rel = c.kw('KI-Einsatz') - 0.6
             c.a('q' + str(k), 'in', rel)
     elif i == '6.2':
         h += photo(c, 'ph', 'F3', 1390, 150, 380, 670, pos='50% 20%')
