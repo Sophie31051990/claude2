@@ -15,7 +15,12 @@ Stand: 6. Oktober 2026
 - Nur Standardstimmen (category premade/default), keine Voice Library, kein Klon. Kontingent vor Vertonung prüfen (/v1/user/subscription). Vollvertonung ca. 7'700 Zeichen.
 - Timing-Endpunkt: POST /v1/text-to-speech/{voice_id}/with-timestamps, Zeichen-Alignment -> Wortzeiten ableiten. Modell bevorzugt eleven_multilingual_v2.
 
+## Stand Video (6.10.2026)
+- Stimme: ElevenLabs «Sarah» (premade, EXAVITQu4vr4xnSDxMaL), eleven_multilingual_v2, speed 0.95. Von Claude gewählt (Sophie: «wähle selbst»), Hörbeispiel-Schritt entfallen.
+- Vertonung: `video/audio/` (MP3 + Zeichen-Alignment je Absatz). Kontingent danach: ca. 1'270 Zeichen frei (Free-Plan).
+- Bau: `cd video && npm install && python3 build.py` (erzeugt narration.wav, SRT, timing.json, index.html), Medien vorher nach `video/media/` kopieren (Fotos, Logos, QR via qrcode).
+- Rendern: `npx hyperframes@0.8.136 render -q high -f 30 -w 4 -o renders/KI_nutzen_selber_denken_Sophie_Hundertmark.mp4`
+- Ergebnis: 9:33 Min, 1920x1080, 30 fps, QR aus Videoframe decodiert = https://wa.me/41789005346. MP4 nicht im Repo (Grösse).
+
 ## Nächste Schritte
-1. Drei Hörbeispiele mit dem Satz «KI kann uns beim Lernen und Arbeiten enorm helfen – wenn wir selber mitdenken.» erzeugen, Sophie vorstellen, auf Stimmwahl warten.
-2. Video bauen (HyperFrames), QR https://wa.me/41789005346, Frames prüfen, QR aus Videoframe decodieren.
-3. Ausgabe: `KI_nutzen_selber_denken_Sophie_Hundertmark.mp4`, SRT, Beispielprompts, Projekt.
+1. Sophie sieht Video an, Feedback einarbeiten.
