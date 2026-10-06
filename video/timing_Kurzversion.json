@@ -1,0 +1,71 @@
+{
+ "total": 185.95,
+ "scenes": [
+  {
+   "id": "1.1",
+   "title": "Szene 1.1 · Kennzeichnung (0:00–0:07)",
+   "start": 0.0,
+   "dur": 10.125
+  },
+  {
+   "id": "1.2",
+   "title": "Szene 1.2 · Die Situation (0:07–0:20)",
+   "start": 10.125,
+   "dur": 10.073
+  },
+  {
+   "id": "1.3",
+   "title": "Szene 1.3 · Zwei Nachrichten (0:20–0:38)",
+   "start": 20.198,
+   "dur": 19.962
+  },
+  {
+   "id": "1.4",
+   "title": "Szene 1.4 · Arbeit wird verschoben (0:38–0:52)",
+   "start": 40.16,
+   "dur": 17.178
+  },
+  {
+   "id": "2.1",
+   "title": "Szene 2.1 · Sophie stellt sich vor (0:52–1:10)",
+   "start": 57.337999999999994,
+   "dur": 16.159
+  },
+  {
+   "id": "2.2",
+   "title": "Szene 2.2 · Was beim Menschen bleibt (1:10–1:28)",
+   "start": 73.49699999999999,
+   "dur": 20.208
+  },
+  {
+   "id": "2.4",
+   "title": "Szene 2.4 · Der Leitsatz (1:38–1:47)",
+   "start": 93.70499999999998,
+   "dur": 8.74
+  },
+  {
+   "id": "3.1",
+   "title": "Szene 3.1 · Ziel klären (1:47–2:05)",
+   "start": 102.44499999999998,
+   "dur": 12.816
+  },
+  {
+   "id": "5.2",
+   "title": "Szene 5.2 · Zwei Fallen (7:30–7:55)",
+   "start": 115.26099999999998,
+   "dur": 22.664
+  },
+  {
+   "id": "6.1",
+   "title": "Szene 6.1 · Fünf Fragen vor jeder Übergabe (8:37–9:05)",
+   "start": 137.92499999999998,
+   "dur": 20.025
+  },
+  {
+   "id": "7.1",
+   "title": "Szene 7.1 · Schlusskarte (9:37 bis Ende, mind. 25 Sekunden)",
+   "start": 157.95,
+   "dur": 28.0
+  }
+ ]
+}

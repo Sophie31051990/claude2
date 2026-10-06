@@ -9,6 +9,12 @@ FIXED = {'Zwischenbild': 4.0, '6.3': 7.0}
 MIN_END = 28.0  # Schlusskarte
 
 scenes = json.load(open('scenes.json', encoding='utf-8'))
+for si, s in enumerate(scenes): s['aidx'] = si
+# Kurzversion (ca. 3 Min.): nutzt nur bestehende Aufnahmen, keine neue Vertonung
+SHORT = os.environ.get('SHORT') == '1'
+KEEP = ['1.1', '1.2', '1.3', '1.4', '2.1', '2.2', '2.4', '3.1', '5.2', '6.1', '7.1']
+if SHORT: scenes = [s for s in scenes if s['id'] in KEEP]
+SUF = '_Kurzversion' if SHORT else ''
 
 def dur(path):
     return float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', path]).decode())
@@ -52,8 +58,8 @@ for si, s in enumerate(scenes):
             p['at'] = c; c += p['pause']; continue
         if not first: c += GAP
         first = False
-        f = f'audio/s{si:02d}_p{pi}.mp3'
-        js = json.load(open(f'audio/s{si:02d}_p{pi}.json', encoding='utf-8'))
+        f = f'audio/s{s["aidx"]:02d}_p{pi}.mp3'
+        js = json.load(open(f'audio/s{s["aidx"]:02d}_p{pi}.json', encoding='utf-8'))
         segments.append((c, f))
         s['words'] += words_from(js, c)
         c += dur(f)
@@ -70,7 +76,7 @@ for i, (st, f) in enumerate(segments):
     ms = int(round(st * 1000))
     filt.append(f'[{i}:a]aresample=44100,aformat=channel_layouts=mono,adelay={ms}|{ms}[a{i}]')
 filt.append(''.join(f'[a{i}]' for i in range(len(segments))) + f'amix=inputs={len(segments)}:normalize=0,apad,atrim=0:{TOTAL}[out]')
-subprocess.check_call(['ffmpeg', '-y', '-v', 'error', *inputs, '-filter_complex', ';'.join(filt), '-map', '[out]', '-ar', '44100', '-ac', '2', 'narration.wav'])
+subprocess.check_call(['ffmpeg', '-y', '-v', 'error', *inputs, '-filter_complex', ';'.join(filt), '-map', '[out]', '-ar', '44100', '-ac', '2', f'narration{SUF}.wav'])
 
 # ---------- Untertitel ----------
 MAXC = 84
@@ -95,12 +101,12 @@ for i, c in enumerate(cues):
 def srt_t(x):
     ms = int(round(x * 1000)); h, ms = divmod(ms, 3600000); m, ms = divmod(ms, 60000); sec, ms = divmod(ms, 1000)
     return f'{h:02d}:{m:02d}:{sec:02d},{ms:03d}'
-with open('KI_nutzen_selber_denken_Sophie_Hundertmark.srt', 'w', encoding='utf-8') as f:
+with open(f'KI_nutzen_selber_denken_Sophie_Hundertmark{SUF}.srt', 'w', encoding='utf-8') as f:
     for i, c in enumerate(cues, 1):
         f.write(f"{i}\n{srt_t(c['s'])} --> {srt_t(c['e'])}\n{' '.join(w['w'] for w in c['words'])}\n\n")
 
 json.dump({'total': TOTAL, 'scenes': [{k: s[k] for k in ('id', 'title', 'start', 'dur')} for s in scenes]},
-          open('timing.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+          open(f'timing{SUF}.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 # ---------- Szenen ----------
 E = html.escape
@@ -498,9 +504,9 @@ for s in scenes:
     ch = chapter_of(s)
     if not chapters or chapters[-1][0] != ch: chapters.append([ch, s['start'], s['start'] + s['dur']])
     else: chapters[-1][2] = s['start'] + s['dur']
-for ch, st, en in chapters:
+for n, (ch, st, en) in enumerate(chapters, 1):
     name, col = CH[ch]
-    body.append(f'<div class="clip chapter" data-start="{st:.3f}" data-duration="{en - st:.3f}" data-track-index="2"><span class="ch-num">{ch}</span>{name}<div class="ch-line" style="background:{COL[col][0]}"></div></div>')
+    body.append(f'<div class="clip chapter" data-start="{st:.3f}" data-duration="{en - st:.3f}" data-track-index="2"><span class="ch-num">{n}</span>{name}<div class="ch-line" style="background:{COL[col][0]}"></div></div>')
 
 # Untertitel
 for k, cue in enumerate(cues):
@@ -563,7 +569,7 @@ page = f'''<!doctype html>
 </head>
 <body>
 <div id="root" data-composition-id="main" data-start="0" data-duration="{TOTAL:.3f}" data-width="1920" data-height="1080">
-<audio id="vo" class="clip" src="narration.wav" data-start="0" data-duration="{TOTAL:.3f}" data-track-index="0" data-volume="1"></audio>
+<audio id="vo" class="clip" src="narration{SUF}.wav" data-start="0" data-duration="{TOTAL:.3f}" data-track-index="0" data-volume="1"></audio>
 <div class="clip chrome" data-start="0" data-duration="{TOTAL:.3f}" data-track-index="4">
   <img class="logo-hm" src="media/hundertmark_logo.png" alt="Hundertmark">
   <img class="logo-hslu" src="media/HSLU_Logo_DE_Schwarz.jpg" alt="HSLU">
@@ -582,5 +588,5 @@ tl.seek(0);
 </body>
 </html>
 '''
-open('index.html', 'w', encoding='utf-8').write(page)
+open('kurzversion.html' if SHORT else 'index.html', 'w', encoding='utf-8').write(page)
 print(f'Gesamtdauer {TOTAL:.1f}s ({int(TOTAL // 60)}:{int(TOTAL % 60):02d}), Szenen {len(scenes)}, Untertitel {len(cues)}, Animationen {len(js)}')

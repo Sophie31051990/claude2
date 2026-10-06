@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>KI nutzen. Selber denken. Verantwortung übernehmen.</title>
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #fff; }
+#root { position: relative; width: 1920px; height: 1080px; background: #fff; color: #000;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif; overflow: hidden; }
+.clip { position: absolute; }
+.scene { left: 0; top: 0; width: 1920px; height: 1080px; }
+.scene > *, .group > * { position: absolute; }
+.group { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+
+/* Rahmen */
+.chrome { left: 0; top: 0; width: 1920px; height: 1080px; z-index: 5; pointer-events: none; }
+.logo-hm { position: absolute; left: 60px; top: 42px; height: 52px; }
+.logo-hslu { position: absolute; right: 60px; top: 44px; height: 50px; }
+.footer { position: absolute; left: 0; right: 0; bottom: 26px; text-align: center; font-size: 22px; color: #555; letter-spacing: 0.01em; }
+.chapter { left: 610px; top: 44px; width: 700px; text-align: center; font-size: 24px; font-weight: 600; z-index: 5; }
+.ch-num { display: inline-block; width: 36px; height: 36px; line-height: 36px; border-radius: 18px; background: #000; color: #fff; font-size: 20px; margin-right: 12px; }
+.ch-line { width: 120px; height: 5px; margin: 12px auto 0; border-radius: 3px; }
+
+/* Untertitel */
+.subs { left: 50%; transform: translateX(-50%); width: 1500px; top: 868px; z-index: 6; text-align: center; }
+.subs-in { display: inline-block; font-size: 36px; line-height: 1.45; font-weight: 500; background: rgba(255,255,255,0.94); padding: 6px 18px; border-radius: 10px; }
+.sw { position: relative; display: inline-block; isolation: isolate; }
+.swbg { position: absolute; left: -4px; right: -4px; top: 3px; bottom: 3px; background: #FFF0BE; border-radius: 6px; z-index: -1; opacity: 0; }
+.subs-in { position: relative; z-index: 0; }
+
+/* Typo */
+.title-xl { left: 160px; width: 1600px; text-align: center; font-size: 84px; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; }
+.tw { display: inline-block; }
+.center-text { left: 160px; width: 1600px; text-align: center; }
+.uline { height: 10px; border-radius: 5px; transform-origin: left center; }
+.name { font-size: 64px; font-weight: 800; letter-spacing: -0.02em; }
+.col-head { font-size: 46px; font-weight: 800; letter-spacing: -0.01em; }
+.hint { font-size: 26px; color: #444; background: #F0F0F0; padding: 6px 16px; border-radius: 8px; }
+.kicker { font-size: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #555; margin-bottom: 12px; }
+.tag { font-size: 22px; font-weight: 700; background: #000; color: #fff; padding: 6px 16px; border-radius: 6px; letter-spacing: 0.03em; }
+.source { left: 150px; top: 815px; font-size: 20px; color: #555; }
+.mark { padding: 2px 6px; border-radius: 6px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* Bausteine */
+.photo { overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+.photo img { width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 30%; display: block; }
+.card { padding: 26px 34px; border-radius: 18px; font-weight: 600; line-height: 1.3; }
+.card.center { text-align: center; }
+.block { border-radius: 30px; }
+.num { display: inline-block; width: 50px; height: 50px; line-height: 50px; text-align: center; border-radius: 25px; color: #000; font-weight: 800; margin-right: 22px; font-size: 30px; }
+.chat { background: #fff; border: 3px solid #D0D0D0; border-radius: 18px; overflow: hidden; }
+.chat-head { background: #F0F0F0; padding: 12px 20px; font-size: 22px; display: flex; align-items: center; gap: 10px; }
+.chat-head .dot { width: 12px; height: 12px; border-radius: 6px; background: #C8C8C8; }
+.chat-head b { margin-left: 8px; }
+.chat-head .label { margin-left: auto; font-size: 20px; color: #444; background: #fff; padding: 3px 12px; border-radius: 6px; }
+.chat-body { padding: 20px 28px; line-height: 1.5; }
+.chat-body p + p { margin-top: 12px; }
+.clipbox { height: 410px; overflow: hidden; }
+.stop { background: #000; color: #fff; padding: 26px 34px; border-radius: 18px; font-size: 38px; font-weight: 700; z-index: 3; box-shadow: 0 12px 40px rgba(0,0,0,0.25); }
+.stop-icon { display: inline-block; color: #FCC300; margin-right: 18px; font-size: 30px; }
+.person { width: 240px; text-align: center; font-size: 30px; font-weight: 600; }
+.avatar { width: 180px; height: 180px; border-radius: 90px; margin: 0 auto 16px; line-height: 180px; font-size: 64px; font-weight: 800; }
+.arrow { height: 8px; background: #000; transform-origin: left center; border-radius: 4px; }
+.arrow::after { content: ''; position: absolute; right: -6px; top: -14px; border-left: 30px solid #000; border-top: 18px solid transparent; border-bottom: 18px solid transparent; }
+.arrow.grey { background: #999; } .arrow.grey::after { border-left-color: #999; }
+.mini-doc { width: 220px; height: 150px; background: #F0F0F0; border: 3px solid #ccc; border-radius: 12px; padding: 22px; font-size: 26px; font-weight: 700; text-align: center; }
+.mini-doc small { font-weight: 500; font-size: 20px; color: #555; }
+.chip { padding: 14px 26px; border-radius: 40px; font-size: 32px; font-weight: 600; }
+.path-label { font-size: 36px; font-weight: 700; width: 460px; }
+.motto { left: 460px; width: 1000px; text-align: center; font-size: 80px; font-weight: 800; letter-spacing: -0.02em; padding: 14px 0; border-radius: 20px; }
+.panel { background: #fff; border: 3px solid #E0E0E0; border-radius: 20px; padding: 36px 60px; }
+.check { font-size: 36px; font-weight: 600; display: flex; align-items: center; }
+.box { position: relative; flex: 0 0 50px; width: 50px; height: 50px; border: 4px solid #000; border-radius: 10px; margin-right: 26px; }
+.tick { position: absolute; left: 4px; top: -8px; font-size: 44px; font-weight: 900; color: #7D9E38; }
+.sentence { font-size: 54px; font-weight: 700; line-height: 1.5; }
+.rel { position: relative; display: inline-block; isolation: isolate; }
+.hlbg { position: absolute; left: -6px; right: -6px; top: 6px; bottom: 6px; background: #FBD0D3; border-radius: 8px; z-index: -1; opacity: 0; }
+.sentence { z-index: 0; }
+.strike { position: absolute; left: -4px; right: -4px; top: 52%; height: 6px; background: #BB365D; transform-origin: left center; }
+.fact { width: 380px; height: 230px; background: #F0F0F0; border-radius: 20px; padding: 26px; font-size: 32px; font-weight: 700; line-height: 1.25; }
+.fact-ic { font-size: 56px; margin-bottom: 14px; }
+.tile { width: 380px; height: 200px; border-radius: 20px; padding: 26px; font-size: 34px; font-weight: 700; line-height: 1.25; }
+.tile b { display: block; font-size: 56px; }
+.tile.small { width: 300px; height: 160px; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+.tile-head { font-size: 44px; font-weight: 800; line-height: 1.2; }
+.tile-head b { display: inline-block; width: 66px; height: 66px; line-height: 66px; text-align: center; background: #000; color: #fff; border-radius: 14px; margin-right: 20px; }
+.note { width: 900px; background: #FFF0BE; border-radius: 6px; padding: 40px 50px; font-size: 44px; font-weight: 600; line-height: 1.8; box-shadow: 0 10px 30px rgba(0,0,0,0.10); transform: rotate(-1deg); }
+.note-head { font-size: 30px; text-transform: uppercase; letter-spacing: 0.08em; color: #555; margin-bottom: 10px; }
+.legend { display: flex; gap: 16px; font-size: 24px; font-weight: 600; }
+.legend span { padding: 6px 16px; border-radius: 8px; }
+.tbl { border-collapse: separate; border-spacing: 0; font-size: 28px; background: #fff; border: 3px solid #D0D0D0; border-radius: 16px; overflow: hidden; }
+.tbl th { background: #F0F0F0; text-align: left; padding: 14px 20px; font-size: 24px; }
+.tbl td { padding: 10px 20px; white-space: nowrap; border-top: 2px solid #E6E6E6; }
+.tbl tr.total td { font-weight: 800; }
+.stampcell { width: 470px; }
+.stamp { display: inline-block; border: 3px solid; border-radius: 10px; padding: 4px 14px; font-weight: 700; font-size: 24px; }
+.interlude { font-size: 64px; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+.eval { border: 3px solid; border-radius: 18px; padding: 26px 30px; font-size: 30px; font-weight: 700; }
+.calc { font-size: 64px; font-weight: 800; }
+.blurchat { width: 680px; height: 420px; border-radius: 18px; background: repeating-linear-gradient(#E4E4E4 0 18px, #fff 18px 40px); opacity: 0.8; border: 3px solid #ddd; }
+.doc { width: 870px; height: 620px; background: #fff; border: 3px solid #D0D0D0; border-radius: 16px; padding: 40px 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+.doc-title { font-size: 36px; font-weight: 800; margin-bottom: 30px; }
+.doc-line { font-size: 28px; margin-bottom: 26px; display: flex; align-items: center; gap: 20px; }
+.doc-line b { width: 230px; }
+.doc-line span { flex: 1; height: 14px; background: #EBEBEB; border-radius: 7px; }
+.doc-ki { display: inline-block; font-size: 26px; font-weight: 700; padding: 10px 18px; border-radius: 10px; background: #FFF0BE; border: 3px solid #FCC300; }
+.ki-box { margin-top: 10px; font-size: 27px; line-height: 1.45; padding: 20px 26px; border-radius: 14px; background: #FFF0BE; border: 3px solid #FCC300; }
+.bar-lab { font-size: 32px; font-weight: 600; width: 280px; }
+.bar-head { font-size: 26px; font-weight: 700; color: #444; }
+.bar { height: 56px; border-radius: 10px; transform-origin: left center; }
+.exline { font-size: 30px; font-weight: 500; }
+.contact { font-size: 38px; line-height: 1.7; }
+.contact .name { margin-bottom: 20px; }
+.qrwrap { width: 440px; text-align: center; }
+.qrwrap img { display: block; image-rendering: pixelated; }
+.qrcap { margin-top: 16px; font-size: 30px; font-weight: 700; }
+.credits { left: 610px; width: 700px; font-size: 22px; color: #444; line-height: 1.5; }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="185.950" data-width="1920" data-height="1080">
+<audio id="vo" class="clip" src="narration_Kurzversion.wav" data-start="0" data-duration="185.950" data-track-index="0" data-volume="1"></audio>
+<div class="clip chrome" data-start="0" data-duration="185.950" data-track-index="4">
+  <img class="logo-hm" src="media/hundertmark_logo.png" alt="Hundertmark">
+  <img class="logo-hslu" src="media/HSLU_Logo_DE_Schwarz.jpg" alt="HSLU">
+  <div class="footer">Dr. Sophie Hundertmark · www.sophiehundertmark.com</div>
+</div>
+<div class="clip scene" id="sc0" data-start="0.000" data-duration="10.125" data-track-index="1"><div class="title-xl" style="top:300px"><span id="s0-t0" class="tw">KI</span> <span id="s0-t1" class="tw">nutzen.</span> <span id="s0-t2" class="tw">Selber</span> <span id="s0-t3" class="tw">denken.</span> <span id="s0-t4" class="tw">Verantwortung</span> <span id="s0-t5" class="tw">übernehmen.</span> </div><div id="s0-u0" class="uline" style="left:380px;top:520px;width:330px;background:#77C5D8"></div><div id="s0-u1" class="uline" style="left:830px;top:520px;width:420px;background:#ADCA2A"></div><div id="s0-u2" class="uline" style="left:1260px;top:520px;width:330px;background:#EE6A87"></div><div id="s0-sub" class="center-text" style="top:580px;font-size:36px;color:#333">Ein Erklärvideo von Dr. Sophie Hundertmark</div><div id="s0-note" class="card center" style="left:460px;top:680px;width:1000px;background:#F0F0F0;font-size:30px;">KI-generiertes Video auf Grundlage der Position von Dr. Sophie Hundertmark.</div></div>
+<div class="clip scene" id="sc1" data-start="10.125" data-duration="10.073" data-track-index="1"><div id="s1-ph" class="photo" style="left:200px;top:160px;width:380px;height:650px;border-radius:24px"><img id="s1-ph-img" src="media/sophie_pink_lachend_dissertation.jpg" style="object-position:50% 25%"></div><div id="s1-task" class="card " style="left:760px;top:300px;width:900px;background:#F0F0F0;font-size:56px;border-left:10px solid #EE6A87;"><div class="kicker">Aufgabe</div>Vorschlag für einen<br>30-Minuten-Workshop</div><div id="s1-q" class="center-text" style="left:760px;width:900px;top:560px;text-align:left;font-size:40px">Zwei mögliche Antworten …</div></div>
+<div class="clip scene" id="sc2" data-start="20.198" data-duration="19.962" data-track-index="1"><div class="tag" style="left:860px;top:150px">Fiktive Beispiele</div><div id="s2-a" class="chat" style="left:150px;top:220px;width:780px;height:470px;font-size:24px"><div class="chat-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span><b>Nachricht A</b><span class="label">612 Wörter</span></div><div class="chat-body clipbox"><div id="s2-scroll"><p>Liebes Team, vielen herzlichen Dank für die tolle Gelegenheit! Im Folgenden findet ihr eine umfassende, ganzheitliche Übersicht über zahlreiche innovative Möglichkeiten, wie wir den Workshop gestalten könnten:</p><p><b>1. Icebreaker-Bingo</b> – fördert garantiert die Dynamik! <b>2. KI-Quiz</b> mit 40 Fragen. <b>3. Gruppenarbeit</b> (siehe unten!!) <b>4. Impulsvortrag</b> …</p><p><b>WICHTIG:</b> Studien zeigen, dass KI <u>garantiert 50 % Zeit spart</u>. 5. Rollenspiel 6. World Café 7. Speed-Dating mit Prompts 8. Fishbowl …</p><p>9. Design Thinking Sprint 10. Galerie 11. Barcamp 12. Abschlussrunde mit Feedbackbogen, Fotoprotokoll und Zertifikat. Zusammenfassend lässt sich sagen, dass all diese Ideen …</p><p>Darüber hinaus wäre es empfehlenswert, ergänzend auch noch folgende Aspekte zu berücksichtigen: Zielgruppe, Raum, Catering, Technik, Nachhaltigkeit, Evaluation …</p></div></div></div><div id="s2-b" class="chat " style="left:990px;top:220px;width:780px;font-size:27px"><div class="chat-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span><b>Nachricht B</b><span class="label"></span></div><div class="chat-body"><p>Hallo Team, mein Vorschlag: Wir vergleichen zwei Nachrichten und überarbeiten eine davon gemeinsam.</p><p><b>Ablauf:</b> 5 / 10 / 10 / 5 Minuten.</p><p><b>Offen:</b> Raum und Technik.</p><p><b>KI-Hinweis:</b> Ideen und Kürzung mit KI, geprüft von mir.</p></div></div><div id="s2-q" class="center-text" style="top:720px;font-size:46px;font-weight:700">Welche Nachricht hilft dir wirklich weiter?</div><div id="s2-think" class="stop" style="left:810px;top:400px;width:300px"><span class="stop-icon">❚❚</span>Kurz überlegen</div></div>
+<div class="clip scene" id="sc3" data-start="40.160" data-duration="17.178" data-track-index="1"><div id="s3-from" class="person" style="left:200px;top:330px"><div class="avatar" style="background:#FFF0BE">✉</div>Absender</div><div id="s3-to" class="person" style="left:1440px;top:330px"><div class="avatar" style="background:#FBD0D3">Du</div>Empfänger</div><div id="s3-arrow" class="arrow" style="left:470px;top:420px;width:900px"></div><div id="s3-msg" class="mini-doc" style="left:520px;top:350px">Nachricht A<br><small>612 Wörter</small></div><div id="s3-k0" class="chip" style="left:1180px;top:560px;background:#FBD0D3">lesen</div><div id="s3-k1" class="chip" style="left:1430px;top:560px;background:#FBD0D3">sortieren</div><div id="s3-k2" class="chip" style="left:1180px;top:650px;background:#FBD0D3">prüfen</div><div id="s3-k3" class="chip" style="left:1430px;top:650px;background:#FBD0D3">korrigieren</div><div id="s3-lab" class="center-text" style="top:240px;font-size:44px;font-weight:700">Denkarbeit weitergereicht</div></div>
+<div class="clip scene" id="sc4" data-start="57.338" data-duration="16.159" data-track-index="1"><div id="s4-bgf" class="block" style="left:1080px;top:200px;width:620px;height:600px;background:#FFF0BE"></div><div id="s4-ph" class="photo" style="left:1180px;top:150px;width:400px;height:660px;border-radius:24px"><img id="s4-ph-img" src="media/sophie_pink_lachend_dissertation.jpg" style="object-position:50% 25%"></div><div id="s4-name" class="name" style="left:150px;top:220px">Dr. Sophie Hundertmark</div><div id="s4-c0" class="card " style="left:150px;top:360px;width:640px;background:#DAEEF3;font-size:40px;">Ideen sammeln</div><div id="s4-c1" class="card " style="left:150px;top:480px;width:640px;background:#E9F0C1;font-size:40px;">Strukturieren</div><div id="s4-c2" class="card " style="left:150px;top:600px;width:640px;background:#FBD0D3;font-size:40px;">Neue Perspektiven</div><div id="s4-go" class="name" style="left:150px;top:730px;font-size:48px;color:#EE6A87">Nutzt KI!</div></div>
+<div class="clip scene" id="sc5" data-start="73.497" data-duration="20.208" data-track-index="1"><div class="col-head" style="left:150px;top:170px">Das kann KI beitragen</div><div class="col-head" style="left:1000px;top:170px">Das bleibt bei mir</div><div id="s5-l0" class="card " style="left:150px;top:260px;width:700px;background:#F0F0F0;font-size:38px;">Ideen</div><div id="s5-l1" class="card " style="left:150px;top:375px;width:700px;background:#F0F0F0;font-size:38px;">Entwürfe</div><div id="s5-l2" class="card " style="left:150px;top:490px;width:700px;background:#F0F0F0;font-size:38px;">Rückfragen</div><div id="s5-r0" class="card " style="left:1000px;top:260px;width:760px;background:#FFF0BE;font-size:38px;border-left:10px solid #FCC300;">Auswahl</div><div id="s5-r1" class="card " style="left:1000px;top:375px;width:760px;background:#DAEEF3;font-size:38px;border-left:10px solid #77C5D8;">Verständnis</div><div id="s5-r2" class="card " style="left:1000px;top:490px;width:760px;background:#E9F0C1;font-size:38px;border-left:10px solid #ADCA2A;">Prüfung</div><div id="s5-r3" class="card " style="left:1000px;top:605px;width:760px;background:#FBD0D3;font-size:38px;border-left:10px solid #EE6A87;">Verantwortung</div><div id="s5-src" class="source">Menschliche Handlungsfähigkeit im Zentrum: vgl. UNESCO 2023</div></div>
+<div class="clip scene" id="sc6" data-start="93.705" data-duration="8.740" data-track-index="1"><div id="s6-l0" class="motto" style="top:230px;background:#DAEEF3">KI nutzen.</div><div id="s6-l1" class="motto" style="top:380px;background:#E9F0C1">Selber denken.</div><div id="s6-l2" class="motto" style="top:530px;background:#FBD0D3">Verantwortung übernehmen.</div><div id="s6-lead" class="center-text" style="top:160px;font-size:32px;color:#444">Mein Leitsatz für unsere Zusammenarbeit</div><div id="s6-ph" class="photo" style="left:1580px;top:580px;width:200px;height:200px;border-radius:100px"><img id="s6-ph-img" src="media/sophie_pink_lachend_dissertation.jpg" style="object-position:50% 18%"></div></div>
+<div class="clip scene" id="sc7" data-start="102.445" data-duration="12.816" data-track-index="1"><div id="s7-ph" class="photo" style="left:160px;top:150px;width:380px;height:670px;border-radius:24px"><img id="s7-ph-img" src="media/sophie_schwarz_ganzkoerper_tuer.jpg" style="object-position:50% 0%"></div><div class="col-head" style="left:700px;top:170px">Ziel klären</div><div class="hint" style="left:700px;top:240px">Prompt = deine Eingabe an die KI</div><div id="s7-q0" class="card " style="left:700px;top:320px;width:1060px;background:#F0F0F0;font-size:38px;"><span class="num" style="background:#77C5D8">1</span>Was soll entstehen?</div><div id="s7-q1" class="card " style="left:700px;top:435px;width:1060px;background:#F0F0F0;font-size:38px;"><span class="num" style="background:#77C5D8">2</span>Für wen?</div><div id="s7-q2" class="card " style="left:700px;top:550px;width:1060px;background:#F0F0F0;font-size:38px;"><span class="num" style="background:#77C5D8">3</span>Was will ich selbst lernen?</div><div id="s7-q3" class="card " style="left:700px;top:665px;width:1060px;background:#F0F0F0;font-size:38px;"><span class="num" style="background:#77C5D8">4</span>Welche Informationen braucht es wirklich?</div></div>
+<div class="clip scene" id="sc8" data-start="115.261" data-duration="22.664" data-track-index="1"><div class="col-head" style="left:150px;top:170px">Zwei Fallen</div><div id="s8-w0" class="card " style="left:150px;top:260px;width:1620px;background:#FFF0BE;font-size:40px;"><span class="num" style="background:#FCC300">1</span>Eine zweite Antwort derselben KI ist keine unabhängige Bestätigung.</div><div id="s8-w1" class="card " style="left:150px;top:410px;width:1620px;background:#FFF0BE;font-size:40px;"><span class="num" style="background:#FCC300">2</span>«Erfinde nichts» ist keine Garantie.</div><div id="s8-g" class="center-text" style="top:580px;font-size:52px;font-weight:700">Gute Sprache ist kein Beleg.</div><div id="s8-r" class="card center" style="left:360px;top:700px;width:1200px;background:#F0F0F0;font-size:32px;">Keine belastbare Grundlage? Streichen oder als offen markieren.</div></div>
+<div class="clip scene" id="sc9" data-start="137.925" data-duration="20.025" data-track-index="1"><div class="col-head" style="left:150px;top:165px">Fünf Fragen vor jeder Übergabe</div><div id="s9-q0" class="card " style="left:150px;top:240px;width:1620px;background:#DAEEF3;font-size:36px;"><span class="num" style="background:#77C5D8">1</span>Darf ich diese Daten in diesem Tool verwenden?</div><div id="s9-q1" class="card " style="left:150px;top:352px;width:1620px;background:#E9F0C1;font-size:36px;"><span class="num" style="background:#ADCA2A">2</span>Habe ich alles gelesen und verstanden?</div><div id="s9-q2" class="card " style="left:150px;top:464px;width:1620px;background:#FBD0D3;font-size:36px;"><span class="num" style="background:#EE6A87">3</span>Habe ich relevante Fakten und Quellen geprüft?</div><div id="s9-q3" class="card " style="left:150px;top:576px;width:1620px;background:#FFF0BE;font-size:36px;"><span class="num" style="background:#FCC300">4</span>Ist die Übergabe kurz, verständlich und hilfreich?</div><div id="s9-q4" class="card " style="left:150px;top:688px;width:1620px;background:#DAEEF3;font-size:36px;"><span class="num" style="background:#77C5D8">5</span>Ist mein KI-Einsatz transparent?</div></div>
+<div class="clip scene" id="sc10" data-start="157.950" data-duration="28.000" data-track-index="1"><div id="s10-ph" class="photo" style="left:150px;top:160px;width:380px;height:650px;border-radius:24px"><img id="s10-ph-img" src="media/sophie_pink_baum.jpg" style="object-position:50% 25%"></div><div id="s10-info" class="contact" style="left:610px;top:250px"><div class="name" style="position:static;font-size:52px">Dr. Sophie Hundertmark</div><p>sophie@hundertmark.ch</p><p>WhatsApp: +41 78 900 5346</p><p>www.sophiehundertmark.com</p></div><div class="qrwrap" style="left:1340px;top:220px"><img src="media/qr_whatsapp.png" width="440" height="440"><div class="qrcap">Fragen? Schreib mir auf WhatsApp.</div></div><div id="s10-credits" class="credits" style="top:760px">Stimme: elevenlabs.io · Mit KI erstellt. Fotos: bereitgestellte Aufnahmen von Sophie Hundertmark.</div></div>
+<div class="clip chapter" data-start="0.000" data-duration="57.338" data-track-index="2"><span class="ch-num">1</span>Einstieg<div class="ch-line" style="background:#EE6A87"></div></div>
+<div class="clip chapter" data-start="57.338" data-duration="45.107" data-track-index="2"><span class="ch-num">2</span>Meine Haltung<div class="ch-line" style="background:#FCC300"></div></div>
+<div class="clip chapter" data-start="102.445" data-duration="12.816" data-track-index="2"><span class="ch-num">3</span>Vor dem Prompt<div class="ch-line" style="background:#77C5D8"></div></div>
+<div class="clip chapter" data-start="115.261" data-duration="22.664" data-track-index="2"><span class="ch-num">4</span>Prüfen und weitergeben<div class="ch-line" style="background:#77C5D8"></div></div>
+<div class="clip chapter" data-start="137.925" data-duration="20.025" data-track-index="2"><span class="ch-num">5</span>Zusammenfassung<div class="ch-line" style="background:#FCC300"></div></div>
+<div class="clip chapter" data-start="157.950" data-duration="28.000" data-track-index="2"><span class="ch-num">6</span>Abschluss und Kontakt<div class="ch-line" style="background:#EE6A87"></div></div>
+<div class="clip subs" style="" data-start="0.450" data-duration="4.412" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w0_0" class="swbg"></span>Ein</span> <span class="sw"><span id="w0_1" class="swbg"></span>kurzer</span> <span class="sw"><span id="w0_2" class="swbg"></span>Hinweis</span> <span class="sw"><span id="w0_3" class="swbg"></span>vorweg:</span> <span class="sw"><span id="w0_4" class="swbg"></span>Dieses</span> <span class="sw"><span id="w0_5" class="swbg"></span>Video</span> <span class="sw"><span id="w0_6" class="swbg"></span>ist</span> <span class="sw"><span id="w0_7" class="swbg"></span>KI-generiert.</span> </div></div>
+<div class="clip subs" style="" data-start="4.862" data-duration="4.922" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w1_0" class="swbg"></span>Die</span> <span class="sw"><span id="w1_1" class="swbg"></span>Stimme</span> <span class="sw"><span id="w1_2" class="swbg"></span>ist</span> <span class="sw"><span id="w1_3" class="swbg"></span>eine</span> <span class="sw"><span id="w1_4" class="swbg"></span>KI-Stimme.</span> <span class="sw"><span id="w1_5" class="swbg"></span>Die</span> <span class="sw"><span id="w1_6" class="swbg"></span>Inhalte</span> <span class="sw"><span id="w1_7" class="swbg"></span>sind</span> <span class="sw"><span id="w1_8" class="swbg"></span>meine</span> <span class="sw"><span id="w1_9" class="swbg"></span>Position.</span> </div></div>
+<div class="clip subs" style="" data-start="10.575" data-duration="3.483" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w2_0" class="swbg"></span>Stell</span> <span class="sw"><span id="w2_1" class="swbg"></span>dir</span> <span class="sw"><span id="w2_2" class="swbg"></span>vor,</span> <span class="sw"><span id="w2_3" class="swbg"></span>ihr</span> <span class="sw"><span id="w2_4" class="swbg"></span>plant</span> <span class="sw"><span id="w2_5" class="swbg"></span>zusammen</span> <span class="sw"><span id="w2_6" class="swbg"></span>einen</span> <span class="sw"><span id="w2_7" class="swbg"></span>kurzen</span> <span class="sw"><span id="w2_8" class="swbg"></span>Workshop.</span> </div></div>
+<div class="clip subs" style="" data-start="14.058" data-duration="2.647" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w3_0" class="swbg"></span>Du</span> <span class="sw"><span id="w3_1" class="swbg"></span>bittest</span> <span class="sw"><span id="w3_2" class="swbg"></span>eine</span> <span class="sw"><span id="w3_3" class="swbg"></span>Kollegin</span> <span class="sw"><span id="w3_4" class="swbg"></span>um</span> <span class="sw"><span id="w3_5" class="swbg"></span>einen</span> <span class="sw"><span id="w3_6" class="swbg"></span>Vorschlag.</span> </div></div>
+<div class="clip subs" style="" data-start="16.705" data-duration="3.158" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w4_0" class="swbg"></span>Zurück</span> <span class="sw"><span id="w4_1" class="swbg"></span>kommen</span> <span class="sw"><span id="w4_2" class="swbg"></span>zwei</span> <span class="sw"><span id="w4_3" class="swbg"></span>mögliche</span> <span class="sw"><span id="w4_4" class="swbg"></span>Antworten.</span> </div></div>
+<div class="clip subs" style="" data-start="20.648" data-duration="6.107" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w5_0" class="swbg"></span>Links:</span> <span class="sw"><span id="w5_1" class="swbg"></span>ein</span> <span class="sw"><span id="w5_2" class="swbg"></span>langer</span> <span class="sw"><span id="w5_3" class="swbg"></span>Text</span> <span class="sw"><span id="w5_4" class="swbg"></span>mit</span> <span class="sw"><span id="w5_5" class="swbg"></span>vielen</span> <span class="sw"><span id="w5_6" class="swbg"></span>Ideen,</span> <span class="sw"><span id="w5_7" class="swbg"></span>schönen</span> <span class="sw"><span id="w5_8" class="swbg"></span>Formulierungen</span> <span class="sw"><span id="w5_9" class="swbg"></span>und</span> <span class="sw"><span id="w5_10" class="swbg"></span>Aussagen,</span> <span class="sw"><span id="w5_11" class="swbg"></span>bei</span> </div></div>
+<div class="clip subs" style="" data-start="26.755" data-duration="2.241" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w6_0" class="swbg"></span>denen</span> <span class="sw"><span id="w6_1" class="swbg"></span>du</span> <span class="sw"><span id="w6_2" class="swbg"></span>nicht</span> <span class="sw"><span id="w6_3" class="swbg"></span>weisst,</span> <span class="sw"><span id="w6_4" class="swbg"></span>ob</span> <span class="sw"><span id="w6_5" class="swbg"></span>sie</span> <span class="sw"><span id="w6_6" class="swbg"></span>stimmen.</span> </div></div>
+<div class="clip subs" style="" data-start="28.996" data-duration="5.781" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w7_0" class="swbg"></span>Rechts:</span> <span class="sw"><span id="w7_1" class="swbg"></span>ein</span> <span class="sw"><span id="w7_2" class="swbg"></span>paar</span> <span class="sw"><span id="w7_3" class="swbg"></span>Zeilen.</span> <span class="sw"><span id="w7_4" class="swbg"></span>Ein</span> <span class="sw"><span id="w7_5" class="swbg"></span>Vorschlag,</span> <span class="sw"><span id="w7_6" class="swbg"></span>ein</span> <span class="sw"><span id="w7_7" class="swbg"></span>Ablauf,</span> <span class="sw"><span id="w7_8" class="swbg"></span>eine</span> <span class="sw"><span id="w7_9" class="swbg"></span>offene</span> <span class="sw"><span id="w7_10" class="swbg"></span>Frage.</span> </div></div>
+<div class="clip subs" style="" data-start="34.777" data-duration="3.054" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w8_0" class="swbg"></span>Welche</span> <span class="sw"><span id="w8_1" class="swbg"></span>Nachricht</span> <span class="sw"><span id="w8_2" class="swbg"></span>hilft</span> <span class="sw"><span id="w8_3" class="swbg"></span>dir</span> <span class="sw"><span id="w8_4" class="swbg"></span>wirklich</span> <span class="sw"><span id="w8_5" class="swbg"></span>weiter?</span> </div></div>
+<div class="clip subs" style="" data-start="40.610" data-duration="4.702" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w9_0" class="swbg"></span>Bei</span> <span class="sw"><span id="w9_1" class="swbg"></span>der</span> <span class="sw"><span id="w9_2" class="swbg"></span>langen</span> <span class="sw"><span id="w9_3" class="swbg"></span>Nachricht</span> <span class="sw"><span id="w9_4" class="swbg"></span>musst</span> <span class="sw"><span id="w9_5" class="swbg"></span>du</span> <span class="sw"><span id="w9_6" class="swbg"></span>alles</span> <span class="sw"><span id="w9_7" class="swbg"></span>lesen,</span> <span class="sw"><span id="w9_8" class="swbg"></span>sortieren</span> <span class="sw"><span id="w9_9" class="swbg"></span>und</span> <span class="sw"><span id="w9_10" class="swbg"></span>prüfen.</span> </div></div>
+<div class="clip subs" style="" data-start="45.312" data-duration="2.438" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w10_0" class="swbg"></span>Die</span> <span class="sw"><span id="w10_1" class="swbg"></span>andere</span> <span class="sw"><span id="w10_2" class="swbg"></span>Person</span> <span class="sw"><span id="w10_3" class="swbg"></span>hat</span> <span class="sw"><span id="w10_4" class="swbg"></span>vielleicht</span> <span class="sw"><span id="w10_5" class="swbg"></span>Zeit</span> <span class="sw"><span id="w10_6" class="swbg"></span>gespart.</span> </div></div>
+<div class="clip subs" style="" data-start="47.750" data-duration="2.810" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w11_0" class="swbg"></span>Du</span> <span class="sw"><span id="w11_1" class="swbg"></span>hast</span> <span class="sw"><span id="w11_2" class="swbg"></span>dafür</span> <span class="sw"><span id="w11_3" class="swbg"></span>zusätzliche</span> <span class="sw"><span id="w11_4" class="swbg"></span>Arbeit</span> <span class="sw"><span id="w11_5" class="swbg"></span>bekommen.</span> </div></div>
+<div class="clip subs" style="" data-start="50.560" data-duration="2.960" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w12_0" class="swbg"></span>Die</span> <span class="sw"><span id="w12_1" class="swbg"></span>eigentliche</span> <span class="sw"><span id="w12_2" class="swbg"></span>Denkarbeit</span> <span class="sw"><span id="w12_3" class="swbg"></span>wurde</span> <span class="sw"><span id="w12_4" class="swbg"></span>nur</span> <span class="sw"><span id="w12_5" class="swbg"></span>weitergereicht.</span> </div></div>
+<div class="clip subs" style="" data-start="53.520" data-duration="3.483" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w13_0" class="swbg"></span>Das</span> <span class="sw"><span id="w13_1" class="swbg"></span>passiert</span> <span class="sw"><span id="w13_2" class="swbg"></span>im</span> <span class="sw"><span id="w13_3" class="swbg"></span>Studium</span> <span class="sw"><span id="w13_4" class="swbg"></span>genauso</span> <span class="sw"><span id="w13_5" class="swbg"></span>wie</span> <span class="sw"><span id="w13_6" class="swbg"></span>im</span> <span class="sw"><span id="w13_7" class="swbg"></span>Team.</span> </div></div>
+<div class="clip subs" style="" data-start="57.788" data-duration="4.040" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w14_0" class="swbg"></span>Ich</span> <span class="sw"><span id="w14_1" class="swbg"></span>bin</span> <span class="sw"><span id="w14_2" class="swbg"></span>Sophie</span> <span class="sw"><span id="w14_3" class="swbg"></span>Hundertmark,</span> <span class="sw"><span id="w14_4" class="swbg"></span>und</span> <span class="sw"><span id="w14_5" class="swbg"></span>ich</span> <span class="sw"><span id="w14_6" class="swbg"></span>arbeite</span> <span class="sw"><span id="w14_7" class="swbg"></span>selbst</span> <span class="sw"><span id="w14_8" class="swbg"></span>gern</span> <span class="sw"><span id="w14_9" class="swbg"></span>mit</span> <span class="sw"><span id="w14_10" class="swbg"></span>KI.</span> </div></div>
+<div class="clip subs" style="" data-start="61.828" data-duration="5.132" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w15_0" class="swbg"></span>Sie</span> <span class="sw"><span id="w15_1" class="swbg"></span>hilft</span> <span class="sw"><span id="w15_2" class="swbg"></span>mir,</span> <span class="sw"><span id="w15_3" class="swbg"></span>Ideen</span> <span class="sw"><span id="w15_4" class="swbg"></span>zu</span> <span class="sw"><span id="w15_5" class="swbg"></span>sammeln,</span> <span class="sw"><span id="w15_6" class="swbg"></span>Gedanken</span> <span class="sw"><span id="w15_7" class="swbg"></span>zu</span> <span class="sw"><span id="w15_8" class="swbg"></span>strukturieren</span> <span class="sw"><span id="w15_9" class="swbg"></span>und</span> <span class="sw"><span id="w15_10" class="swbg"></span>eine</span> <span class="sw"><span id="w15_11" class="swbg"></span>andere</span> <span class="sw"><span id="w15_12" class="swbg"></span>Sicht</span> <span class="sw"><span id="w15_13" class="swbg"></span>auf</span> </div></div>
+<div class="clip subs" style="" data-start="66.960" data-duration="4.272" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w16_0" class="swbg"></span>ein</span> <span class="sw"><span id="w16_1" class="swbg"></span>Konzept</span> <span class="sw"><span id="w16_2" class="swbg"></span>zu</span> <span class="sw"><span id="w16_3" class="swbg"></span>bekommen.</span> <span class="sw"><span id="w16_4" class="swbg"></span>Genau</span> <span class="sw"><span id="w16_5" class="swbg"></span>dazu</span> <span class="sw"><span id="w16_6" class="swbg"></span>möchte</span> <span class="sw"><span id="w16_7" class="swbg"></span>ich</span> <span class="sw"><span id="w16_8" class="swbg"></span>euch</span> <span class="sw"><span id="w16_9" class="swbg"></span>ermutigen:</span> </div></div>
+<div class="clip subs" style="" data-start="71.232" data-duration="1.927" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w17_0" class="swbg"></span>Nutzt</span> <span class="sw"><span id="w17_1" class="swbg"></span>KI!</span> </div></div>
+<div class="clip subs" style="" data-start="73.947" data-duration="4.423" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w18_0" class="swbg"></span>Aber</span> <span class="sw"><span id="w18_1" class="swbg"></span>ein</span> <span class="sw"><span id="w18_2" class="swbg"></span>KI-Ergebnis</span> <span class="sw"><span id="w18_3" class="swbg"></span>ist</span> <span class="sw"><span id="w18_4" class="swbg"></span>noch</span> <span class="sw"><span id="w18_5" class="swbg"></span>kein</span> <span class="sw"><span id="w18_6" class="swbg"></span>gutes</span> <span class="sw"><span id="w18_7" class="swbg"></span>Arbeitsergebnis.</span> </div></div>
+<div class="clip subs" style="" data-start="78.370" data-duration="4.888" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w19_0" class="swbg"></span>Was</span> <span class="sw"><span id="w19_1" class="swbg"></span>ihr</span> <span class="sw"><span id="w19_2" class="swbg"></span>weitergebt,</span> <span class="sw"><span id="w19_3" class="swbg"></span>müsst</span> <span class="sw"><span id="w19_4" class="swbg"></span>ihr</span> <span class="sw"><span id="w19_5" class="swbg"></span>selbst</span> <span class="sw"><span id="w19_6" class="swbg"></span>gelesen,</span> <span class="sw"><span id="w19_7" class="swbg"></span>verstanden</span> <span class="sw"><span id="w19_8" class="swbg"></span>und</span> <span class="sw"><span id="w19_9" class="swbg"></span>geprüft</span> <span class="sw"><span id="w19_10" class="swbg"></span>haben.</span> </div></div>
+<div class="clip subs" style="" data-start="83.258" data-duration="3.007" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w20_0" class="swbg"></span>Wählt</span> <span class="sw"><span id="w20_1" class="swbg"></span>aus,</span> <span class="sw"><span id="w20_2" class="swbg"></span>was</span> <span class="sw"><span id="w20_3" class="swbg"></span>die</span> <span class="sw"><span id="w20_4" class="swbg"></span>andere</span> <span class="sw"><span id="w20_5" class="swbg"></span>Person</span> <span class="sw"><span id="w20_6" class="swbg"></span>wirklich</span> <span class="sw"><span id="w20_7" class="swbg"></span>braucht.</span> </div></div>
+<div class="clip subs" style="" data-start="86.265" data-duration="3.506" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w21_0" class="swbg"></span>Und</span> <span class="sw"><span id="w21_1" class="swbg"></span>sagt</span> <span class="sw"><span id="w21_2" class="swbg"></span>offen,</span> <span class="sw"><span id="w21_3" class="swbg"></span>wofür</span> <span class="sw"><span id="w21_4" class="swbg"></span>ihr</span> <span class="sw"><span id="w21_5" class="swbg"></span>KI</span> <span class="sw"><span id="w21_6" class="swbg"></span>genutzt</span> <span class="sw"><span id="w21_7" class="swbg"></span>habt.</span> </div></div>
+<div class="clip subs" style="" data-start="89.771" data-duration="3.588" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w22_0" class="swbg"></span>Für</span> <span class="sw"><span id="w22_1" class="swbg"></span>das</span> <span class="sw"><span id="w22_2" class="swbg"></span>Ergebnis</span> <span class="sw"><span id="w22_3" class="swbg"></span>übernehmt</span> <span class="sw"><span id="w22_4" class="swbg"></span>ihr</span> <span class="sw"><span id="w22_5" class="swbg"></span>die</span> <span class="sw"><span id="w22_6" class="swbg"></span>Verantwortung.</span> </div></div>
+<div class="clip subs" style="" data-start="94.155" data-duration="2.926" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w23_0" class="swbg"></span>Darum</span> <span class="sw"><span id="w23_1" class="swbg"></span>mein</span> <span class="sw"><span id="w23_2" class="swbg"></span>Leitsatz</span> <span class="sw"><span id="w23_3" class="swbg"></span>für</span> <span class="sw"><span id="w23_4" class="swbg"></span>unsere</span> <span class="sw"><span id="w23_5" class="swbg"></span>Zusammenarbeit:</span> </div></div>
+<div class="clip subs" style="" data-start="97.081" data-duration="5.015" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w24_0" class="swbg"></span>KI</span> <span class="sw"><span id="w24_1" class="swbg"></span>nutzen.</span> <span class="sw"><span id="w24_2" class="swbg"></span>Selber</span> <span class="sw"><span id="w24_3" class="swbg"></span>denken.</span> <span class="sw"><span id="w24_4" class="swbg"></span>Verantwortung</span> <span class="sw"><span id="w24_5" class="swbg"></span>übernehmen.</span> </div></div>
+<div class="clip subs" style="" data-start="102.895" data-duration="3.146" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w25_0" class="swbg"></span>Bevor</span> <span class="sw"><span id="w25_1" class="swbg"></span>ich</span> <span class="sw"><span id="w25_2" class="swbg"></span>ein</span> <span class="sw"><span id="w25_3" class="swbg"></span>Tool</span> <span class="sw"><span id="w25_4" class="swbg"></span>öffne,</span> <span class="sw"><span id="w25_5" class="swbg"></span>kläre</span> <span class="sw"><span id="w25_6" class="swbg"></span>ich</span> <span class="sw"><span id="w25_7" class="swbg"></span>ein</span> <span class="sw"><span id="w25_8" class="swbg"></span>paar</span> <span class="sw"><span id="w25_9" class="swbg"></span>Dinge.</span> </div></div>
+<div class="clip subs" style="" data-start="106.041" data-duration="3.100" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w26_0" class="swbg"></span>Was</span> <span class="sw"><span id="w26_1" class="swbg"></span>soll</span> <span class="sw"><span id="w26_2" class="swbg"></span>am</span> <span class="sw"><span id="w26_3" class="swbg"></span>Ende</span> <span class="sw"><span id="w26_4" class="swbg"></span>entstehen?</span> <span class="sw"><span id="w26_5" class="swbg"></span>Für</span> <span class="sw"><span id="w26_6" class="swbg"></span>wen</span> <span class="sw"><span id="w26_7" class="swbg"></span>ist</span> <span class="sw"><span id="w26_8" class="swbg"></span>es?</span> </div></div>
+<div class="clip subs" style="" data-start="109.141" data-duration="4.366" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w27_0" class="swbg"></span>Was</span> <span class="sw"><span id="w27_1" class="swbg"></span>möchte</span> <span class="sw"><span id="w27_2" class="swbg"></span>ich</span> <span class="sw"><span id="w27_3" class="swbg"></span>selbst</span> <span class="sw"><span id="w27_4" class="swbg"></span>dabei</span> <span class="sw"><span id="w27_5" class="swbg"></span>lernen?</span> <span class="sw"><span id="w27_6" class="swbg"></span>Und</span> <span class="sw"><span id="w27_7" class="swbg"></span>welche</span> <span class="sw"><span id="w27_8" class="swbg"></span>Informationen</span> <span class="sw"><span id="w27_9" class="swbg"></span>braucht</span> <span class="sw"><span id="w27_10" class="swbg"></span>es</span> <span class="sw"><span id="w27_11" class="swbg"></span>dafür</span> </div></div>
+<div class="clip subs" style="" data-start="113.507" data-duration="1.416" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w28_0" class="swbg"></span>wirklich?</span> </div></div>
+<div class="clip subs" style="" data-start="115.711" data-duration="3.495" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w29_0" class="swbg"></span>Zwei</span> <span class="sw"><span id="w29_1" class="swbg"></span>Fallen</span> <span class="sw"><span id="w29_2" class="swbg"></span>möchte</span> <span class="sw"><span id="w29_3" class="swbg"></span>ich</span> <span class="sw"><span id="w29_4" class="swbg"></span>euch</span> <span class="sw"><span id="w29_5" class="swbg"></span>nennen.</span> <span class="sw"><span id="w29_6" class="swbg"></span>Erstens:</span> </div></div>
+<div class="clip subs" style="" data-start="119.206" data-duration="4.411" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w30_0" class="swbg"></span>Eine</span> <span class="sw"><span id="w30_1" class="swbg"></span>zweite</span> <span class="sw"><span id="w30_2" class="swbg"></span>Antwort</span> <span class="sw"><span id="w30_3" class="swbg"></span>derselben</span> <span class="sw"><span id="w30_4" class="swbg"></span>KI</span> <span class="sw"><span id="w30_5" class="swbg"></span>ist</span> <span class="sw"><span id="w30_6" class="swbg"></span>keine</span> <span class="sw"><span id="w30_7" class="swbg"></span>unabhängige</span> <span class="sw"><span id="w30_8" class="swbg"></span>Bestätigung.</span> </div></div>
+<div class="clip subs" style="" data-start="123.617" data-duration="5.666" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w31_0" class="swbg"></span>Zweitens:</span> <span class="sw"><span id="w31_1" class="swbg"></span>Die</span> <span class="sw"><span id="w31_2" class="swbg"></span>Aufforderung</span> <span class="sw"><span id="w31_3" class="swbg"></span>«Erfinde</span> <span class="sw"><span id="w31_4" class="swbg"></span>nichts»</span> <span class="sw"><span id="w31_5" class="swbg"></span>hilft,</span> <span class="sw"><span id="w31_6" class="swbg"></span>ist</span> <span class="sw"><span id="w31_7" class="swbg"></span>aber</span> <span class="sw"><span id="w31_8" class="swbg"></span>keine</span> <span class="sw"><span id="w31_9" class="swbg"></span>Garantie.</span> </div></div>
+<div class="clip subs" style="" data-start="129.283" data-duration="5.353" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w32_0" class="swbg"></span>Gute</span> <span class="sw"><span id="w32_1" class="swbg"></span>Sprache</span> <span class="sw"><span id="w32_2" class="swbg"></span>ist</span> <span class="sw"><span id="w32_3" class="swbg"></span>kein</span> <span class="sw"><span id="w32_4" class="swbg"></span>Beleg.</span> <span class="sw"><span id="w32_5" class="swbg"></span>Findet</span> <span class="sw"><span id="w32_6" class="swbg"></span>ihr</span> <span class="sw"><span id="w32_7" class="swbg"></span>keine</span> <span class="sw"><span id="w32_8" class="swbg"></span>belastbare</span> <span class="sw"><span id="w32_9" class="swbg"></span>Grundlage,</span> <span class="sw"><span id="w32_10" class="swbg"></span>streicht</span> <span class="sw"><span id="w32_11" class="swbg"></span>die</span> </div></div>
+<div class="clip subs" style="" data-start="134.636" data-duration="2.948" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w33_0" class="swbg"></span>Aussage</span> <span class="sw"><span id="w33_1" class="swbg"></span>oder</span> <span class="sw"><span id="w33_2" class="swbg"></span>markiert</span> <span class="sw"><span id="w33_3" class="swbg"></span>sie</span> <span class="sw"><span id="w33_4" class="swbg"></span>als</span> <span class="sw"><span id="w33_5" class="swbg"></span>offen.</span> </div></div>
+<div class="clip subs" style="" data-start="138.375" data-duration="3.634" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w34_0" class="swbg"></span>Vor</span> <span class="sw"><span id="w34_1" class="swbg"></span>jeder</span> <span class="sw"><span id="w34_2" class="swbg"></span>Übergabe</span> <span class="sw"><span id="w34_3" class="swbg"></span>stellt</span> <span class="sw"><span id="w34_4" class="swbg"></span>ihr</span> <span class="sw"><span id="w34_5" class="swbg"></span>euch</span> <span class="sw"><span id="w34_6" class="swbg"></span>fünf</span> <span class="sw"><span id="w34_7" class="swbg"></span>Fragen.</span> </div></div>
+<div class="clip subs" style="" data-start="142.009" data-duration="2.728" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w35_0" class="swbg"></span>Darf</span> <span class="sw"><span id="w35_1" class="swbg"></span>ich</span> <span class="sw"><span id="w35_2" class="swbg"></span>diese</span> <span class="sw"><span id="w35_3" class="swbg"></span>Daten</span> <span class="sw"><span id="w35_4" class="swbg"></span>in</span> <span class="sw"><span id="w35_5" class="swbg"></span>diesem</span> <span class="sw"><span id="w35_6" class="swbg"></span>Tool</span> <span class="sw"><span id="w35_7" class="swbg"></span>verwenden?</span> </div></div>
+<div class="clip subs" style="" data-start="144.737" data-duration="2.845" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w36_0" class="swbg"></span>Habe</span> <span class="sw"><span id="w36_1" class="swbg"></span>ich</span> <span class="sw"><span id="w36_2" class="swbg"></span>alles</span> <span class="sw"><span id="w36_3" class="swbg"></span>gelesen</span> <span class="sw"><span id="w36_4" class="swbg"></span>und</span> <span class="sw"><span id="w36_5" class="swbg"></span>verstanden?</span> </div></div>
+<div class="clip subs" style="" data-start="147.582" data-duration="3.192" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w37_0" class="swbg"></span>Habe</span> <span class="sw"><span id="w37_1" class="swbg"></span>ich</span> <span class="sw"><span id="w37_2" class="swbg"></span>relevante</span> <span class="sw"><span id="w37_3" class="swbg"></span>Fakten</span> <span class="sw"><span id="w37_4" class="swbg"></span>und</span> <span class="sw"><span id="w37_5" class="swbg"></span>Quellen</span> <span class="sw"><span id="w37_6" class="swbg"></span>geprüft?</span> </div></div>
+<div class="clip subs" style="" data-start="150.774" data-duration="3.576" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w38_0" class="swbg"></span>Ist</span> <span class="sw"><span id="w38_1" class="swbg"></span>die</span> <span class="sw"><span id="w38_2" class="swbg"></span>Übergabe</span> <span class="sw"><span id="w38_3" class="swbg"></span>kurz,</span> <span class="sw"><span id="w38_4" class="swbg"></span>verständlich</span> <span class="sw"><span id="w38_5" class="swbg"></span>und</span> <span class="sw"><span id="w38_6" class="swbg"></span>hilfreich?</span> </div></div>
+<div class="clip subs" style="" data-start="154.350" data-duration="3.251" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w39_0" class="swbg"></span>Und</span> <span class="sw"><span id="w39_1" class="swbg"></span>ist</span> <span class="sw"><span id="w39_2" class="swbg"></span>mein</span> <span class="sw"><span id="w39_3" class="swbg"></span>KI-Einsatz</span> <span class="sw"><span id="w39_4" class="swbg"></span>transparent?</span> </div></div>
+<div class="clip subs" style="left:150px;width:1100px;transform:none;" data-start="158.400" data-duration="4.702" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w40_0" class="swbg"></span>KI</span> <span class="sw"><span id="w40_1" class="swbg"></span>nutzen.</span> <span class="sw"><span id="w40_2" class="swbg"></span>Selber</span> <span class="sw"><span id="w40_3" class="swbg"></span>denken.</span> <span class="sw"><span id="w40_4" class="swbg"></span>Verantwortung</span> <span class="sw"><span id="w40_5" class="swbg"></span>übernehmen.</span> </div></div>
+<div class="clip subs" style="left:150px;width:1100px;transform:none;" data-start="163.102" data-duration="2.775" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w41_0" class="swbg"></span>Das</span> <span class="sw"><span id="w41_1" class="swbg"></span>wünsche</span> <span class="sw"><span id="w41_2" class="swbg"></span>ich</span> <span class="sw"><span id="w41_3" class="swbg"></span>mir</span> <span class="sw"><span id="w41_4" class="swbg"></span>für</span> <span class="sw"><span id="w41_5" class="swbg"></span>unsere</span> <span class="sw"><span id="w41_6" class="swbg"></span>Zusammenarbeit.</span> </div></div>
+<div class="clip subs" style="left:150px;width:1100px;transform:none;" data-start="165.877" data-duration="3.274" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w42_0" class="swbg"></span>Wenn</span> <span class="sw"><span id="w42_1" class="swbg"></span>ihr</span> <span class="sw"><span id="w42_2" class="swbg"></span>Fragen</span> <span class="sw"><span id="w42_3" class="swbg"></span>habt,</span> <span class="sw"><span id="w42_4" class="swbg"></span>könnt</span> <span class="sw"><span id="w42_5" class="swbg"></span>ihr</span> <span class="sw"><span id="w42_6" class="swbg"></span>mich</span> <span class="sw"><span id="w42_7" class="swbg"></span>jederzeit</span> <span class="sw"><span id="w42_8" class="swbg"></span>kontaktieren:</span> </div></div>
+<div class="clip subs" style="left:150px;width:1100px;transform:none;" data-start="169.151" data-duration="5.863" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w43_0" class="swbg"></span>per</span> <span class="sw"><span id="w43_1" class="swbg"></span>E-Mail</span> <span class="sw"><span id="w43_2" class="swbg"></span>an</span> <span class="sw"><span id="w43_3" class="swbg"></span>sophie@hundertmark.ch</span> <span class="sw"><span id="w43_4" class="swbg"></span>oder</span> <span class="sw"><span id="w43_5" class="swbg"></span>gern</span> <span class="sw"><span id="w43_6" class="swbg"></span>per</span> <span class="sw"><span id="w43_7" class="swbg"></span>WhatsApp.</span> </div></div>
+<div class="clip subs" style="left:150px;width:1100px;transform:none;" data-start="175.014" data-duration="4.934" data-track-index="3"><div class="subs-in"><span class="sw"><span id="w44_0" class="swbg"></span>Scannt</span> <span class="sw"><span id="w44_1" class="swbg"></span>dafür</span> <span class="sw"><span id="w44_2" class="swbg"></span>einfach</span> <span class="sw"><span id="w44_3" class="swbg"></span>den</span> <span class="sw"><span id="w44_4" class="swbg"></span>QR-Code.</span> <span class="sw"><span id="w44_5" class="swbg"></span>Ich</span> <span class="sw"><span id="w44_6" class="swbg"></span>freue</span> <span class="sw"><span id="w44_7" class="swbg"></span>mich</span> <span class="sw"><span id="w44_8" class="swbg"></span>auf</span> <span class="sw"><span id="w44_9" class="swbg"></span>den</span> <span class="sw"><span id="w44_10" class="swbg"></span>Austausch.</span> </div></div>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+tl.fromTo("#s0-t0",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},0.300);
+tl.fromTo("#s0-t1",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},0.580);
+tl.fromTo("#s0-t2",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},0.860);
+tl.fromTo("#s0-t3",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},1.140);
+tl.fromTo("#s0-t4",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},1.420);
+tl.fromTo("#s0-t5",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},1.700);
+tl.fromTo("#s0-u0",{scaleX:0},{scaleX:1,duration:0.7,ease:"power2.out"},2.600);
+tl.fromTo("#s0-u1",{scaleX:0},{scaleX:1,duration:0.7,ease:"power2.out"},2.900);
+tl.fromTo("#s0-u2",{scaleX:0},{scaleX:1,duration:0.7,ease:"power2.out"},3.200);
+tl.fromTo("#s0-sub",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},3.200);
+tl.fromTo("#s0-note",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},0.800);
+tl.fromTo("#s1-ph",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},10.125);
+tl.fromTo("#s1-ph-img",{scale:1},{scale:1.06,duration:10.073,ease:"none"},10.125);
+tl.fromTo("#s1-task",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},13.095);
+tl.fromTo("#s1-q",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},16.755);
+tl.fromTo("#s2-a",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},20.498);
+tl.fromTo("#s2-scroll",{y:0},{y:-330,duration:8.048,ease:"none"},20.998);
+tl.fromTo("#s2-b",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},29.046);
+tl.fromTo("#s2-q",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},34.827);
+tl.fromTo("#s2-think",{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.45,ease:"back.out(1.7)"},37.260);
+tl.fromTo("#s3-from",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},40.360);
+tl.fromTo("#s3-to",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},40.660);
+tl.fromTo("#s3-arrow",{scaleX:0},{scaleX:1,duration:0.7,ease:"power2.out"},41.060);
+tl.fromTo("#s3-msg",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},40.860);
+tl.to("#s3-msg",{x:640,y:0,duration:2.000,ease:"power1.inOut"},41.560);
+tl.fromTo("#s3-k0",{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.45,ease:"back.out(1.7)"},42.866);
+tl.fromTo("#s3-k1",{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.45,ease:"back.out(1.7)"},43.423);
+tl.fromTo("#s3-k2",{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.45,ease:"back.out(1.7)"},44.387);
+tl.fromTo("#s3-k3",{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.45,ease:"back.out(1.7)"},45.087);
+tl.fromTo("#s3-lab",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},51.867);
+tl.fromTo("#s4-bgf",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},57.338);
+tl.to("#s4-bgf",{x:0,y:-40,duration:15.459,ease:"power1.inOut"},58.038);
+tl.fromTo("#s4-ph",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},57.338);
+tl.fromTo("#s4-ph-img",{scale:1},{scale:1.06,duration:16.159,ease:"none"},57.338);
+tl.fromTo("#s4-name",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},57.638);
+tl.fromTo("#s4-c0",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},62.456);
+tl.fromTo("#s4-c1",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},64.325);
+tl.fromTo("#s4-c2",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},66.369);
+tl.fromTo("#s4-go",{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.45,ease:"back.out(1.7)"},71.282);
+tl.fromTo("#s5-l0",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},73.797);
+tl.fromTo("#s5-l1",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},74.097);
+tl.fromTo("#s5-l2",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},74.397);
+tl.fromTo("#s5-r1",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},81.149);
+tl.fromTo("#s5-r2",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},82.066);
+tl.fromTo("#s5-r0",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},83.308);
+tl.fromTo("#s5-r3",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},91.702);
+tl.fromTo("#s5-src",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},74.997);
+tl.fromTo("#s6-l0",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},97.295);
+tl.fromTo("#s6-l1",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},98.189);
+tl.fromTo("#s6-l2",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},99.443);
+tl.fromTo("#s6-lead",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},94.005);
+tl.fromTo("#s6-ph",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},94.205);
+tl.fromTo("#s6-ph-img",{scale:1},{scale:1.06,duration:8.740,ease:"none"},93.705);
+tl.fromTo("#s7-ph",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},102.445);
+tl.fromTo("#s7-ph-img",{scale:1},{scale:1.06,duration:12.816,ease:"none"},102.445);
+tl.fromTo("#s7-ph-img",{y:0},{y:-60,duration:12.816,ease:"none",immediateRender:false},102.445);
+tl.fromTo("#s7-q0",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},106.513);
+tl.fromTo("#s7-q1",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},107.302);
+tl.fromTo("#s7-q2",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},110.031);
+tl.fromTo("#s7-q3",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},111.424);
+tl.fromTo("#s8-w0",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},118.150);
+tl.fromTo("#s8-w1",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},123.467);
+tl.fromTo("#s8-g",{opacity:0,scale:0.85},{opacity:1,scale:1,duration:0.45,ease:"back.out(1.7)"},129.233);
+tl.fromTo("#s8-r",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},131.304);
+tl.fromTo("#s9-q0",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},141.759);
+tl.fromTo("#s9-q1",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},144.487);
+tl.fromTo("#s9-q2",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},147.761);
+tl.fromTo("#s9-q3",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},150.919);
+tl.fromTo("#s9-q4",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},146.301);
+tl.fromTo("#s10-ph",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},157.950);
+tl.fromTo("#s10-ph-img",{scale:1},{scale:1.03,duration:28.000,ease:"none"},157.950);
+tl.fromTo("#s10-info",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},158.250);
+tl.fromTo("#s10-credits",{opacity:0,y:28},{opacity:1,y:0,duration:0.6,ease:"power2.out"},178.950);
+tl.set("#w0_0",{opacity:1},0.500);
+tl.set("#w0_0",{opacity:0},0.639);
+tl.set("#w0_1",{opacity:1},0.697);
+tl.set("#w0_1",{opacity:0},1.022);
+tl.set("#w0_2",{opacity:1},1.057);
+tl.set("#w0_2",{opacity:0},1.406);
+tl.set("#w0_3",{opacity:1},1.464);
+tl.set("#w0_3",{opacity:0},1.986);
+tl.set("#w0_4",{opacity:1},2.276);
+tl.set("#w0_4",{opacity:0},2.636);
+tl.set("#w0_5",{opacity:1},2.718);
+tl.set("#w0_5",{opacity:0},3.147);
+tl.set("#w0_6",{opacity:1},3.240);
+tl.set("#w0_6",{opacity:0},3.437);
+tl.set("#w0_7",{opacity:1},3.519);
+tl.set("#w0_7",{opacity:0},4.622);
+tl.set("#w1_0",{opacity:1},4.912);
+tl.set("#w1_0",{opacity:0},5.063);
+tl.set("#w1_1",{opacity:1},5.098);
+tl.set("#w1_1",{opacity:0},5.388);
+tl.set("#w1_2",{opacity:1},5.434);
+tl.set("#w1_2",{opacity:0},5.562);
+tl.set("#w1_3",{opacity:1},5.620);
+tl.set("#w1_3",{opacity:0},5.794);
+tl.set("#w1_4",{opacity:1},5.864);
+tl.set("#w1_4",{opacity:0},6.816);
+tl.set("#w1_5",{opacity:1},7.002);
+tl.set("#w1_5",{opacity:0},7.141);
+tl.set("#w1_6",{opacity:1},7.187);
+tl.set("#w1_6",{opacity:0},7.652);
+tl.set("#w1_7",{opacity:1},7.710);
+tl.set("#w1_7",{opacity:0},7.849);
+tl.set("#w1_8",{opacity:1},7.919);
+tl.set("#w1_8",{opacity:0},8.151);
+tl.set("#w1_9",{opacity:1},8.197);
+tl.set("#w1_9",{opacity:0},9.184);
+tl.set("#w2_0",{opacity:1},10.625);
+tl.set("#w2_0",{opacity:0},10.985);
+tl.set("#w2_1",{opacity:1},11.020);
+tl.set("#w2_1",{opacity:0},11.113);
+tl.set("#w2_2",{opacity:1},11.159);
+tl.set("#w2_2",{opacity:0},11.484);
+tl.set("#w2_3",{opacity:1},11.554);
+tl.set("#w2_3",{opacity:0},11.693);
+tl.set("#w2_4",{opacity:1},11.740);
+tl.set("#w2_4",{opacity:0},12.053);
+tl.set("#w2_5",{opacity:1},12.076);
+tl.set("#w2_5",{opacity:0},12.517);
+tl.set("#w2_6",{opacity:1},12.599);
+tl.set("#w2_6",{opacity:0},12.819);
+tl.set("#w2_7",{opacity:1},12.889);
+tl.set("#w2_7",{opacity:0},13.237);
+tl.set("#w2_8",{opacity:1},13.295);
+tl.set("#w2_8",{opacity:0},13.853);
+tl.set("#w3_0",{opacity:1},14.108);
+tl.set("#w3_0",{opacity:0},14.224);
+tl.set("#w3_1",{opacity:1},14.271);
+tl.set("#w3_1",{opacity:0},14.561);
+tl.set("#w3_2",{opacity:1},14.607);
+tl.set("#w3_2",{opacity:0},14.758);
+tl.set("#w3_3",{opacity:1},14.805);
+tl.set("#w3_3",{opacity:0},15.292);
+tl.set("#w3_4",{opacity:1},15.362);
+tl.set("#w3_4",{opacity:0},15.443);
+tl.set("#w3_5",{opacity:1},15.513);
+tl.set("#w3_5",{opacity:0},15.722);
+tl.set("#w3_6",{opacity:1},15.780);
+tl.set("#w3_6",{opacity:0},16.500);
+tl.set("#w4_0",{opacity:1},16.755);
+tl.set("#w4_0",{opacity:0},17.080);
+tl.set("#w4_1",{opacity:1},17.208);
+tl.set("#w4_1",{opacity:0},17.486);
+tl.set("#w4_2",{opacity:1},17.545);
+tl.set("#w4_2",{opacity:0},17.777);
+tl.set("#w4_3",{opacity:1},17.846);
+tl.set("#w4_3",{opacity:0},18.299);
+tl.set("#w4_4",{opacity:1},18.369);
+tl.set("#w4_4",{opacity:0},19.263);
+tl.set("#w5_0",{opacity:1},20.698);
+tl.set("#w5_0",{opacity:0},21.511);
+tl.set("#w5_1",{opacity:1},21.696);
+tl.set("#w5_1",{opacity:0},21.871);
+tl.set("#w5_2",{opacity:1},21.952);
+tl.set("#w5_2",{opacity:0},22.219);
+tl.set("#w5_3",{opacity:1},22.289);
+tl.set("#w5_3",{opacity:0},22.707);
+tl.set("#w5_4",{opacity:1},22.799);
+tl.set("#w5_4",{opacity:0},22.939);
+tl.set("#w5_5",{opacity:1},22.985);
+tl.set("#w5_5",{opacity:0},23.299);
+tl.set("#w5_6",{opacity:1},23.368);
+tl.set("#w5_6",{opacity:0},24.030);
+tl.set("#w5_7",{opacity:1},24.216);
+tl.set("#w5_7",{opacity:0},24.634);
+tl.set("#w5_8",{opacity:1},24.692);
+tl.set("#w5_8",{opacity:0},25.446);
+tl.set("#w5_9",{opacity:1},25.574);
+tl.set("#w5_9",{opacity:0},25.737);
+tl.set("#w5_10",{opacity:1},25.864);
+tl.set("#w5_10",{opacity:0},26.573);
+tl.set("#w5_11",{opacity:1},26.607);
+tl.set("#w5_11",{opacity:0},26.758);
+tl.set("#w6_0",{opacity:1},26.805);
+tl.set("#w6_0",{opacity:0},27.049);
+tl.set("#w6_1",{opacity:1},27.083);
+tl.set("#w6_1",{opacity:0},27.176);
+tl.set("#w6_2",{opacity:1},27.234);
+tl.set("#w6_2",{opacity:0},27.478);
+tl.set("#w6_3",{opacity:1},27.525);
+tl.set("#w6_3",{opacity:0},27.838);
+tl.set("#w6_4",{opacity:1},27.861);
+tl.set("#w6_4",{opacity:0},27.954);
+tl.set("#w6_5",{opacity:1},28.001);
+tl.set("#w6_5",{opacity:0},28.105);
+tl.set("#w6_6",{opacity:1},28.140);
+tl.set("#w6_6",{opacity:0},28.709);
+tl.set("#w7_0",{opacity:1},29.046);
+tl.set("#w7_0",{opacity:0},29.661);
+tl.set("#w7_1",{opacity:1},29.881);
+tl.set("#w7_1",{opacity:0},30.009);
+tl.set("#w7_2",{opacity:1},30.067);
+tl.set("#w7_2",{opacity:0},30.207);
+tl.set("#w7_3",{opacity:1},30.276);
+tl.set("#w7_3",{opacity:0},30.915);
+tl.set("#w7_4",{opacity:1},31.135);
+tl.set("#w7_4",{opacity:0},31.286);
+tl.set("#w7_5",{opacity:1},31.344);
+tl.set("#w7_5",{opacity:0},32.041);
+tl.set("#w7_6",{opacity:1},32.122);
+tl.set("#w7_6",{opacity:0},32.273);
+tl.set("#w7_7",{opacity:1},32.354);
+tl.set("#w7_7",{opacity:0},33.109);
+tl.set("#w7_8",{opacity:1},33.156);
+tl.set("#w7_8",{opacity:0},33.376);
+tl.set("#w7_9",{opacity:1},33.434);
+tl.set("#w7_9",{opacity:0},33.736);
+tl.set("#w7_10",{opacity:1},33.782);
+tl.set("#w7_10",{opacity:0},34.421);
+tl.set("#w8_0",{opacity:1},34.827);
+tl.set("#w8_0",{opacity:0},35.152);
+tl.set("#w8_1",{opacity:1},35.210);
+tl.set("#w8_1",{opacity:0},35.663);
+tl.set("#w8_2",{opacity:1},35.698);
+tl.set("#w8_2",{opacity:0},35.884);
+tl.set("#w8_3",{opacity:1},35.907);
+tl.set("#w8_3",{opacity:0},36.012);
+tl.set("#w8_4",{opacity:1},36.058);
+tl.set("#w8_4",{opacity:0},36.441);
+tl.set("#w8_5",{opacity:1},36.488);
+tl.set("#w8_5",{opacity:0},37.231);
+tl.set("#w9_0",{opacity:1},40.660);
+tl.set("#w9_0",{opacity:0},40.915);
+tl.set("#w9_1",{opacity:1},40.950);
+tl.set("#w9_1",{opacity:0},41.032);
+tl.set("#w9_2",{opacity:1},41.078);
+tl.set("#w9_2",{opacity:0},41.333);
+tl.set("#w9_3",{opacity:1},41.380);
+tl.set("#w9_3",{opacity:0},41.902);
+tl.set("#w9_4",{opacity:1},41.960);
+tl.set("#w9_4",{opacity:0},42.181);
+tl.set("#w9_5",{opacity:1},42.204);
+tl.set("#w9_5",{opacity:0},42.309);
+tl.set("#w9_6",{opacity:1},42.436);
+tl.set("#w9_6",{opacity:0},42.773);
+tl.set("#w9_7",{opacity:1},42.866);
+tl.set("#w9_7",{opacity:0},43.400);
+tl.set("#w9_8",{opacity:1},43.423);
+tl.set("#w9_8",{opacity:0},44.097);
+tl.set("#w9_9",{opacity:1},44.189);
+tl.set("#w9_9",{opacity:0},44.329);
+tl.set("#w9_10",{opacity:1},44.387);
+tl.set("#w9_10",{opacity:0},45.107);
+tl.set("#w10_0",{opacity:1},45.362);
+tl.set("#w10_0",{opacity:0},45.478);
+tl.set("#w10_1",{opacity:1},45.536);
+tl.set("#w10_1",{opacity:0},45.815);
+tl.set("#w10_2",{opacity:1},45.850);
+tl.set("#w10_2",{opacity:0},46.233);
+tl.set("#w10_3",{opacity:1},46.291);
+tl.set("#w10_3",{opacity:0},46.384);
+tl.set("#w10_4",{opacity:1},46.430);
+tl.set("#w10_4",{opacity:0},46.732);
+tl.set("#w10_5",{opacity:1},46.755);
+tl.set("#w10_5",{opacity:0},46.964);
+tl.set("#w10_6",{opacity:1},47.022);
+tl.set("#w10_6",{opacity:0},47.580);
+tl.set("#w11_0",{opacity:1},47.800);
+tl.set("#w11_0",{opacity:0},47.905);
+tl.set("#w11_1",{opacity:1},47.963);
+tl.set("#w11_1",{opacity:0},48.125);
+tl.set("#w11_2",{opacity:1},48.148);
+tl.set("#w11_2",{opacity:0},48.462);
+tl.set("#w11_3",{opacity:1},48.532);
+tl.set("#w11_3",{opacity:0},49.298);
+tl.set("#w11_4",{opacity:1},49.356);
+tl.set("#w11_4",{opacity:0},49.681);
+tl.set("#w11_5",{opacity:1},49.727);
+tl.set("#w11_5",{opacity:0},50.354);
+tl.set("#w12_0",{opacity:1},50.610);
+tl.set("#w12_0",{opacity:0},50.737);
+tl.set("#w12_1",{opacity:1},50.796);
+tl.set("#w12_1",{opacity:0},51.399);
+tl.set("#w12_2",{opacity:1},51.457);
+tl.set("#w12_2",{opacity:0},52.026);
+tl.set("#w12_3",{opacity:1},52.073);
+tl.set("#w12_3",{opacity:0},52.282);
+tl.set("#w12_4",{opacity:1},52.328);
+tl.set("#w12_4",{opacity:0},52.444);
+tl.set("#w12_5",{opacity:1},52.467);
+tl.set("#w12_5",{opacity:0},53.350);
+tl.set("#w13_0",{opacity:1},53.570);
+tl.set("#w13_0",{opacity:0},53.733);
+tl.set("#w13_1",{opacity:1},53.779);
+tl.set("#w13_1",{opacity:0},54.104);
+tl.set("#w13_2",{opacity:1},54.151);
+tl.set("#w13_2",{opacity:0},54.231);
+tl.set("#w13_3",{opacity:1},54.267);
+tl.set("#w13_3",{opacity:0},54.720);
+tl.set("#w13_4",{opacity:1},54.789);
+tl.set("#w13_4",{opacity:0},55.381);
+tl.set("#w13_5",{opacity:1},55.474);
+tl.set("#w13_5",{opacity:0},55.579);
+tl.set("#w13_6",{opacity:1},55.625);
+tl.set("#w13_6",{opacity:0},55.707);
+tl.set("#w13_7",{opacity:1},55.788);
+tl.set("#w13_7",{opacity:0},56.403);
+tl.set("#w14_0",{opacity:1},57.838);
+tl.set("#w14_0",{opacity:0},57.989);
+tl.set("#w14_1",{opacity:1},58.035);
+tl.set("#w14_1",{opacity:0},58.175);
+tl.set("#w14_2",{opacity:1},58.221);
+tl.set("#w14_2",{opacity:0},58.500);
+tl.set("#w14_3",{opacity:1},58.535);
+tl.set("#w14_3",{opacity:0},59.254);
+tl.set("#w14_4",{opacity:1},59.301);
+tl.set("#w14_4",{opacity:0},59.463);
+tl.set("#w14_5",{opacity:1},59.545);
+tl.set("#w14_5",{opacity:0},59.649);
+tl.set("#w14_6",{opacity:1},59.730);
+tl.set("#w14_6",{opacity:0},60.125);
+tl.set("#w14_7",{opacity:1},60.183);
+tl.set("#w14_7",{opacity:0},60.520);
+tl.set("#w14_8",{opacity:1},60.578);
+tl.set("#w14_8",{opacity:0},60.775);
+tl.set("#w14_9",{opacity:1},60.822);
+tl.set("#w14_9",{opacity:0},60.949);
+tl.set("#w14_10",{opacity:1},61.008);
+tl.set("#w14_10",{opacity:0},61.542);
+tl.set("#w15_0",{opacity:1},61.878);
+tl.set("#w15_0",{opacity:0},62.029);
+tl.set("#w15_1",{opacity:1},62.076);
+tl.set("#w15_1",{opacity:0},62.308);
+tl.set("#w15_2",{opacity:1},62.366);
+tl.set("#w15_2",{opacity:0},62.598);
+tl.set("#w15_3",{opacity:1},62.656);
+tl.set("#w15_3",{opacity:0},63.097);
+tl.set("#w15_4",{opacity:1},63.167);
+tl.set("#w15_4",{opacity:0},63.271);
+tl.set("#w15_5",{opacity:1},63.330);
+tl.set("#w15_5",{opacity:0},63.817);
+tl.set("#w15_6",{opacity:1},63.864);
+tl.set("#w15_6",{opacity:0},64.340);
+tl.set("#w15_7",{opacity:1},64.386);
+tl.set("#w15_7",{opacity:0},64.479);
+tl.set("#w15_8",{opacity:1},64.525);
+tl.set("#w15_8",{opacity:0},65.292);
+tl.set("#w15_9",{opacity:1},65.582);
+tl.set("#w15_9",{opacity:0},65.744);
+tl.set("#w15_10",{opacity:1},65.814);
+tl.set("#w15_10",{opacity:0},66.011);
+tl.set("#w15_11",{opacity:1},66.069);
+tl.set("#w15_11",{opacity:0},66.511);
+tl.set("#w15_12",{opacity:1},66.569);
+tl.set("#w15_12",{opacity:0},66.813);
+tl.set("#w15_13",{opacity:1},66.859);
+tl.set("#w15_13",{opacity:0},66.940);
+tl.set("#w16_0",{opacity:1},67.010);
+tl.set("#w16_0",{opacity:0},67.091);
+tl.set("#w16_1",{opacity:1},67.149);
+tl.set("#w16_1",{opacity:0},67.556);
+tl.set("#w16_2",{opacity:1},67.590);
+tl.set("#w16_2",{opacity:0},67.670);
+tl.set("#w16_3",{opacity:1},67.718);
+tl.set("#w16_3",{opacity:0},68.368);
+tl.set("#w16_4",{opacity:1},68.775);
+tl.set("#w16_4",{opacity:0},69.053);
+tl.set("#w16_5",{opacity:1},69.111);
+tl.set("#w16_5",{opacity:0},69.483);
+tl.set("#w16_6",{opacity:1},69.552);
+tl.set("#w16_6",{opacity:0},69.819);
+tl.set("#w16_7",{opacity:1},69.854);
+tl.set("#w16_7",{opacity:0},69.947);
+tl.set("#w16_8",{opacity:1},70.005);
+tl.set("#w16_8",{opacity:0},70.179);
+tl.set("#w16_9",{opacity:1},70.226);
+tl.set("#w16_9",{opacity:0},70.946);
+tl.set("#w17_0",{opacity:1},71.282);
+tl.set("#w17_0",{opacity:0},71.724);
+tl.set("#w17_1",{opacity:1},71.805);
+tl.set("#w17_1",{opacity:0},72.559);
+tl.set("#w18_0",{opacity:1},73.997);
+tl.set("#w18_0",{opacity:0},74.403);
+tl.set("#w18_1",{opacity:1},74.461);
+tl.set("#w18_1",{opacity:0},74.554);
+tl.set("#w18_2",{opacity:1},74.624);
+tl.set("#w18_2",{opacity:0},75.669);
+tl.set("#w18_3",{opacity:1},75.750);
+tl.set("#w18_3",{opacity:0},75.866);
+tl.set("#w18_4",{opacity:1},75.924);
+tl.set("#w18_4",{opacity:0},76.075);
+tl.set("#w18_5",{opacity:1},76.122);
+tl.set("#w18_5",{opacity:0},76.354);
+tl.set("#w18_6",{opacity:1},76.423);
+tl.set("#w18_6",{opacity:0},76.807);
+tl.set("#w18_7",{opacity:1},76.934);
+tl.set("#w18_7",{opacity:0},78.130);
+tl.set("#w19_0",{opacity:1},78.420);
+tl.set("#w19_0",{opacity:0},78.571);
+tl.set("#w19_1",{opacity:1},78.618);
+tl.set("#w19_1",{opacity:0},78.699);
+tl.set("#w19_2",{opacity:1},78.734);
+tl.set("#w19_2",{opacity:0},79.500);
+tl.set("#w19_3",{opacity:1},79.663);
+tl.set("#w19_3",{opacity:0},79.895);
+tl.set("#w19_4",{opacity:1},79.953);
+tl.set("#w19_4",{opacity:0},80.057);
+tl.set("#w19_5",{opacity:1},80.115);
+tl.set("#w19_5",{opacity:0},80.441);
+tl.set("#w19_6",{opacity:1},80.499);
+tl.set("#w19_6",{opacity:0},81.102);
+tl.set("#w19_7",{opacity:1},81.149);
+tl.set("#w19_7",{opacity:0},81.787);
+tl.set("#w19_8",{opacity:1},81.880);
+tl.set("#w19_8",{opacity:0},81.996);
+tl.set("#w19_9",{opacity:1},82.066);
+tl.set("#w19_9",{opacity:0},82.484);
+tl.set("#w19_10",{opacity:1},82.542);
+tl.set("#w19_10",{opacity:0},83.053);
+tl.set("#w20_0",{opacity:1},83.308);
+tl.set("#w20_0",{opacity:0},83.587);
+tl.set("#w20_1",{opacity:1},83.657);
+tl.set("#w20_1",{opacity:0},84.016);
+tl.set("#w20_2",{opacity:1},84.040);
+tl.set("#w20_2",{opacity:0},84.191);
+tl.set("#w20_3",{opacity:1},84.237);
+tl.set("#w20_3",{opacity:0},84.318);
+tl.set("#w20_4",{opacity:1},84.376);
+tl.set("#w20_4",{opacity:0},84.690);
+tl.set("#w20_5",{opacity:1},84.736);
+tl.set("#w20_5",{opacity:0},85.108);
+tl.set("#w20_6",{opacity:1},85.177);
+tl.set("#w20_6",{opacity:0},85.561);
+tl.set("#w20_7",{opacity:1},85.607);
+tl.set("#w20_7",{opacity:0},86.095);
+tl.set("#w21_0",{opacity:1},86.315);
+tl.set("#w21_0",{opacity:0},86.466);
+tl.set("#w21_1",{opacity:1},86.513);
+tl.set("#w21_1",{opacity:0},86.768);
+tl.set("#w21_2",{opacity:1},86.838);
+tl.set("#w21_2",{opacity:0},87.348);
+tl.set("#w21_3",{opacity:1},87.488);
+tl.set("#w21_3",{opacity:0},87.964);
+tl.set("#w21_4",{opacity:1},88.045);
+tl.set("#w21_4",{opacity:0},88.184);
+tl.set("#w21_5",{opacity:1},88.242);
+tl.set("#w21_5",{opacity:0},88.521);
+tl.set("#w21_6",{opacity:1},88.649);
+tl.set("#w21_6",{opacity:0},89.044);
+tl.set("#w21_7",{opacity:1},89.102);
+tl.set("#w21_7",{opacity:0},89.485);
+tl.set("#w22_0",{opacity:1},89.821);
+tl.set("#w22_0",{opacity:0},89.996);
+tl.set("#w22_1",{opacity:1},90.019);
+tl.set("#w22_1",{opacity:0},90.135);
+tl.set("#w22_2",{opacity:1},90.205);
+tl.set("#w22_2",{opacity:0},90.831);
+tl.set("#w22_3",{opacity:1},90.959);
+tl.set("#w22_3",{opacity:0},91.400);
+tl.set("#w22_4",{opacity:1},91.447);
+tl.set("#w22_4",{opacity:0},91.540);
+tl.set("#w22_5",{opacity:1},91.575);
+tl.set("#w22_5",{opacity:0},91.656);
+tl.set("#w22_6",{opacity:1},91.702);
+tl.set("#w22_6",{opacity:0},92.759);
+tl.set("#w23_0",{opacity:1},94.205);
+tl.set("#w23_0",{opacity:0},94.565);
+tl.set("#w23_1",{opacity:1},94.623);
+tl.set("#w23_1",{opacity:0},94.785);
+tl.set("#w23_2",{opacity:1},94.855);
+tl.set("#w23_2",{opacity:0},95.343);
+tl.set("#w23_3",{opacity:1},95.389);
+tl.set("#w23_3",{opacity:0},95.517);
+tl.set("#w23_4",{opacity:1},95.563);
+tl.set("#w23_4",{opacity:0},95.796);
+tl.set("#w23_5",{opacity:1},95.854);
+tl.set("#w23_5",{opacity:0},96.840);
+tl.set("#w24_0",{opacity:1},97.131);
+tl.set("#w24_0",{opacity:0},97.467);
+tl.set("#w24_1",{opacity:1},97.595);
+tl.set("#w24_1",{opacity:0},98.303);
+tl.set("#w24_2",{opacity:1},98.489);
+tl.set("#w24_2",{opacity:0},98.872);
+tl.set("#w24_3",{opacity:1},98.930);
+tl.set("#w24_3",{opacity:0},99.557);
+tl.set("#w24_4",{opacity:1},99.743);
+tl.set("#w24_4",{opacity:0},100.509);
+tl.set("#w24_5",{opacity:1},100.567);
+tl.set("#w24_5",{opacity:0},101.496);
+tl.set("#w25_0",{opacity:1},102.945);
+tl.set("#w25_0",{opacity:0},103.282);
+tl.set("#w25_1",{opacity:1},103.317);
+tl.set("#w25_1",{opacity:0},103.398);
+tl.set("#w25_2",{opacity:1},103.467);
+tl.set("#w25_2",{opacity:0},103.560);
+tl.set("#w25_3",{opacity:1},103.630);
+tl.set("#w25_3",{opacity:0},103.897);
+tl.set("#w25_4",{opacity:1},103.978);
+tl.set("#w25_4",{opacity:0},104.385);
+tl.set("#w25_5",{opacity:1},104.419);
+tl.set("#w25_5",{opacity:0},104.814);
+tl.set("#w25_6",{opacity:1},104.872);
+tl.set("#w25_6",{opacity:0},104.977);
+tl.set("#w25_7",{opacity:1},105.035);
+tl.set("#w25_7",{opacity:0},105.128);
+tl.set("#w25_8",{opacity:1},105.186);
+tl.set("#w25_8",{opacity:0},105.337);
+tl.set("#w25_9",{opacity:1},105.383);
+tl.set("#w25_9",{opacity:0},105.801);
+tl.set("#w26_0",{opacity:1},106.091);
+tl.set("#w26_0",{opacity:0},106.358);
+tl.set("#w26_1",{opacity:1},106.393);
+tl.set("#w26_1",{opacity:0},106.625);
+tl.set("#w26_2",{opacity:1},106.683);
+tl.set("#w26_2",{opacity:0},106.765);
+tl.set("#w26_3",{opacity:1},106.834);
+tl.set("#w26_3",{opacity:0},107.055);
+tl.set("#w26_4",{opacity:1},107.113);
+tl.set("#w26_4",{opacity:0},107.775);
+tl.set("#w26_5",{opacity:1},107.902);
+tl.set("#w26_5",{opacity:0},108.065);
+tl.set("#w26_6",{opacity:1},108.100);
+tl.set("#w26_6",{opacity:0},108.297);
+tl.set("#w26_7",{opacity:1},108.355);
+tl.set("#w26_7",{opacity:0},108.564);
+tl.set("#w26_8",{opacity:1},108.657);
+tl.set("#w26_8",{opacity:0},108.936);
+tl.set("#w27_0",{opacity:1},109.191);
+tl.set("#w27_0",{opacity:0},109.435);
+tl.set("#w27_1",{opacity:1},109.505);
+tl.set("#w27_1",{opacity:0},109.748);
+tl.set("#w27_2",{opacity:1},109.806);
+tl.set("#w27_2",{opacity:0},109.923);
+tl.set("#w27_3",{opacity:1},109.969);
+tl.set("#w27_3",{opacity:0},110.317);
+tl.set("#w27_4",{opacity:1},110.341);
+tl.set("#w27_4",{opacity:0},110.573);
+tl.set("#w27_5",{opacity:1},110.631);
+tl.set("#w27_5",{opacity:0},111.188);
+tl.set("#w27_6",{opacity:1},111.409);
+tl.set("#w27_6",{opacity:0},111.618);
+tl.set("#w27_7",{opacity:1},111.687);
+tl.set("#w27_7",{opacity:0},111.978);
+tl.set("#w27_8",{opacity:1},112.024);
+tl.set("#w27_8",{opacity:0},112.721);
+tl.set("#w27_9",{opacity:1},112.767);
+tl.set("#w27_9",{opacity:0},113.092);
+tl.set("#w27_10",{opacity:1},113.150);
+tl.set("#w27_10",{opacity:0},113.230);
+tl.set("#w27_11",{opacity:1},113.266);
+tl.set("#w27_11",{opacity:0},113.522);
+tl.set("#w28_0",{opacity:1},113.557);
+tl.set("#w28_0",{opacity:0},114.323);
+tl.set("#w29_0",{opacity:1},115.761);
+tl.set("#w29_0",{opacity:0},116.330);
+tl.set("#w29_1",{opacity:1},116.411);
+tl.set("#w29_1",{opacity:0},116.759);
+tl.set("#w29_2",{opacity:1},116.818);
+tl.set("#w29_2",{opacity:0},117.119);
+tl.set("#w29_3",{opacity:1},117.189);
+tl.set("#w29_3",{opacity:0},117.294);
+tl.set("#w29_4",{opacity:1},117.363);
+tl.set("#w29_4",{opacity:0},117.537);
+tl.set("#w29_5",{opacity:1},117.607);
+tl.set("#w29_5",{opacity:0},118.095);
+tl.set("#w29_6",{opacity:1},118.350);
+tl.set("#w29_6",{opacity:0},119.070);
+tl.set("#w30_0",{opacity:1},119.256);
+tl.set("#w30_0",{opacity:0},119.476);
+tl.set("#w30_1",{opacity:1},119.523);
+tl.set("#w30_1",{opacity:0},119.894);
+tl.set("#w30_2",{opacity:1},119.952);
+tl.set("#w30_2",{opacity:0},120.347);
+tl.set("#w30_3",{opacity:1},120.382);
+tl.set("#w30_3",{opacity:0},120.788);
+tl.set("#w30_4",{opacity:1},120.835);
+tl.set("#w30_4",{opacity:0},121.113);
+tl.set("#w30_5",{opacity:1},121.206);
+tl.set("#w30_5",{opacity:0},121.380);
+tl.set("#w30_6",{opacity:1},121.450);
+tl.set("#w30_6",{opacity:0},121.775);
+tl.set("#w30_7",{opacity:1},121.868);
+tl.set("#w30_7",{opacity:0},122.460);
+tl.set("#w30_8",{opacity:1},122.506);
+tl.set("#w30_8",{opacity:0},123.377);
+tl.set("#w31_0",{opacity:1},123.667);
+tl.set("#w31_0",{opacity:0},124.376);
+tl.set("#w31_1",{opacity:1},124.561);
+tl.set("#w31_1",{opacity:0},124.712);
+tl.set("#w31_2",{opacity:1},124.782);
+tl.set("#w31_2",{opacity:0},125.629);
+tl.set("#w31_3",{opacity:1},125.688);
+tl.set("#w31_3",{opacity:0},126.349);
+tl.set("#w31_4",{opacity:1},126.419);
+tl.set("#w31_4",{opacity:0},126.930);
+tl.set("#w31_5",{opacity:1},126.976);
+tl.set("#w31_5",{opacity:0},127.452);
+tl.set("#w31_6",{opacity:1},127.487);
+tl.set("#w31_6",{opacity:0},127.650);
+tl.set("#w31_7",{opacity:1},127.696);
+tl.set("#w31_7",{opacity:0},127.870);
+tl.set("#w31_8",{opacity:1},127.928);
+tl.set("#w31_8",{opacity:0},128.242);
+tl.set("#w31_9",{opacity:1},128.288);
+tl.set("#w31_9",{opacity:0},129.043);
+tl.set("#w32_0",{opacity:1},129.333);
+tl.set("#w32_0",{opacity:0},129.612);
+tl.set("#w32_1",{opacity:1},129.658);
+tl.set("#w32_1",{opacity:0},130.111);
+tl.set("#w32_2",{opacity:1},130.157);
+tl.set("#w32_2",{opacity:0},130.285);
+tl.set("#w32_3",{opacity:1},130.343);
+tl.set("#w32_3",{opacity:0},130.587);
+tl.set("#w32_4",{opacity:1},130.645);
+tl.set("#w32_4",{opacity:0},131.214);
+tl.set("#w32_5",{opacity:1},131.504);
+tl.set("#w32_5",{opacity:0},131.841);
+tl.set("#w32_6",{opacity:1},131.888);
+tl.set("#w32_6",{opacity:0},131.992);
+tl.set("#w32_7",{opacity:1},132.050);
+tl.set("#w32_7",{opacity:0},132.364);
+tl.set("#w32_8",{opacity:1},132.410);
+tl.set("#w32_8",{opacity:0},133.118);
+tl.set("#w32_9",{opacity:1},133.165);
+tl.set("#w32_9",{opacity:0},134.001);
+tl.set("#w32_10",{opacity:1},134.221);
+tl.set("#w32_10",{opacity:0},134.546);
+tl.set("#w32_11",{opacity:1},134.570);
+tl.set("#w32_11",{opacity:0},134.650);
+tl.set("#w33_0",{opacity:1},134.686);
+tl.set("#w33_0",{opacity:0},135.266);
+tl.set("#w33_1",{opacity:1},135.336);
+tl.set("#w33_1",{opacity:0},135.545);
+tl.set("#w33_2",{opacity:1},135.591);
+tl.set("#w33_2",{opacity:0},135.951);
+tl.set("#w33_3",{opacity:1},135.986);
+tl.set("#w33_3",{opacity:0},136.067);
+tl.set("#w33_4",{opacity:1},136.114);
+tl.set("#w33_4",{opacity:0},136.265);
+tl.set("#w33_5",{opacity:1},136.323);
+tl.set("#w33_5",{opacity:0},136.984);
+tl.set("#w34_0",{opacity:1},138.425);
+tl.set("#w34_0",{opacity:0},138.715);
+tl.set("#w34_1",{opacity:1},138.762);
+tl.set("#w34_1",{opacity:0},139.029);
+tl.set("#w34_2",{opacity:1},139.122);
+tl.set("#w34_2",{opacity:0},139.830);
+tl.set("#w34_3",{opacity:1},139.865);
+tl.set("#w34_3",{opacity:0},140.143);
+tl.set("#w34_4",{opacity:1},140.190);
+tl.set("#w34_4",{opacity:0},140.271);
+tl.set("#w34_5",{opacity:1},140.317);
+tl.set("#w34_5",{opacity:0},140.480);
+tl.set("#w34_6",{opacity:1},140.561);
+tl.set("#w34_6",{opacity:0},140.886);
+tl.set("#w34_7",{opacity:1},141.014);
+tl.set("#w34_7",{opacity:0},141.769);
+tl.set("#w35_0",{opacity:1},142.059);
+tl.set("#w35_0",{opacity:0},142.303);
+tl.set("#w35_1",{opacity:1},142.372);
+tl.set("#w35_1",{opacity:0},142.465);
+tl.set("#w35_2",{opacity:1},142.512);
+tl.set("#w35_2",{opacity:0},142.721);
+tl.set("#w35_3",{opacity:1},142.779);
+tl.set("#w35_3",{opacity:0},143.092);
+tl.set("#w35_4",{opacity:1},143.139);
+tl.set("#w35_4",{opacity:0},143.219);
+tl.set("#w35_5",{opacity:1},143.220);
+tl.set("#w35_5",{opacity:0},143.429);
+tl.set("#w35_6",{opacity:1},143.487);
+tl.set("#w35_6",{opacity:0},143.696);
+tl.set("#w35_7",{opacity:1},143.754);
+tl.set("#w35_7",{opacity:0},144.567);
+tl.set("#w36_0",{opacity:1},144.787);
+tl.set("#w36_0",{opacity:0},145.078);
+tl.set("#w36_1",{opacity:1},145.124);
+tl.set("#w36_1",{opacity:0},145.217);
+tl.set("#w36_2",{opacity:1},145.310);
+tl.set("#w36_2",{opacity:0},145.600);
+tl.set("#w36_3",{opacity:1},145.670);
+tl.set("#w36_3",{opacity:0},146.308);
+tl.set("#w36_4",{opacity:1},146.401);
+tl.set("#w36_4",{opacity:0},146.506);
+tl.set("#w36_5",{opacity:1},146.564);
+tl.set("#w36_5",{opacity:0},147.376);
+tl.set("#w37_0",{opacity:1},147.632);
+tl.set("#w37_0",{opacity:0},147.876);
+tl.set("#w37_1",{opacity:1},147.910);
+tl.set("#w37_1",{opacity:0},148.003);
+tl.set("#w37_2",{opacity:1},148.061);
+tl.set("#w37_2",{opacity:0},148.572);
+tl.set("#w37_3",{opacity:1},148.642);
+tl.set("#w37_3",{opacity:0},149.141);
+tl.set("#w37_4",{opacity:1},149.234);
+tl.set("#w37_4",{opacity:0},149.327);
+tl.set("#w37_5",{opacity:1},149.385);
+tl.set("#w37_5",{opacity:0},149.849);
+tl.set("#w37_6",{opacity:1},149.907);
+tl.set("#w37_6",{opacity:0},150.569);
+tl.set("#w38_0",{opacity:1},150.824);
+tl.set("#w38_0",{opacity:0},151.033);
+tl.set("#w38_1",{opacity:1},151.057);
+tl.set("#w38_1",{opacity:0},151.150);
+tl.set("#w38_2",{opacity:1},151.219);
+tl.set("#w38_2",{opacity:0},151.788);
+tl.set("#w38_3",{opacity:1},151.846);
+tl.set("#w38_3",{opacity:0},152.311);
+tl.set("#w38_4",{opacity:1},152.345);
+tl.set("#w38_4",{opacity:0},153.077);
+tl.set("#w38_5",{opacity:1},153.170);
+tl.set("#w38_5",{opacity:0},153.309);
+tl.set("#w38_6",{opacity:1},153.379);
+tl.set("#w38_6",{opacity:0},154.110);
+tl.set("#w39_0",{opacity:1},154.400);
+tl.set("#w39_0",{opacity:0},154.574);
+tl.set("#w39_1",{opacity:1},154.656);
+tl.set("#w39_1",{opacity:0},154.818);
+tl.set("#w39_2",{opacity:1},154.876);
+tl.set("#w39_2",{opacity:0},155.016);
+tl.set("#w39_3",{opacity:1},155.074);
+tl.set("#w39_3",{opacity:0},155.863);
+tl.set("#w39_4",{opacity:1},155.910);
+tl.set("#w39_4",{opacity:0},157.001);
+tl.set("#w40_0",{opacity:1},158.450);
+tl.set("#w40_0",{opacity:0},158.880);
+tl.set("#w40_1",{opacity:1},158.972);
+tl.set("#w40_1",{opacity:0},159.565);
+tl.set("#w40_2",{opacity:1},159.750);
+tl.set("#w40_2",{opacity:0},160.215);
+tl.set("#w40_3",{opacity:1},160.284);
+tl.set("#w40_3",{opacity:0},160.923);
+tl.set("#w40_4",{opacity:1},161.109);
+tl.set("#w40_4",{opacity:0},161.829);
+tl.set("#w40_5",{opacity:1},161.898);
+tl.set("#w40_5",{opacity:0},162.746);
+tl.set("#w41_0",{opacity:1},163.152);
+tl.set("#w41_0",{opacity:0},163.442);
+tl.set("#w41_1",{opacity:1},163.524);
+tl.set("#w41_1",{opacity:0},163.791);
+tl.set("#w41_2",{opacity:1},163.825);
+tl.set("#w41_2",{opacity:0},163.907);
+tl.set("#w41_3",{opacity:1},163.965);
+tl.set("#w41_3",{opacity:0},164.092);
+tl.set("#w41_4",{opacity:1},164.127);
+tl.set("#w41_4",{opacity:0},164.243);
+tl.set("#w41_5",{opacity:1},164.290);
+tl.set("#w41_5",{opacity:0},164.557);
+tl.set("#w41_6",{opacity:1},164.615);
+tl.set("#w41_6",{opacity:0},165.671);
+tl.set("#w42_0",{opacity:1},165.927);
+tl.set("#w42_0",{opacity:0},166.101);
+tl.set("#w42_1",{opacity:1},166.136);
+tl.set("#w42_1",{opacity:0},166.217);
+tl.set("#w42_2",{opacity:1},166.252);
+tl.set("#w42_2",{opacity:0},166.577);
+tl.set("#w42_3",{opacity:1},166.612);
+tl.set("#w42_3",{opacity:0},166.914);
+tl.set("#w42_4",{opacity:1},166.960);
+tl.set("#w42_4",{opacity:0},167.169);
+tl.set("#w42_5",{opacity:1},167.216);
+tl.set("#w42_5",{opacity:0},167.297);
+tl.set("#w42_6",{opacity:1},167.343);
+tl.set("#w42_6",{opacity:0},167.494);
+tl.set("#w42_7",{opacity:1},167.564);
+tl.set("#w42_7",{opacity:0},168.086);
+tl.set("#w42_8",{opacity:1},168.133);
+tl.set("#w42_8",{opacity:0},169.038);
+tl.set("#w43_0",{opacity:1},169.201);
+tl.set("#w43_0",{opacity:0},169.433);
+tl.set("#w43_1",{opacity:1},169.503);
+tl.set("#w43_1",{opacity:0},169.921);
+tl.set("#w43_2",{opacity:1},170.014);
+tl.set("#w43_2",{opacity:0},170.188);
+tl.set("#w43_3",{opacity:1},170.257);
+tl.set("#w43_3",{opacity:0},172.893);
+tl.set("#w43_4",{opacity:1},173.299);
+tl.set("#w43_4",{opacity:0},173.613);
+tl.set("#w43_5",{opacity:1},173.682);
+tl.set("#w43_5",{opacity:0},173.891);
+tl.set("#w43_6",{opacity:1},173.949);
+tl.set("#w43_6",{opacity:0},174.089);
+tl.set("#w43_7",{opacity:1},174.135);
+tl.set("#w43_7",{opacity:0},174.727);
+tl.set("#w44_0",{opacity:1},175.064);
+tl.set("#w44_0",{opacity:0},175.424);
+tl.set("#w44_1",{opacity:1},175.447);
+tl.set("#w44_1",{opacity:0},175.795);
+tl.set("#w44_2",{opacity:1},175.853);
+tl.set("#w44_2",{opacity:0},176.190);
+tl.set("#w44_3",{opacity:1},176.225);
+tl.set("#w44_3",{opacity:0},176.353);
+tl.set("#w44_4",{opacity:1},176.422);
+tl.set("#w44_4",{opacity:0},177.258);
+tl.set("#w44_5",{opacity:1},177.479);
+tl.set("#w44_5",{opacity:0},177.676);
+tl.set("#w44_6",{opacity:1},177.711);
+tl.set("#w44_6",{opacity:0},178.013);
+tl.set("#w44_7",{opacity:1},178.059);
+tl.set("#w44_7",{opacity:0},178.199);
+tl.set("#w44_8",{opacity:1},178.245);
+tl.set("#w44_8",{opacity:0},178.326);
+tl.set("#w44_9",{opacity:1},178.373);
+tl.set("#w44_9",{opacity:0},178.477);
+tl.set("#w44_10",{opacity:1},178.535);
+tl.set("#w44_10",{opacity:0},179.348);
+tl.fromTo("#sc0",{opacity:0},{opacity:1,duration:0.35},0.000);
+tl.to("#sc0",{opacity:0,duration:0.3},9.825);
+tl.fromTo("#sc1",{opacity:0},{opacity:1,duration:0.35},10.125);
+tl.to("#sc1",{opacity:0,duration:0.3},19.898);
+tl.fromTo("#sc2",{opacity:0},{opacity:1,duration:0.35},20.198);
+tl.to("#sc2",{opacity:0,duration:0.3},39.860);
+tl.fromTo("#sc3",{opacity:0},{opacity:1,duration:0.35},40.160);
+tl.to("#sc3",{opacity:0,duration:0.3},57.038);
+tl.fromTo("#sc4",{opacity:0},{opacity:1,duration:0.35},57.338);
+tl.to("#sc4",{opacity:0,duration:0.3},73.197);
+tl.fromTo("#sc5",{opacity:0},{opacity:1,duration:0.35},73.497);
+tl.to("#sc5",{opacity:0,duration:0.3},93.405);
+tl.fromTo("#sc6",{opacity:0},{opacity:1,duration:0.35},93.705);
+tl.to("#sc6",{opacity:0,duration:0.3},102.145);
+tl.fromTo("#sc7",{opacity:0},{opacity:1,duration:0.35},102.445);
+tl.to("#sc7",{opacity:0,duration:0.3},114.961);
+tl.fromTo("#sc8",{opacity:0},{opacity:1,duration:0.35},115.261);
+tl.to("#sc8",{opacity:0,duration:0.3},137.625);
+tl.fromTo("#sc9",{opacity:0},{opacity:1,duration:0.35},137.925);
+tl.to("#sc9",{opacity:0,duration:0.3},157.650);
+tl.fromTo("#sc10",{opacity:0},{opacity:1,duration:0.35},157.950);
+tl.to({}, {duration: 0.01}, 185.940);
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+</body>
+</html>
