@@ -1,7 +1,7 @@
 # KI nutzen. Selber denken. Verantwortung übernehmen.
 
 Erklärvideo von Dr. Sophie Hundertmark · 16:9, 1920 × 1080 · ca. 10 Minuten
-Status: ENTWURF zur Freigabe · Stand 6. Oktober 2026
+Status: ENTWURF zur Freigabe · Stand 6. Oktober 2026 · mit Quellen abgeglichen (siehe docs/02_Quellen.md)
 
 Grundlage: Auftrag vom 6.10.2026 (hat Vorrang) und «Lernvideo_Canvas_KI_verantwortungsvoll_Sophie_Hundertmark.pdf».
 Sprechertext = das, was die KI-Stimme in der Ich-Form vorträgt. Alles andere ist Bild, Text oder Regie.
@@ -89,6 +89,7 @@ Sprechertext:
 > Wer die eigenen Überlegungen komplett überspringt, übt das Begründen und Entscheiden weniger. KI kann diesen Lernprozess aber auch stärken: mit Rückfragen, Feedback und anderen Sichtweisen.
 
 ### Szene 2.4 · Der Leitsatz (1:38–1:47)
+Quellenzeile klein (in Szene 2.2/2.3): «Menschliche Handlungsfähigkeit im Zentrum: vgl. UNESCO 2023»
 Bild: Leitsatz erstmals gross, dreizeilig, jede Zeile mit eigener heller Akzentfläche (Blau, Grün, Magenta). F1 klein rechts unten als runder Ausschnitt.
 
 Sprechertext:
@@ -111,10 +112,11 @@ Bild: Karte «Vor Upload oder Eingabe prüfen» (Akzent Blau), vier Fragen ersch
 - Ist das Tool für diesen Einsatz freigegeben?
 - Dürfen diese Daten dort verarbeitet werden?
 - Sind Personen erkennbar?
-- Was ist über Speicherung, Zugriff und Weiterverwendung bekannt?
+- Was ist über Speicherung, Zugriff und Weiterverwendung (z. B. Training) bekannt?
+Quellenzeile klein unten links: «Vgl. EDÖB: KI im Alltag; Einsatz von ChatGPT (2023)»
 
 Sprechertext:
-> Dann prüfe ich die Daten. Ist das Tool für diesen Einsatz freigegeben, von meiner Hochschule oder meinem Unternehmen? Dürfen diese Daten dort verarbeitet werden? Sind Personen erkennbar? Und was weiss ich darüber, wie Eingaben gespeichert werden, wer darauf zugreift und wofür sie weiterverwendet werden?
+> Dann prüfe ich die Daten. Ist das Tool für diesen Einsatz freigegeben, von meiner Hochschule oder meinem Unternehmen? Dürfen diese Daten dort verarbeitet werden? Sind Personen erkennbar? Und was weiss ich darüber, wie Eingaben gespeichert werden, wer darauf zugreift und ob sie weiterverwendet werden, etwa zum Training?
 
 ### Szene 3.3 · Name löschen reicht nicht immer (2:32–2:52)
 Bild: Fiktiver Satz «Frau M., Leiterin der Abteilung X in Y, war im März krank.» Der Name wird durchgestrichen, dann leuchten «Leiterin», «Abteilung X», «im März krank» hellmagenta auf: «Auch diese Details machen eine Person erkennbar.» Danach Karte: «Unsicher? Erst klären oder mit fiktiven Daten arbeiten.»
@@ -228,7 +230,7 @@ Sprechertext:
 > Zum Schluss ergänze ich einen kurzen KI-Hinweis, zum Beispiel: KI wurde für Ideen, einen Ablaufentwurf und sprachliche Kürzung genutzt. Auswahl, Überarbeitung und Prüfung habe ich übernommen. Noch offen: Raum und Technik.
 
 ### Szene 5.4 · Was ein Hinweis kann und was nicht (8:15–8:37)
-Bild: Zwei Spalten. «Ein KI-Hinweis …» links grün-hell «macht Zusammenarbeit nachvollziehbar», rechts magenta-hell «ersetzt keine Prüfung» und «macht unzulässige Nutzung nicht zulässig». Fusszeile: «Für Studienleistungen: jeweilige Dokumentations- und Prüfungsregeln beachten.»
+Bild: Zwei Spalten. «Ein KI-Hinweis …» links grün-hell «macht Zusammenarbeit nachvollziehbar», rechts magenta-hell «ersetzt keine Prüfung» und «macht unzulässige Nutzung nicht zulässig». Fusszeile: «Für Studienleistungen: jeweilige Dokumentations- und Prüfungsregeln beachten.» Quellenzeile: «Vgl. z. B. Richtlinien der HSLU-Departemente W (2024) und D&K (2024); es gelten die Vorgaben des eigenen Moduls.»
 
 Sprechertext:
 > So ein Hinweis gehört für mich selbstverständlich zu guter Zusammenarbeit. Aber schreibt ihn nur so, wenn ihr diese Schritte wirklich gemacht habt. Ein Hinweis ersetzt keine Prüfung. Und er macht eine Nutzung, die nach den Prüfungsregeln nicht erlaubt ist, nicht zulässig. Für Studienleistungen gelten zusätzlich die jeweiligen Dokumentations- und Prüfungsregeln.
