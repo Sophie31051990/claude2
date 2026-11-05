@@ -1,0 +1,208 @@
+1
+00:00:03,900 --> 00:00:08,822
+Ein kurzer Hinweis vorweg: Dieses Video ist KI-generiert.
+
+2
+00:00:09,112 --> 00:00:11,816
+Die Stimme ist eine KI-Stimme.
+
+3
+00:00:12,002 --> 00:00:14,984
+Die Inhalte sind meine Position.
+
+4
+00:00:17,225 --> 00:00:21,253
+Stell dir vor, ihr plant zusammen einen kurzen Workshop.
+
+5
+00:00:21,508 --> 00:00:24,700
+Du bittest eine Kollegin um einen Vorschlag.
+
+6
+00:00:24,955 --> 00:00:28,263
+Zurück kommen zwei mögliche Antworten.
+
+7
+00:00:30,498 --> 00:00:36,457
+Links: ein langer Text mit vielen Ideen, schönen Formulierungen und Aussagen,
+
+8
+00:00:36,407 --> 00:00:39,309
+bei denen du nicht weisst, ob sie stimmen.
+
+9
+00:00:39,646 --> 00:00:42,315
+Rechts: ein paar Zeilen.
+
+10
+00:00:42,535 --> 00:00:46,621
+Ein Vorschlag, ein Ablauf, eine offene Frage.
+
+11
+00:00:47,027 --> 00:00:50,231
+Welche Nachricht hilft dir wirklich weiter?
+
+12
+00:00:55,460 --> 00:01:00,707
+Bei der langen Nachricht musst du alles lesen, sortieren und prüfen.
+
+13
+00:01:00,962 --> 00:01:03,980
+Die andere Person hat vielleicht Zeit gespart.
+
+14
+00:01:04,200 --> 00:01:07,554
+Du hast dafür zusätzliche Arbeit bekommen.
+
+15
+00:01:07,810 --> 00:01:11,350
+Die eigentliche Denkarbeit wurde nur weitergereicht.
+
+16
+00:01:11,570 --> 00:01:15,203
+Das passiert im Studium genauso wie im Team.
+
+17
+00:01:17,438 --> 00:01:21,942
+Ich bin Sophie Hundertmark, und ich arbeite selbst gern mit KI.
+
+18
+00:01:22,278 --> 00:01:24,314
+Sie hilft mir, Ideen zu sammeln,
+
+19
+00:01:24,264 --> 00:01:29,568
+Gedanken zu strukturieren und eine andere Sicht auf ein Konzept zu bekommen.
+
+20
+00:01:29,975 --> 00:01:34,559
+Genau dazu möchte ich euch ermutigen: Nutzt KI!
+
+21
+00:01:36,797 --> 00:01:41,730
+Aber ein KI-Ergebnis ist noch kein gutes Arbeitsergebnis.
+
+22
+00:01:42,020 --> 00:01:47,453
+Was ihr weitergebt, müsst ihr selbst gelesen, verstanden und geprüft haben.
+
+23
+00:01:47,708 --> 00:01:51,295
+Wählt aus, was die andere Person wirklich braucht.
+
+24
+00:01:51,515 --> 00:01:55,485
+Und sagt offen, wofür ihr KI genutzt habt.
+
+25
+00:01:55,821 --> 00:01:59,559
+Für das Ergebnis übernehmt ihr die Verantwortung.
+
+26
+00:02:01,805 --> 00:02:06,703
+Darum mein Leitsatz für unsere Zusammenarbeit: KI nutzen.
+
+27
+00:02:06,889 --> 00:02:08,757
+Selber denken.
+
+28
+00:02:08,943 --> 00:02:11,496
+Verantwortung übernehmen.
+
+29
+00:02:13,745 --> 00:02:17,401
+Bevor ich ein Tool öffne, kläre ich ein paar Dinge.
+
+30
+00:02:17,691 --> 00:02:20,175
+Was soll am Ende entstehen?
+
+31
+00:02:20,302 --> 00:02:22,136
+Für wen ist es?
+
+32
+00:02:22,391 --> 00:02:25,188
+Was möchte ich selbst dabei lernen?
+
+33
+00:02:25,409 --> 00:02:29,123
+Und welche Informationen braucht es dafür wirklich?
+
+34
+00:02:31,361 --> 00:02:34,495
+Zwei Fallen möchte ich euch nennen.
+
+35
+00:02:34,750 --> 00:02:40,577
+Erstens: Eine zweite Antwort derselben KI ist keine unabhängige Bestätigung.
+
+36
+00:02:40,867 --> 00:02:47,043
+Zweitens: Die Aufforderung «Erfinde nichts» hilft, ist aber keine Garantie.
+
+37
+00:02:47,333 --> 00:02:50,014
+Gute Sprache ist kein Beleg.
+
+38
+00:02:50,304 --> 00:02:56,584
+Findet ihr keine belastbare Grundlage, streicht die Aussage oder markiert sie als offen.
+
+39
+00:02:58,825 --> 00:03:02,969
+Vor jeder Übergabe stellt ihr euch fünf Fragen.
+
+40
+00:03:03,259 --> 00:03:06,567
+Darf ich diese Daten in diesem Tool verwenden?
+
+41
+00:03:06,787 --> 00:03:10,176
+Habe ich alles gelesen und verstanden?
+
+42
+00:03:10,432 --> 00:03:14,169
+Habe ich relevante Fakten und Quellen geprüft?
+
+43
+00:03:14,424 --> 00:03:18,510
+Ist die Übergabe kurz, verständlich und hilfreich?
+
+44
+00:03:18,800 --> 00:03:22,201
+Und ist mein KI-Einsatz transparent?
+
+45
+00:03:24,450 --> 00:03:26,365
+KI nutzen.
+
+46
+00:03:26,550 --> 00:03:28,523
+Selber denken.
+
+47
+00:03:28,709 --> 00:03:31,146
+Verantwortung übernehmen.
+
+48
+00:03:31,552 --> 00:03:34,871
+Das wünsche ich mir für unsere Zusammenarbeit.
+
+49
+00:03:35,127 --> 00:03:38,451
+Wenn ihr Fragen habt, könnt ihr mich jederzeit kontaktieren:
+
+50
+00:03:38,401 --> 00:03:44,727
+per E-Mail an sophie@hundertmark.ch oder gern per WhatsApp.
+
+51
+00:03:45,064 --> 00:03:48,058
+Scannt dafür einfach den QR-Code.
+
+52
+00:03:48,279 --> 00:03:50,948
+Ich freue mich auf den Austausch.
+

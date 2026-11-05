@@ -5,7 +5,10 @@ import json, os, re, subprocess, html
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 os.chdir(ROOT)
-SUF = '_reizarm'
+# SHORT=1: Kurzversion (gleiche Szenenauswahl wie build.py), nur bestehende Aufnahmen
+SHORT = os.environ.get('SHORT') == '1'
+KEEP = ['1.1', '1.2', '1.3', '1.4', '2.1', '2.2', '2.4', '3.1', '5.2', '6.1', '7.1']
+SUF = '_reizarm_Kurzversion' if SHORT else '_reizarm'
 
 LEAD, GAP, TAIL = 1.2, 1.4, 1.8   # Sekunden: vor dem Sprechen, zwischen Absätzen, nach der Szene
 SENT_PAUSE = 0.8                  # zusätzliche Stille nach jedem Satz
@@ -17,6 +20,7 @@ BEAT_EARLY = 0.45                 # Bildwechsel kurz vor dem Stichwort (in der S
 
 scenes = json.load(open('scenes.json', encoding='utf-8'))
 for si, s in enumerate(scenes): s['aidx'] = si
+if SHORT: scenes = [s for s in scenes if s['id'] in KEEP]
 
 def dur(path):
     return float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', path]).decode())
@@ -94,7 +98,7 @@ for i, (st0, f, a, b) in enumerate(segments):
     filt.append(f'[{i}:a]atrim={a:.4f}:{b:.4f},asetpts=PTS-STARTPTS,aresample=44100,aformat=channel_layouts=mono,'
                 f'afade=t=in:d=0.02,afade=t=out:st={max(0, b - a - 0.03):.4f}:d=0.03,adelay={ms}|{ms}[a{i}]')
 filt.append(''.join(f'[a{i}]' for i in range(len(segments))) + f'amix=inputs={len(segments)}:normalize=0,apad,atrim=0:{TOTAL}[out]')
-script = os.path.join('renders', 'filter_reizarm.txt'); os.makedirs('renders', exist_ok=True)
+script = os.path.join('renders', f'filter{SUF}.txt'); os.makedirs('renders', exist_ok=True)
 open(script, 'w').write(';'.join(filt))
 subprocess.check_call(['ffmpeg', '-y', '-v', 'error', *inputs, '-filter_complex_script', script, '-map', '[out]', '-ar', '44100', '-ac', '2', f'narration{SUF}.wav'])
 
@@ -366,7 +370,7 @@ tl.seek(0);
 </body>
 </html>
 '''
-open('reizarm.html', 'w', encoding='utf-8').write(page)
+open('kurzversion_reizarm.html' if SHORT else 'reizarm.html', 'w', encoding='utf-8').write(page)
 json.dump({'total': TOTAL, 'beats': [round(b[0], 2) for b in beats], 'scenes': [{k: s[k] for k in ('id', 'title', 'start', 'dur')} for s in scenes]},
           open(f'timing{SUF}.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(f'Gesamtdauer {TOTAL:.1f}s ({int(TOTAL // 60)}:{int(TOTAL % 60):02d}), Bilder {len(beats)}, Untertitel {len(cues)}, QR-Standzeit {qr_dur:.1f}s')
