@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>KI nutzen. Selber denken. Verantwortung übernehmen. (reizarme Fassung)</title>
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<style>
+/* Reizarme Fassung: weiss, schwarz, grosse Schrift, eine Aussage pro Bild, keine Bewegung */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #fff; }
+#root { position: relative; width: 1920px; height: 1080px; background: #fff; color: #111;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif; overflow: hidden; }
+.clip { position: absolute; }
+.beat { left: 0; top: 0; width: 1920px; height: 1080px; background: #fff; }
+
+.b-center { position: absolute; left: 200px; top: 90px; width: 1520px; height: 720px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.b-big { font-size: 68px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; max-width: 1450px; }
+.b-sub { margin-top: 34px; font-size: 42px; font-weight: 400; line-height: 1.4; color: #333; max-width: 1400px; }
+.b-sub.strong { font-weight: 700; color: #111; }
+.b-small { margin-top: 50px; font-size: 26px; line-height: 1.6; color: #555; }
+.left { text-align: left; }
+.b-title { font-size: 80px; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+
+.b-head { font-size: 52px; font-weight: 700; margin-bottom: 40px; }
+.b-list { list-style: none; text-align: left; }
+.b-list li { font-size: 50px; line-height: 1.25; margin: 0 0 26px; padding-left: 52px; position: relative; }
+.b-list li::before { content: ''; position: absolute; left: 0; top: 22px; width: 18px; height: 18px; border-radius: 9px; background: #77C5D8; }
+
+.b-num { width: 96px; height: 96px; line-height: 96px; border-radius: 48px; background: #111; color: #fff; font-size: 52px; font-weight: 800; margin-bottom: 34px; }
+.b-count { font-size: 34px; color: #555; margin-bottom: 30px; font-weight: 600; }
+.b-quote { font-size: 64px; font-weight: 700; background: #FFF0BE; padding: 34px 54px; border-radius: 20px; line-height: 1.3; }
+.b-ok { color: #386939; margin-right: 26px; }
+.b-no { color: #9F304D; margin-right: 26px; }
+
+.b-photo { position: absolute; left: 260px; top: 130px; width: 380px; height: 640px; border-radius: 22px; overflow: hidden; }
+.b-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.b-side { position: absolute; left: 760px; top: 130px; width: 960px; height: 640px; display: flex; flex-direction: column; justify-content: center; }
+.b-side .b-sub { margin-top: 28px; }
+
+.b-row { display: flex; gap: 70px; align-items: flex-start; }
+.b-msg { width: 520px; height: 520px; border: 3px solid #ccc; border-radius: 20px; padding: 28px 34px; text-align: left; position: relative; }
+.b-msg.short { height: 520px; }
+.b-msg-h { font-size: 34px; font-weight: 700; margin-bottom: 26px; }
+.b-msg .ln { display: block; height: 14px; background: #E6E6E6; border-radius: 7px; margin-bottom: 18px; }
+.b-msg p { font-size: 40px; line-height: 1.35; margin-bottom: 16px; }
+.b-msg-f { position: absolute; left: 34px; bottom: 26px; font-size: 30px; color: #444; }
+
+.b-table { border-collapse: collapse; font-size: 46px; }
+.b-table td { padding: 14px 40px; border-bottom: 2px solid #E3E3E3; text-align: left; }
+.b-table tr.tot td { font-weight: 700; border-bottom: none; padding-top: 22px; }
+
+.b-motto { font-size: 76px; font-weight: 800; width: 1100px; padding: 16px 0; border-radius: 20px; margin: 14px 0; }
+.b-note { width: 1300px; background: #FFF0BE; border-radius: 20px; padding: 44px 56px; text-align: left; font-size: 44px; line-height: 1.4; }
+.b-note b { display: block; font-size: 34px; margin-bottom: 20px; }
+.b-note p + p { margin-top: 14px; }
+
+.b-logo-l { position: absolute; left: 60px; top: 42px; height: 52px; }
+.b-logo-r { position: absolute; right: 60px; top: 44px; height: 50px; }
+.b-contact { position: absolute; left: 260px; top: 160px; width: 1400px; height: 600px; display: flex; align-items: center; justify-content: space-between; }
+.b-contact-text { font-size: 46px; line-height: 1.4; }
+.b-contact-text p { margin-top: 30px; }
+.b-qr { display: block; image-rendering: pixelated; }
+
+.subs { left: 0; top: 880px; width: 1920px; text-align: center; z-index: 10; padding: 0 260px; }
+.subs span { font-size: 38px; line-height: 1.45; font-weight: 500; color: #111; }
+
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="708.020" data-width="1920" data-height="1080">
+<audio id="vo" class="clip" src="narration_reizarm.wav" data-start="0" data-duration="708.020" data-track-index="0" data-volume="1"></audio>
+<div class="clip beat" id="b0" data-start="0.000" data-duration="4.707" data-track-index="1"><img class="b-logo-l" src="media/hundertmark_logo.png"><img class="b-logo-r" src="media/HSLU_Logo_DE_Schwarz.jpg"><div class="b-center"><div class="b-title">KI nutzen. Selber denken.<br>Verantwortung übernehmen.</div><div class="b-sub">Ein Erklärvideo von Dr. Sophie Hundertmark</div></div></div>
+<div class="clip beat" id="b1" data-start="4.107" data-duration="12.618" data-track-index="1"><div class="b-center"><div class="b-big">Dieses Video ist KI-generiert.</div><div class="b-sub">Die Stimme ist eine KI-Stimme.<br>Die Inhalte sind die Position von Dr. Sophie Hundertmark.</div></div></div>
+<div class="clip beat" id="b2" data-start="16.125" data-duration="9.080" data-track-index="1"><div class="b-photo"><img src="media/sophie_pink_lachend_dissertation.jpg" style="object-position:50% 25%"></div><div class="b-side"><div class="b-big left">Ihr plant einen Workshop.</div></div></div>
+<div class="clip beat" id="b3" data-start="24.605" data-duration="5.393" data-track-index="1"><div class="b-center"><div class="b-big">Zwei mögliche Antworten</div></div></div>
+<div class="clip beat" id="b4" data-start="29.398" data-duration="10.498" data-track-index="1"><div class="b-center"><div class="b-row"><div class="b-msg"><div class="b-msg-h">Nachricht A</div><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><div class="b-msg-f">lang, viele Ideen, unklar</div></div></div></div></div>
+<div class="clip beat" id="b5" data-start="39.296" data-duration="7.981" data-track-index="1"><div class="b-center"><div class="b-row"><div class="b-msg short"><div class="b-msg-h">Nachricht B</div><p>Ein Vorschlag.</p><p>Ein Ablauf.</p><p>Eine offene Frage.</p><div class="b-msg-f">kurz und klar</div></div></div></div></div>
+<div class="clip beat" id="b6" data-start="46.677" data-duration="8.283" data-track-index="1"><div class="b-center"><div class="b-row"><div class="b-msg"><div class="b-msg-h">Nachricht A</div><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><span class="ln"></span><div class="b-msg-f">lang, viele Ideen, unklar</div></div><div class="b-msg short"><div class="b-msg-h">Nachricht B</div><p>Ein Vorschlag.</p><p>Ein Ablauf.</p><p>Eine offene Frage.</p><div class="b-msg-f">kurz und klar</div></div></div><div class="b-sub strong">Welche Nachricht hilft dir wirklich weiter?</div></div></div>
+<div class="clip beat" id="b7" data-start="54.360" data-duration="7.026" data-track-index="1"><div class="b-center"><div class="b-head">Bei der langen Nachricht musst du:</div><ul class="b-list"><li>lesen</li><li>sortieren</li><li>prüfen</li></ul></div></div>
+<div class="clip beat" id="b8" data-start="60.786" data-duration="7.460" data-track-index="1"><div class="b-center"><div class="b-big">Die eine Person spart Zeit.</div><div class="b-sub">Die andere hat mehr Arbeit.</div></div></div>
+<div class="clip beat" id="b9" data-start="67.646" data-duration="9.292" data-track-index="1"><div class="b-center"><div class="b-big">Die Denkarbeit wird nur weitergereicht.</div></div></div>
+<div class="clip beat" id="b10" data-start="76.338" data-duration="6.388" data-track-index="1"><div class="b-photo"><img src="media/sophie_pink_lachend_dissertation.jpg" style="object-position:50% 25%"></div><div class="b-side"><div class="b-big left">Dr. Sophie Hundertmark</div></div></div>
+<div class="clip beat" id="b11" data-start="82.126" data-duration="8.099" data-track-index="1"><div class="b-center"><div class="b-head">KI hilft mir:</div><ul class="b-list"><li>Ideen sammeln</li><li>Gedanken strukturieren</li><li>eine andere Sicht bekommen</li></ul></div></div>
+<div class="clip beat" id="b12" data-start="89.625" data-duration="6.672" data-track-index="1"><div class="b-center"><div class="b-big">Nutzt KI!</div></div></div>
+<div class="clip beat" id="b13" data-start="95.697" data-duration="6.573" data-track-index="1"><div class="b-center"><div class="b-big">Ein KI-Ergebnis ist noch kein gutes Arbeitsergebnis.</div></div></div>
+<div class="clip beat" id="b14" data-start="101.670" data-duration="6.288" data-track-index="1"><div class="b-center"><div class="b-head">Was ihr weitergebt, habt ihr selbst:</div><ul class="b-list"><li>gelesen</li><li>verstanden</li><li>geprüft</li></ul></div></div>
+<div class="clip beat" id="b15" data-start="107.358" data-duration="4.605" data-track-index="1"><div class="b-center"><div class="b-big">Auswählen, was die andere Person braucht.</div></div></div>
+<div class="clip beat" id="b16" data-start="111.363" data-duration="4.708" data-track-index="1"><div class="b-center"><div class="b-big">Offen sagen, wofür ihr KI genutzt habt.</div></div></div>
+<div class="clip beat" id="b17" data-start="115.471" data-duration="5.834" data-track-index="1"><div class="b-center"><div class="b-big">Ihr übernehmt die Verantwortung.</div></div></div>
+<div class="clip beat" id="b18" data-start="120.705" data-duration="8.803" data-track-index="1"><div class="b-center"><div class="b-big">Überlegungen überspringen heisst:</div><div class="b-sub">weniger Übung im Begründen und Entscheiden.</div></div></div>
+<div class="clip beat" id="b19" data-start="128.908" data-duration="8.579" data-track-index="1"><div class="b-center"><div class="b-head">KI kann das Lernen stärken:</div><ul class="b-list"><li>Rückfragen</li><li>Feedback</li><li>andere Sichtweisen</li></ul></div></div>
+<div class="clip beat" id="b20" data-start="136.887" data-duration="4.740" data-track-index="1"><div class="b-center"><div class="b-big">Mein Leitsatz</div></div></div>
+<div class="clip beat" id="b21" data-start="141.027" data-duration="8.400" data-track-index="1"><div class="b-center"><div class="b-motto" style="background:#DAEEF3">KI nutzen.</div><div class="b-motto" style="background:#E9F0C1">Selber denken.</div><div class="b-motto" style="background:#FBD0D3">Verantwortung übernehmen.</div></div></div>
+<div class="clip beat" id="b22" data-start="148.827" data-duration="5.296" data-track-index="1"><div class="b-photo"><img src="media/sophie_schwarz_ganzkoerper_tuer.jpg" style="object-position:50% 0%"></div><div class="b-side"><div class="b-big left">Vor dem Prompt:<br>Ziel klären</div><div class="b-sub left">Prompt = deine Eingabe an die KI</div></div></div>
+<div class="clip beat" id="b23" data-start="153.523" data-duration="5.614" data-track-index="1"><div class="b-center"><div class="b-big">Was soll entstehen?</div><div class="b-sub">Für wen ist es?</div></div></div>
+<div class="clip beat" id="b24" data-start="158.537" data-duration="3.582" data-track-index="1"><div class="b-center"><div class="b-big">Was will ich selbst lernen?</div></div></div>
+<div class="clip beat" id="b25" data-start="161.519" data-duration="5.524" data-track-index="1"><div class="b-center"><div class="b-big">Welche Informationen braucht es wirklich?</div></div></div>
+<div class="clip beat" id="b26" data-start="166.443" data-duration="4.135" data-track-index="1"><div class="b-center"><div class="b-big">Daten prüfen</div></div></div>
+<div class="clip beat" id="b27" data-start="169.978" data-duration="7.287" data-track-index="1"><div class="b-center"><div class="b-big">Ist das Tool freigegeben?</div></div></div>
+<div class="clip beat" id="b28" data-start="176.665" data-duration="4.232" data-track-index="1"><div class="b-center"><div class="b-big">Dürfen die Daten dort verarbeitet werden?</div></div></div>
+<div class="clip beat" id="b29" data-start="180.297" data-duration="3.908" data-track-index="1"><div class="b-center"><div class="b-big">Sind Personen erkennbar?</div></div></div>
+<div class="clip beat" id="b30" data-start="183.605" data-duration="10.849" data-track-index="1"><div class="b-center"><div class="b-big">Was passiert mit den Eingaben?</div><div class="b-sub">Speicherung, Zugriff, Training</div></div></div>
+<div class="clip beat" id="b31" data-start="193.854" data-duration="6.225" data-track-index="1"><div class="b-center"><div class="b-big">Nur den Namen löschen reicht nicht immer.</div></div></div>
+<div class="clip beat" id="b32" data-start="199.479" data-duration="7.391" data-track-index="1"><div class="b-center"><div class="b-head">Auch das macht eine Person erkennbar:</div><ul class="b-list"><li>Funktion</li><li>Ort</li><li>besonderes Ereignis</li></ul></div></div>
+<div class="clip beat" id="b33" data-start="206.270" data-duration="10.537" data-track-index="1"><div class="b-center"><div class="b-big">Unsicher? Vorher klären.</div><div class="b-sub">Oder mit einem fiktiven Beispiel arbeiten.</div></div></div>
+<div class="clip beat" id="b34" data-start="216.207" data-duration="7.758" data-track-index="1"><div class="b-center"><div class="b-big">Unser fiktives Beispiel:</div><div class="b-sub">Eine Gruppe plant einen Workshop.</div></div></div>
+<div class="clip beat" id="b35" data-start="223.365" data-duration="3.756" data-track-index="1"><div class="b-center"><div class="b-head">Der Workshop:</div><ul class="b-list"><li>30 Minuten</li><li>12 Erwachsene</li></ul></div></div>
+<div class="clip beat" id="b36" data-start="226.521" data-duration="4.860" data-track-index="1"><div class="b-center"><div class="b-big">Kein eigener KI-Account nötig.</div></div></div>
+<div class="clip beat" id="b37" data-start="230.781" data-duration="3.560" data-track-index="1"><div class="b-center"><div class="b-big">Raum und Technik sind noch offen.</div></div></div>
+<div class="clip beat" id="b38" data-start="233.741" data-duration="5.880" data-track-index="1"><div class="b-center"><div class="b-big">Vier Anwendungen</div></div></div>
+<div class="clip beat" id="b39" data-start="239.021" data-duration="4.658" data-track-index="1"><div class="b-center"><div class="b-num">1</div><div class="b-big">Brainstorming</div></div></div>
+<div class="clip beat" id="b40" data-start="243.079" data-duration="4.407" data-track-index="1"><div class="b-center"><div class="b-big">Erst ich, dann KI.</div></div></div>
+<div class="clip beat" id="b41" data-start="246.886" data-duration="8.447" data-track-index="1"><div class="b-center"><div class="b-head">Meine Ideen:</div><ul class="b-list"><li>Nachrichtenvergleich</li><li>Gemeinsame Fehlersuche</li></ul></div></div>
+<div class="clip beat" id="b42" data-start="254.733" data-duration="4.249" data-track-index="1"><div class="b-center"><div class="b-big">Dann frage ich die KI.</div></div></div>
+<div class="clip beat" id="b43" data-start="258.382" data-duration="8.145" data-track-index="1"><div class="b-center"><div class="b-head">Mein Prompt nennt:</div><ul class="b-list"><li>Ziel und Gruppe</li><li>Zeit</li><li>meine eigenen Ideen</li></ul></div></div>
+<div class="clip beat" id="b44" data-start="265.927" data-duration="5.371" data-track-index="1"><div class="b-center"><div class="b-head">Für jede neue Idee:</div><ul class="b-list"><li>Nutzen</li><li>Nachteil</li><li>Zeitbedarf</li></ul></div></div>
+<div class="clip beat" id="b45" data-start="270.698" data-duration="5.767" data-track-index="1"><div class="b-center"><div class="b-quote">«Wähle noch nichts für mich aus.»</div></div></div>
+<div class="clip beat" id="b46" data-start="275.866" data-duration="3.838" data-track-index="1"><div class="b-center"><div class="b-big">Die KI liefert fünf Vorschläge.</div></div></div>
+<div class="clip beat" id="b47" data-start="279.104" data-duration="4.349" data-track-index="1"><div class="b-center"><div class="b-big">Ich wähle selbst aus.</div></div></div>
+<div class="clip beat" id="b48" data-start="282.853" data-duration="6.114" data-track-index="1"><div class="b-center"><div class="b-big"><span class="b-ok">✓</span>Nachrichtenvergleich</div><div class="b-sub">Die Gruppe erlebt den Nutzen direkt.</div></div></div>
+<div class="clip beat" id="b49" data-start="288.367" data-duration="8.152" data-track-index="1"><div class="b-center"><div class="b-big"><span class="b-no">✕</span>Rollenspiel</div><div class="b-sub">zu viel Vorbereitung</div></div></div>
+<div class="clip beat" id="b50" data-start="295.919" data-duration="7.709" data-track-index="1"><div class="b-center"><div class="b-big">Probier es selbst:</div><div class="b-sub">Zuerst zwei eigene Ideen notieren.<br>Dann die KI fragen.</div></div></div>
+<div class="clip beat" id="b51" data-start="303.028" data-duration="5.600" data-track-index="1"><div class="b-photo"><img src="media/sophie_pink_baum.jpg" style="object-position:50% 20%"></div><div class="b-side"><div class="b-big left">Erst selber denken.<br>Dann KI.</div></div></div>
+<div class="clip beat" id="b52" data-start="308.028" data-duration="5.854" data-track-index="1"><div class="b-center"><div class="b-num">2</div><div class="b-big">Konzept kritisch hinterfragen</div></div></div>
+<div class="clip beat" id="b53" data-start="313.282" data-duration="7.472" data-track-index="1"><div class="b-center"><div class="b-big">KI als Gegenüber,</div><div class="b-sub">das unbequeme Fragen stellt.</div></div></div>
+<div class="clip beat" id="b54" data-start="320.154" data-duration="7.924" data-track-index="1"><div class="b-center"><div class="b-head">Ich bitte um:</div><ul class="b-list"><li>Schwächen</li><li>unausgesprochene Annahmen</li><li>eine Gegenposition</li></ul></div></div>
+<div class="clip beat" id="b55" data-start="327.478" data-duration="5.960" data-track-index="1"><div class="b-center"><div class="b-quote">«Bestätige mein Konzept nicht einfach.»</div></div></div>
+<div class="clip beat" id="b56" data-start="332.838" data-duration="7.437" data-track-index="1"><div class="b-center"><div class="b-big">Die KI sagt:</div><div class="b-sub">Nicht alle haben Zugang zu einem KI-Tool.</div></div></div>
+<div class="clip beat" id="b57" data-start="339.675" data-duration="4.953" data-track-index="1"><div class="b-center"><div class="b-big"><span class="b-ok">✓</span>Ich plane eine gemeinsame Demo.</div></div></div>
+<div class="clip beat" id="b58" data-start="344.028" data-duration="4.093" data-track-index="1"><div class="b-center"><div class="b-big">Die KI schlägt einen Wettbewerb vor.</div></div></div>
+<div class="clip beat" id="b59" data-start="347.521" data-duration="4.198" data-track-index="1"><div class="b-center"><div class="b-big"><span class="b-no">✕</span>Kein Wettbewerb.</div><div class="b-sub">Er lenkt vom Lernziel ab.</div></div></div>
+<div class="clip beat" id="b60" data-start="351.119" data-duration="5.622" data-track-index="1"><div class="b-center"><div class="b-big">Auch die Kritik der KI bewerte ich selbst.</div></div></div>
+<div class="clip beat" id="b61" data-start="356.141" data-duration="5.600" data-track-index="1"><div class="b-photo"><img src="media/sophie_schwarz_nah_buch.jpg" style="object-position:50% 20%"></div><div class="b-side"><div class="b-big left">Kritik selbst bewerten.</div></div></div>
+<div class="clip beat" id="b62" data-start="361.141" data-duration="5.285" data-track-index="1"><div class="b-center"><div class="b-num">3</div><div class="b-big">Einen Entwurf erstellen</div></div></div>
+<div class="clip beat" id="b63" data-start="365.826" data-duration="8.424" data-track-index="1"><div class="b-center"><div class="b-head">Ein guter Prompt hat fünf Bausteine:</div><ul class="b-list"><li>Ziel</li><li>Kontext</li><li>Material</li><li>Grenzen</li><li>Ausgabeformat</li></ul></div></div>
+<div class="clip beat" id="b64" data-start="373.650" data-duration="8.911" data-track-index="1"><div class="b-center"><div class="b-big">Ich gebe nur an, was feststeht.</div></div></div>
+<div class="clip beat" id="b65" data-start="381.961" data-duration="3.432" data-track-index="1"><div class="b-center"><div class="b-big">Ich wünsche mir eine Tabelle.</div></div></div>
+<div class="clip beat" id="b66" data-start="384.793" data-duration="7.323" data-track-index="1"><div class="b-center"><div class="b-big">Nicht erlaubt:</div><div class="b-sub">erfundene Quellen, Zahlen oder Zusagen</div></div></div>
+<div class="clip beat" id="b67" data-start="391.516" data-duration="11.522" data-track-index="1"><div class="b-center"><div class="b-head">Die Antwort der KI:</div><table class="b-table"><tr><td>Einstieg</td><td>10 Minuten</td></tr><tr><td>Prüfung</td><td>15 Minuten</td></tr><tr><td>Austausch</td><td>15 Minuten</td></tr><tr class="tot"><td colspan="2">Total: 30 Minuten</td></tr></table></div></div>
+<div class="clip beat" id="b68" data-start="402.438" data-duration="7.805" data-track-index="1"><div class="b-center"><table class="b-table"><tr><td>Einstieg</td><td>10 Minuten</td></tr><tr><td>Prüfung</td><td>15 Minuten</td></tr><tr><td>Austausch</td><td>15 Minuten</td></tr><tr class="tot"><td colspan="2">Total: 30 Minuten</td></tr></table><div class="b-sub strong">Fällt dir etwas auf?</div></div></div>
+<div class="clip beat" id="b69" data-start="409.644" data-duration="6.764" data-track-index="1"><div class="b-center"><div class="b-big">10 + 15 + 15 = 40</div><div class="b-sub">nicht 30</div></div></div>
+<div class="clip beat" id="b70" data-start="415.808" data-duration="4.198" data-track-index="1"><div class="b-center"><div class="b-big">Die Antwort klingt sicher.</div><div class="b-sub">Und ist trotzdem falsch.</div></div></div>
+<div class="clip beat" id="b71" data-start="419.406" data-duration="14.124" data-track-index="1"><div class="b-center"><div class="b-head">Meine Korrektur:</div><table class="b-table"><tr><td>Einstieg</td><td>5 Minuten</td></tr><tr><td>Prüfung</td><td>10 Minuten</td></tr><tr><td>Überarbeitung</td><td>10 Minuten</td></tr><tr><td>Austausch</td><td>5 Minuten</td></tr><tr class="tot"><td colspan="2">Total: 30 Minuten</td></tr></table></div></div>
+<div class="clip beat" id="b72" data-start="432.930" data-duration="5.951" data-track-index="1"><div class="b-center"><div class="b-big">Die Freigabe mache ich.</div><div class="b-sub">Nicht die KI.</div></div></div>
+<div class="clip beat" id="b73" data-start="438.281" data-duration="5.600" data-track-index="1"><div class="b-photo"><img src="media/sophie_pink_lesend.jpg" style="object-position:50% 20%"></div><div class="b-side"><div class="b-big left">Nachrechnen.<br>Nachlesen.<br>Nachfragen.</div></div></div>
+<div class="clip beat" id="b74" data-start="443.281" data-duration="5.169" data-track-index="1"><div class="b-center"><div class="b-num">4</div><div class="b-big">Unterlagen für andere</div></div></div>
+<div class="clip beat" id="b75" data-start="447.850" data-duration="5.753" data-track-index="1"><div class="b-center"><div class="b-big">Das Team braucht nicht den ganzen Chatverlauf.</div></div></div>
+<div class="clip beat" id="b76" data-start="453.003" data-duration="4.384" data-track-index="1"><div class="b-center"><div class="b-big">Es braucht eine Seite zum Vorbereiten.</div></div></div>
+<div class="clip beat" id="b77" data-start="456.787" data-duration="8.258" data-track-index="1"><div class="b-center"><div class="b-head">Ich sage der KI:</div><ul class="b-list"><li>Wer bekommt die Unterlage?</li><li>Was sollen die Personen damit tun?</li></ul></div></div>
+<div class="clip beat" id="b78" data-start="464.445" data-duration="7.832" data-track-index="1"><div class="b-center"><div class="b-head">Danach:</div><ul class="b-list"><li>vollständig lesen</li><li>Wiederholungen streichen</li><li>Angaben prüfen</li></ul></div></div>
+<div class="clip beat" id="b79" data-start="471.677" data-duration="7.349" data-track-index="1"><div class="b-center"><div class="b-head">Das Team sieht sofort:</div><ul class="b-list"><li>was geplant ist</li><li>was vorzubereiten ist</li><li>was noch offen ist</li></ul></div></div>
+<div class="clip beat" id="b80" data-start="478.426" data-duration="11.024" data-track-index="1"><div class="b-center"><div class="b-head">Effizienz heisst: den Aufwand aller sehen.</div><ul class="b-list"><li>Erstellen</li><li>Prüfen</li><li>Lesen</li><li>Nacharbeiten</li></ul></div></div>
+<div class="clip beat" id="b81" data-start="488.850" data-duration="5.962" data-track-index="1"><div class="b-center"><div class="b-big">Schnell erzeugt ist nicht automatisch effizient.</div></div></div>
+<div class="clip beat" id="b82" data-start="494.212" data-duration="4.929" data-track-index="1"><div class="b-center"><div class="b-big">Sonst wird Arbeit nur verschoben.</div></div></div>
+<div class="clip beat" id="b83" data-start="498.541" data-duration="7.849" data-track-index="1"><div class="b-photo"><img src="media/sophie_pink_lesend.jpg" style="object-position:50% 20%"></div><div class="b-side"><div class="b-big left">Vor dem Weitergeben:<br>prüfen</div></div></div>
+<div class="clip beat" id="b84" data-start="505.790" data-duration="3.583" data-track-index="1"><div class="b-center"><div class="b-big">Stimmen Fakten und Zahlen?</div></div></div>
+<div class="clip beat" id="b85" data-start="508.773" data-duration="5.255" data-track-index="1"><div class="b-center"><div class="b-big">Gibt es die Quellen wirklich?</div></div></div>
+<div class="clip beat" id="b86" data-start="513.428" data-duration="5.800" data-track-index="1"><div class="b-center"><div class="b-big">Quelle öffnen und nachlesen.</div></div></div>
+<div class="clip beat" id="b87" data-start="518.628" data-duration="3.977" data-track-index="1"><div class="b-center"><div class="b-big">Welche Annahmen hat die KI ergänzt?</div></div></div>
+<div class="clip beat" id="b88" data-start="522.005" data-duration="3.548" data-track-index="1"><div class="b-center"><div class="b-big">Was ist noch offen?</div></div></div>
+<div class="clip beat" id="b89" data-start="524.953" data-duration="6.742" data-track-index="1"><div class="b-center"><div class="b-big">Ist es verständlich und hilfreich?</div></div></div>
+<div class="clip beat" id="b90" data-start="531.095" data-duration="4.739" data-track-index="1"><div class="b-center"><div class="b-big">Zwei Fallen</div></div></div>
+<div class="clip beat" id="b91" data-start="535.234" data-duration="6.717" data-track-index="1"><div class="b-center"><div class="b-big">Falle 1</div><div class="b-sub">Eine zweite Antwort derselben KI ist keine Bestätigung.</div></div></div>
+<div class="clip beat" id="b92" data-start="541.351" data-duration="7.066" data-track-index="1"><div class="b-center"><div class="b-big">Falle 2</div><div class="b-sub">«Erfinde nichts» ist keine Garantie.</div></div></div>
+<div class="clip beat" id="b93" data-start="547.817" data-duration="3.571" data-track-index="1"><div class="b-center"><div class="b-big">Gute Sprache ist kein Beleg.</div></div></div>
+<div class="clip beat" id="b94" data-start="550.788" data-duration="8.371" data-track-index="1"><div class="b-center"><div class="b-big">Keine Grundlage gefunden?</div><div class="b-sub">Streichen oder als offen markieren.</div></div></div>
+<div class="clip beat" id="b95" data-start="558.559" data-duration="6.307" data-track-index="1"><div class="b-center"><div class="b-big">Zum Schluss: ein kurzer KI-Hinweis</div></div></div>
+<div class="clip beat" id="b96" data-start="564.266" data-duration="15.637" data-track-index="1"><div class="b-center"><div class="b-note"><b>Beispiel für einen KI-Hinweis</b><p>KI wurde für Ideen, einen Ablaufentwurf und sprachliche Kürzung genutzt.</p><p>Auswahl, Überarbeitung und Prüfung habe ich übernommen.</p><p>Noch offen: Raum und Technik.</p></div></div></div>
+<div class="clip beat" id="b97" data-start="579.303" data-duration="6.840" data-track-index="1"><div class="b-center"><div class="b-big">Ein KI-Hinweis gehört zu guter Zusammenarbeit.</div></div></div>
+<div class="clip beat" id="b98" data-start="585.543" data-duration="5.754" data-track-index="1"><div class="b-center"><div class="b-big">Nur schreiben, was ihr wirklich gemacht habt.</div></div></div>
+<div class="clip beat" id="b99" data-start="590.697" data-duration="3.490" data-track-index="1"><div class="b-center"><div class="b-big">Ein Hinweis ersetzt keine Prüfung.</div></div></div>
+<div class="clip beat" id="b100" data-start="593.587" data-duration="6.648" data-track-index="1"><div class="b-center"><div class="b-big">Ein Hinweis macht nichts erlaubt,</div><div class="b-sub">was nach den Prüfungsregeln nicht erlaubt ist.</div></div></div>
+<div class="clip beat" id="b101" data-start="599.635" data-duration="8.097" data-track-index="1"><div class="b-center"><div class="b-big">Für Studienleistungen gelten eigene Regeln.</div></div></div>
+<div class="clip beat" id="b102" data-start="607.132" data-duration="5.784" data-track-index="1"><div class="b-center"><div class="b-big">Fünf Fragen vor jeder Übergabe</div></div></div>
+<div class="clip beat" id="b103" data-start="612.316" data-duration="4.128" data-track-index="1"><div class="b-center"><div class="b-count">Frage 1 von 5</div><div class="b-big">Darf ich diese Daten in diesem Tool verwenden?</div></div></div>
+<div class="clip beat" id="b104" data-start="615.844" data-duration="4.245" data-track-index="1"><div class="b-center"><div class="b-count">Frage 2 von 5</div><div class="b-big">Habe ich alles gelesen und verstanden?</div></div></div>
+<div class="clip beat" id="b105" data-start="619.489" data-duration="4.592" data-track-index="1"><div class="b-center"><div class="b-count">Frage 3 von 5</div><div class="b-big">Habe ich Fakten und Quellen geprüft?</div></div></div>
+<div class="clip beat" id="b106" data-start="623.481" data-duration="5.650" data-track-index="1"><div class="b-center"><div class="b-count">Frage 4 von 5</div><div class="b-big">Ist die Übergabe kurz, verständlich und hilfreich?</div></div></div>
+<div class="clip beat" id="b107" data-start="628.531" data-duration="4.826" data-track-index="1"><div class="b-center"><div class="b-count">Frage 5 von 5</div><div class="b-big">Ist mein KI-Einsatz transparent?</div></div></div>
+<div class="clip beat" id="b108" data-start="632.757" data-duration="4.578" data-track-index="1"><div class="b-photo"><img src="media/sophie_schwarz_nah_buch.jpg" style="object-position:50% 20%"></div><div class="b-side"><div class="b-big left">Mein Wunsch</div></div></div>
+<div class="clip beat" id="b109" data-start="636.735" data-duration="4.407" data-track-index="1"><div class="b-center"><div class="b-big">Ein gemeinsames Verständnis von KI</div></div></div>
+<div class="clip beat" id="b110" data-start="640.542" data-duration="5.962" data-track-index="1"><div class="b-center"><div class="b-big">Sinnvoll, verantwortungsvoll, transparent</div></div></div>
+<div class="clip beat" id="b111" data-start="645.904" data-duration="7.763" data-track-index="1"><div class="b-center"><div class="b-big">Mehr Qualität.</div><div class="b-sub">Echte Effizienz. Für alle.</div></div></div>
+<div class="clip beat" id="b112" data-start="653.067" data-duration="7.297" data-track-index="1"><div class="b-center"><div class="b-big">Alles im Begleitmaterial:</div><div class="b-sub">Prompts, Fragen und Quellen</div></div></div>
+<div class="clip beat" id="b113" data-start="659.764" data-duration="5.132" data-track-index="1"><div class="b-center"><div class="b-big">Etwas unklar?</div><div class="b-sub">Sprecht mich gern an.</div></div></div>
+<div class="clip beat" id="b114" data-start="664.296" data-duration="8.600" data-track-index="1"><div class="b-center"><div class="b-motto" style="background:#DAEEF3">KI nutzen.</div><div class="b-motto" style="background:#E9F0C1">Selber denken.</div><div class="b-motto" style="background:#FBD0D3">Verantwortung übernehmen.</div></div></div>
+<div class="clip beat" id="b115" data-start="672.296" data-duration="8.452" data-track-index="1"><div class="b-center"><div class="b-motto" style="background:#DAEEF3">KI nutzen.</div><div class="b-motto" style="background:#E9F0C1">Selber denken.</div><div class="b-motto" style="background:#FBD0D3">Verantwortung übernehmen.</div></div></div>
+<div class="clip beat" id="b116" data-start="680.148" data-duration="4.175" data-track-index="1"><img class="b-logo-l" src="media/hundertmark_logo.png"><img class="b-logo-r" src="media/HSLU_Logo_DE_Schwarz.jpg"><div class="b-photo"><img src="media/sophie_pink_baum.jpg" style="object-position:50% 25%"></div><div class="b-side"><div class="b-big left">Dr. Sophie Hundertmark</div></div></div>
+<div class="clip beat" id="b117" data-start="683.723" data-duration="17.897" data-track-index="1"><img class="b-logo-l" src="media/hundertmark_logo.png"><img class="b-logo-r" src="media/HSLU_Logo_DE_Schwarz.jpg"><div class="b-contact"><div class="b-contact-text"><div class="b-head left">Fragen?</div><p>E-Mail:<br><b>sophie@hundertmark.ch</b></p><p>WhatsApp:<br><b>QR-Code scannen</b></p></div><img class="b-qr" src="media/qr_whatsapp.png" width="440" height="440"></div></div>
+<div class="clip beat" id="b118" data-start="701.020" data-duration="7.000" data-track-index="1"><img class="b-logo-l" src="media/hundertmark_logo.png"><img class="b-logo-r" src="media/HSLU_Logo_DE_Schwarz.jpg"><div class="b-center"><div class="b-big">Danke fürs Zuschauen.</div><div class="b-sub">Dr. Sophie Hundertmark · www.sophiehundertmark.com</div><div class="b-small">Mit KI erstellt. Stimme: elevenlabs.io. Fotos: bereitgestellte Aufnahmen von Sophie Hundertmark.<br>Prompts, Prüffragen und Quellen: im Begleitmaterial.</div></div></div>
+<div class="clip subs" data-start="3.900" data-duration="4.922" data-track-index="2"><span>Ein kurzer Hinweis vorweg: Dieses Video ist KI-generiert.</span></div>
+<div class="clip subs" data-start="9.112" data-duration="2.704" data-track-index="2"><span>Die Stimme ist eine KI-Stimme.</span></div>
+<div class="clip subs" data-start="12.002" data-duration="2.982" data-track-index="2"><span>Die Inhalte sind meine Position.</span></div>
+<div class="clip subs" data-start="17.225" data-duration="4.028" data-track-index="2"><span>Stell dir vor, ihr plant zusammen einen kurzen Workshop.</span></div>
+<div class="clip subs" data-start="21.508" data-duration="3.192" data-track-index="2"><span>Du bittest eine Kollegin um einen Vorschlag.</span></div>
+<div class="clip subs" data-start="24.955" data-duration="3.308" data-track-index="2"><span>Zurück kommen zwei mögliche Antworten.</span></div>
+<div class="clip subs" data-start="30.498" data-duration="5.959" data-track-index="2"><span>Links: ein langer Text mit vielen Ideen, schönen Formulierungen und Aussagen,</span></div>
+<div class="clip subs" data-start="36.407" data-duration="2.902" data-track-index="2"><span>bei denen du nicht weisst, ob sie stimmen.</span></div>
+<div class="clip subs" data-start="39.646" data-duration="2.669" data-track-index="2"><span>Rechts: ein paar Zeilen.</span></div>
+<div class="clip subs" data-start="42.535" data-duration="4.086" data-track-index="2"><span>Ein Vorschlag, ein Ablauf, eine offene Frage.</span></div>
+<div class="clip subs" data-start="47.027" data-duration="3.204" data-track-index="2"><span>Welche Nachricht hilft dir wirklich weiter?</span></div>
+<div class="clip subs" data-start="55.460" data-duration="5.247" data-track-index="2"><span>Bei der langen Nachricht musst du alles lesen, sortieren und prüfen.</span></div>
+<div class="clip subs" data-start="60.962" data-duration="3.018" data-track-index="2"><span>Die andere Person hat vielleicht Zeit gespart.</span></div>
+<div class="clip subs" data-start="64.200" data-duration="3.354" data-track-index="2"><span>Du hast dafür zusätzliche Arbeit bekommen.</span></div>
+<div class="clip subs" data-start="67.810" data-duration="3.540" data-track-index="2"><span>Die eigentliche Denkarbeit wurde nur weitergereicht.</span></div>
+<div class="clip subs" data-start="71.570" data-duration="3.633" data-track-index="2"><span>Das passiert im Studium genauso wie im Team.</span></div>
+<div class="clip subs" data-start="77.438" data-duration="4.504" data-track-index="2"><span>Ich bin Sophie Hundertmark, und ich arbeite selbst gern mit KI.</span></div>
+<div class="clip subs" data-start="82.278" data-duration="2.036" data-track-index="2"><span>Sie hilft mir, Ideen zu sammeln,</span></div>
+<div class="clip subs" data-start="84.264" data-duration="5.304" data-track-index="2"><span>Gedanken zu strukturieren und eine andere Sicht auf ein Konzept zu bekommen.</span></div>
+<div class="clip subs" data-start="89.975" data-duration="4.584" data-track-index="2"><span>Genau dazu möchte ich euch ermutigen: Nutzt KI!</span></div>
+<div class="clip subs" data-start="96.797" data-duration="4.933" data-track-index="2"><span>Aber ein KI-Ergebnis ist noch kein gutes Arbeitsergebnis.</span></div>
+<div class="clip subs" data-start="102.020" data-duration="5.433" data-track-index="2"><span>Was ihr weitergebt, müsst ihr selbst gelesen, verstanden und geprüft haben.</span></div>
+<div class="clip subs" data-start="107.708" data-duration="3.587" data-track-index="2"><span>Wählt aus, was die andere Person wirklich braucht.</span></div>
+<div class="clip subs" data-start="111.515" data-duration="3.970" data-track-index="2"><span>Und sagt offen, wofür ihr KI genutzt habt.</span></div>
+<div class="clip subs" data-start="115.821" data-duration="3.738" data-track-index="2"><span>Für das Ergebnis übernehmt ihr die Verantwortung.</span></div>
+<div class="clip subs" data-start="121.805" data-duration="3.173" data-track-index="2"><span>Wer die eigenen Überlegungen komplett überspringt,</span></div>
+<div class="clip subs" data-start="124.928" data-duration="3.563" data-track-index="2"><span>übt das Begründen und Entscheiden weniger.</span></div>
+<div class="clip subs" data-start="128.828" data-duration="2.941" data-track-index="2"><span>KI kann diesen Lernprozess aber auch stärken:</span></div>
+<div class="clip subs" data-start="131.719" data-duration="4.039" data-track-index="2"><span>mit Rückfragen, Feedback und anderen Sichtweisen.</span></div>
+<div class="clip subs" data-start="137.987" data-duration="4.898" data-track-index="2"><span>Darum mein Leitsatz für unsere Zusammenarbeit: KI nutzen.</span></div>
+<div class="clip subs" data-start="143.071" data-duration="1.868" data-track-index="2"><span>Selber denken.</span></div>
+<div class="clip subs" data-start="145.125" data-duration="2.553" data-track-index="2"><span>Verantwortung übernehmen.</span></div>
+<div class="clip subs" data-start="149.927" data-duration="3.656" data-track-index="2"><span>Bevor ich ein Tool öffne, kläre ich ein paar Dinge.</span></div>
+<div class="clip subs" data-start="153.873" data-duration="2.484" data-track-index="2"><span>Was soll am Ende entstehen?</span></div>
+<div class="clip subs" data-start="156.484" data-duration="1.834" data-track-index="2"><span>Für wen ist es?</span></div>
+<div class="clip subs" data-start="158.573" data-duration="2.797" data-track-index="2"><span>Was möchte ich selbst dabei lernen?</span></div>
+<div class="clip subs" data-start="161.591" data-duration="3.714" data-track-index="2"><span>Und welche Informationen braucht es dafür wirklich?</span></div>
+<div class="clip subs" data-start="167.543" data-duration="2.530" data-track-index="2"><span>Dann prüfe ich die Daten.</span></div>
+<div class="clip subs" data-start="170.328" data-duration="3.034" data-track-index="2"><span>Ist das Tool für diesen Einsatz freigegeben,</span></div>
+<div class="clip subs" data-start="173.312" data-duration="3.447" data-track-index="2"><span>von meiner Hochschule oder meinem Unternehmen?</span></div>
+<div class="clip subs" data-start="177.015" data-duration="3.377" data-track-index="2"><span>Dürfen diese Daten dort verarbeitet werden?</span></div>
+<div class="clip subs" data-start="180.647" data-duration="2.484" data-track-index="2"><span>Sind Personen erkennbar?</span></div>
+<div class="clip subs" data-start="183.421" data-duration="3.766" data-track-index="2"><span>Und was weiss ich darüber, wie Eingaben gespeichert werden,</span></div>
+<div class="clip subs" data-start="187.137" data-duration="5.583" data-track-index="2"><span>wer darauf zugreift und ob sie weiterverwendet werden, etwa zum Training?</span></div>
+<div class="clip subs" data-start="194.954" data-duration="4.620" data-track-index="2"><span>Wichtig: Nur den Namen zu löschen, reicht nicht immer.</span></div>
+<div class="clip subs" data-start="199.829" data-duration="1.327" data-track-index="2"><span>Auch eine Funktion,</span></div>
+<div class="clip subs" data-start="201.106" data-duration="5.177" data-track-index="2"><span>ein Ort oder ein besonderes Ereignis kann eine Person erkennbar machen.</span></div>
+<div class="clip subs" data-start="206.620" data-duration="3.470" data-track-index="2"><span>Wenn ihr unsicher seid, klärt es vor dem Upload.</span></div>
+<div class="clip subs" data-start="210.276" data-duration="4.782" data-track-index="2"><span>Oder arbeitet mit einem fiktiven Beispiel, so wie wir jetzt.</span></div>
+<div class="clip subs" data-start="217.307" data-duration="6.187" data-track-index="2"><span>Unser Beispiel: Eine Gruppe plant einen Workshop zum verantwortungsvollen KI-Einsatz.</span></div>
+<div class="clip subs" data-start="223.715" data-duration="2.866" data-track-index="2"><span>Dreissig Minuten, zwölf Erwachsene.</span></div>
+<div class="clip subs" data-start="226.871" data-duration="3.970" data-track-index="2"><span>Niemand soll dafür einen eigenen KI-Account brauchen.</span></div>
+<div class="clip subs" data-start="231.131" data-duration="2.704" data-track-index="2"><span>Raum und Technik sind noch offen.</span></div>
+<div class="clip subs" data-start="234.091" data-duration="3.795" data-track-index="2"><span>Daran zeige ich euch vier sinnvolle Anwendungen.</span></div>
+<div class="clip subs" data-start="240.121" data-duration="2.785" data-track-index="2"><span>Erstens: Brainstorming.</span></div>
+<div class="clip subs" data-start="243.197" data-duration="3.702" data-track-index="2"><span>Ich starte nicht mit der KI, sondern mit mir.</span></div>
+<div class="clip subs" data-start="247.236" data-duration="2.778" data-track-index="2"><span>Zwei eigene Ideen notiere ich zuerst:</span></div>
+<div class="clip subs" data-start="249.964" data-duration="4.260" data-track-index="2"><span>einen Nachrichtenvergleich und eine gemeinsame Fehlersuche.</span></div>
+<div class="clip subs" data-start="254.514" data-duration="3.575" data-track-index="2"><span>Erst dann frage ich nach weiteren Möglichkeiten.</span></div>
+<div class="clip subs" data-start="258.732" data-duration="5.874" data-track-index="2"><span>Mein Prompt nennt das Ziel, die Gruppe, die Zeit und meine eigenen Ideen.</span></div>
+<div class="clip subs" data-start="264.861" data-duration="5.165" data-track-index="2"><span>Für jede neue Idee verlange ich Nutzen, Nachteil und Zeitbedarf.</span></div>
+<div class="clip subs" data-start="270.282" data-duration="4.968" data-track-index="2"><span>Und ich schreibe ausdrücklich: Wähle noch nichts für mich aus.</span></div>
+<div class="clip subs" data-start="275.891" data-duration="3.157" data-track-index="2"><span>Die Antwort liefert fünf Vorschläge.</span></div>
+<div class="clip subs" data-start="279.268" data-duration="2.577" data-track-index="2"><span>Ich übernehme nicht die ganze Liste.</span></div>
+<div class="clip subs" data-start="282.100" data-duration="2.744" data-track-index="2"><span>Für unseren Workshop nehme ich den Nachrichtenvergleich,</span></div>
+<div class="clip subs" data-start="284.794" data-duration="3.365" data-track-index="2"><span>weil die Gruppe den Nutzen direkt erlebt.</span></div>
+<div class="clip subs" data-start="288.415" data-duration="2.599" data-track-index="2"><span>Das Rollenspiel lasse ich weg.</span></div>
+<div class="clip subs" data-start="291.351" data-duration="4.283" data-track-index="2"><span>Es braucht für dreissig Minuten zu viel Vorbereitung.</span></div>
+<div class="clip subs" data-start="296.269" data-duration="5.630" data-track-index="2"><span>Probier es selbst: Notiere zwei eigene Ideen, bevor du KI fragst.</span></div>
+<div class="clip subs" data-start="309.128" data-duration="4.167" data-track-index="2"><span>Zweitens: ein Konzept kritisch hinterfragen.</span></div>
+<div class="clip subs" data-start="313.632" data-duration="6.454" data-track-index="2"><span>Hier ist KI besonders wertvoll: als Gegenüber, das unbequeme Fragen stellt.</span></div>
+<div class="clip subs" data-start="320.306" data-duration="6.779" data-track-index="2"><span>Ich bitte um Schwächen, unausgesprochene Annahmen und eine ernstzunehmende Gegenposition.</span></div>
+<div class="clip subs" data-start="327.422" data-duration="4.829" data-track-index="2"><span>Und ich schreibe: Bestätige mein Konzept nicht einfach.</span></div>
+<div class="clip subs" data-start="332.886" data-duration="2.233" data-track-index="2"><span>Die Beispielantwort weist darauf hin,</span></div>
+<div class="clip subs" data-start="335.069" data-duration="4.364" data-track-index="2"><span>dass vielleicht nicht alle Zugang zu einem KI-Tool haben.</span></div>
+<div class="clip subs" data-start="339.723" data-duration="4.237" data-track-index="2"><span>Das nehme ich ernst und plane eine gemeinsame Demo.</span></div>
+<div class="clip subs" data-start="344.180" data-duration="3.157" data-track-index="2"><span>Sie schlägt aber auch einen Wettbewerb vor.</span></div>
+<div class="clip subs" data-start="347.593" data-duration="3.621" data-track-index="2"><span>Den übernehme ich nicht, weil er vom Lernziel ablenkt.</span></div>
+<div class="clip subs" data-start="351.469" data-duration="3.529" data-track-index="2"><span>Auch die Kritik der KI bewerte ich selbst.</span></div>
+<div class="clip subs" data-start="362.241" data-duration="3.354" data-track-index="2"><span>Drittens: einen Entwurf erstellen.</span></div>
+<div class="clip subs" data-start="365.932" data-duration="3.428" data-track-index="2"><span>Ein guter Prompt enthält fünf Bausteine: Ziel,</span></div>
+<div class="clip subs" data-start="369.310" data-duration="4.202" data-track-index="2"><span>Kontext, Material, Grenzen und Ausgabeformat.</span></div>
+<div class="clip subs" data-start="373.802" data-duration="3.406" data-track-index="2"><span>Ich gebe nur, was feststeht: zwölf Erwachsene,</span></div>
+<div class="clip subs" data-start="377.158" data-duration="4.631" data-track-index="2"><span>dreissig Minuten, unser Lernziel, kein eigener Account.</span></div>
+<div class="clip subs" data-start="382.079" data-duration="2.495" data-track-index="2"><span>Ich wünsche mir eine Tabelle.</span></div>
+<div class="clip subs" data-start="384.829" data-duration="6.397" data-track-index="2"><span>Und ich sage, was nicht passieren darf: keine erfundenen Quellen, Zahlen oder Zusagen.</span></div>
+<div class="clip subs" data-start="391.866" data-duration="2.495" data-track-index="2"><span>Schaut euch die Antwort an.</span></div>
+<div class="clip subs" data-start="394.547" data-duration="4.852" data-track-index="2"><span>Einstieg zehn Minuten, Prüfung fünfzehn, Austausch fünfzehn.</span></div>
+<div class="clip subs" data-start="399.654" data-duration="2.913" data-track-index="2"><span>Insgesamt dreissig Minuten.</span></div>
+<div class="clip subs" data-start="402.788" data-duration="2.123" data-track-index="2"><span>Fällt euch etwas auf?</span></div>
+<div class="clip subs" data-start="409.541" data-duration="5.757" data-track-index="2"><span>Zehn plus fünfzehn plus fünfzehn ergibt vierzig, nicht dreissig.</span></div>
+<div class="clip subs" data-start="415.554" data-duration="3.540" data-track-index="2"><span>Die Antwort klingt sicher und ist trotzdem falsch.</span></div>
+<div class="clip subs" data-start="419.349" data-duration="5.774" data-track-index="2"><span>Also korrigiere ich konkret: fünf Minuten Einstieg, zehn Minuten Prüfung,</span></div>
+<div class="clip subs" data-start="425.073" data-duration="4.376" data-track-index="2"><span>zehn Minuten Überarbeitung und fünf Minuten Austausch.</span></div>
+<div class="clip subs" data-start="429.740" data-duration="2.947" data-track-index="2"><span>Das sind genau dreissig Minuten.</span></div>
+<div class="clip subs" data-start="432.978" data-duration="4.155" data-track-index="2"><span>Für die Freigabe bin ich zuständig, nicht die KI.</span></div>
+<div class="clip subs" data-start="444.381" data-duration="3.331" data-track-index="2"><span>Viertens: Unterlagen für andere.</span></div>
+<div class="clip subs" data-start="447.967" data-duration="4.318" data-track-index="2"><span>Das Organisationsteam braucht nicht meinen ganzen Chatverlauf.</span></div>
+<div class="clip subs" data-start="452.506" data-duration="4.341" data-track-index="2"><span>Es braucht eine Seite, mit der es den Workshop vorbereiten kann.</span></div>
+<div class="clip subs" data-start="457.137" data-duration="2.035" data-track-index="2"><span>Darum sage ich der KI genau,</span></div>
+<div class="clip subs" data-start="459.122" data-duration="5.038" data-track-index="2"><span>wer die Unterlage bekommt und was diese Personen damit tun sollen.</span></div>
+<div class="clip subs" data-start="464.795" data-duration="3.115" data-track-index="2"><span>Danach lese ich die Kurzfassung vollständig,</span></div>
+<div class="clip subs" data-start="467.860" data-duration="3.459" data-track-index="2"><span>streiche Wiederholungen und prüfe die Angaben.</span></div>
+<div class="clip subs" data-start="471.655" data-duration="6.489" data-track-index="2"><span>Das Team sieht sofort, was geplant ist, was vorzubereiten ist und was noch offen ist.</span></div>
+<div class="clip subs" data-start="478.776" data-duration="3.343" data-track-index="2"><span>Genau hier liegt für mich Effizienz.</span></div>
+<div class="clip subs" data-start="482.409" data-duration="6.280" data-track-index="2"><span>Wir betrachten den Aufwand aller Beteiligten: Erstellen, Prüfen, Lesen und Nacharbeiten.</span></div>
+<div class="clip subs" data-start="489.025" data-duration="5.015" data-track-index="2"><span>Ein schnell erzeugter Text spart wenig, wenn andere ihn erst entwirren müssen.</span></div>
+<div class="clip subs" data-start="494.295" data-duration="3.099" data-track-index="2"><span>Dann wurde Arbeit nur verschoben.</span></div>
+<div class="clip subs" data-start="499.641" data-duration="3.319" data-track-index="2"><span>Bevor ich etwas weitergebe, prüfe ich.</span></div>
+<div class="clip subs" data-start="503.216" data-duration="2.704" data-track-index="2"><span>Und zwar mehr als die Rechtschreibung.</span></div>
+<div class="clip subs" data-start="506.140" data-duration="2.762" data-track-index="2"><span>Stimmen Fakten und Zahlen?</span></div>
+<div class="clip subs" data-start="509.123" data-duration="4.399" data-track-index="2"><span>Gibt es die genannten Quellen wirklich, und stützen sie die Aussage?</span></div>
+<div class="clip subs" data-start="513.778" data-duration="4.910" data-track-index="2"><span>Dafür öffne ich die Quelle und lese nach, statt nur auf den Link zu schauen.</span></div>
+<div class="clip subs" data-start="518.978" data-duration="3.157" data-track-index="2"><span>Welche Annahmen hat die KI ergänzt?</span></div>
+<div class="clip subs" data-start="522.355" data-duration="1.857" data-track-index="2"><span>Was ist noch offen?</span></div>
+<div class="clip subs" data-start="524.618" data-duration="5.340" data-track-index="2"><span>Und ist die Kurzfassung für die empfangende Person verständlich und hilfreich?</span></div>
+<div class="clip subs" data-start="532.195" data-duration="3.134" data-track-index="2"><span>Zwei Fallen möchte ich euch nennen.</span></div>
+<div class="clip subs" data-start="535.584" data-duration="5.827" data-track-index="2"><span>Erstens: Eine zweite Antwort derselben KI ist keine unabhängige Bestätigung.</span></div>
+<div class="clip subs" data-start="541.701" data-duration="6.176" data-track-index="2"><span>Zweitens: Die Aufforderung «Erfinde nichts» hilft, ist aber keine Garantie.</span></div>
+<div class="clip subs" data-start="548.167" data-duration="2.681" data-track-index="2"><span>Gute Sprache ist kein Beleg.</span></div>
+<div class="clip subs" data-start="551.138" data-duration="6.280" data-track-index="2"><span>Findet ihr keine belastbare Grundlage, streicht die Aussage oder markiert sie als offen.</span></div>
+<div class="clip subs" data-start="559.659" data-duration="4.566" data-track-index="2"><span>Zum Schluss ergänze ich einen kurzen KI-Hinweis, zum Beispiel:</span></div>
+<div class="clip subs" data-start="564.175" data-duration="5.467" data-track-index="2"><span>KI wurde für Ideen, einen Ablaufentwurf und sprachliche Kürzung genutzt.</span></div>
+<div class="clip subs" data-start="569.898" data-duration="4.480" data-track-index="2"><span>Auswahl, Überarbeitung und Prüfung habe ich übernommen.</span></div>
+<div class="clip subs" data-start="574.599" data-duration="3.575" data-track-index="2"><span>Noch offen: Raum und Technik.</span></div>
+<div class="clip subs" data-start="580.403" data-duration="5.014" data-track-index="2"><span>So ein Hinweis gehört für mich selbstverständlich zu guter Zusammenarbeit.</span></div>
+<div class="clip subs" data-start="585.638" data-duration="4.376" data-track-index="2"><span>Aber schreibt ihn nur so, wenn ihr diese Schritte wirklich gemacht habt.</span></div>
+<div class="clip subs" data-start="590.304" data-duration="3.064" data-track-index="2"><span>Ein Hinweis ersetzt keine Prüfung.</span></div>
+<div class="clip subs" data-start="593.589" data-duration="5.885" data-track-index="2"><span>Und er macht eine Nutzung, die nach den Prüfungsregeln nicht erlaubt ist, nicht zulässig.</span></div>
+<div class="clip subs" data-start="599.810" data-duration="6.187" data-track-index="2"><span>Für Studienleistungen gelten zusätzlich die jeweiligen Dokumentations- und Prüfungsregeln.</span></div>
+<div class="clip subs" data-start="608.232" data-duration="4.144" data-track-index="2"><span>Vor jeder Übergabe stellt ihr euch fünf Fragen.</span></div>
+<div class="clip subs" data-start="612.666" data-duration="3.308" data-track-index="2"><span>Darf ich diese Daten in diesem Tool verwenden?</span></div>
+<div class="clip subs" data-start="616.194" data-duration="3.389" data-track-index="2"><span>Habe ich alles gelesen und verstanden?</span></div>
+<div class="clip subs" data-start="619.839" data-duration="3.737" data-track-index="2"><span>Habe ich relevante Fakten und Quellen geprüft?</span></div>
+<div class="clip subs" data-start="623.831" data-duration="4.086" data-track-index="2"><span>Ist die Übergabe kurz, verständlich und hilfreich?</span></div>
+<div class="clip subs" data-start="628.207" data-duration="3.401" data-track-index="2"><span>Und ist mein KI-Einsatz transparent?</span></div>
+<div class="clip subs" data-start="633.857" data-duration="6.164" data-track-index="2"><span>Ich wünsche mir, dass wir alle nach diesem Video das gleiche Verständnis von KI haben.</span></div>
+<div class="clip subs" data-start="640.276" data-duration="4.875" data-track-index="2"><span>Dass wir sie sinnvoll, verantwortungsvoll und transparent nutzen.</span></div>
+<div class="clip subs" data-start="645.488" data-duration="4.984" data-track-index="2"><span>Und dass wir so gemeinsam zu mehr Qualität und echter Effizienz beitragen,</span></div>
+<div class="clip subs" data-start="650.422" data-duration="2.321" data-track-index="2"><span>für alle Beteiligten.</span></div>
+<div class="clip subs" data-start="653.080" data-duration="5.850" data-track-index="2"><span>Alle Prompts, die fünf Fragen und die Quellen findet ihr im Begleitmaterial.</span></div>
+<div class="clip subs" data-start="659.267" data-duration="3.900" data-track-index="2"><span>Und wenn etwas unklar ist, sprecht mich gern an.</span></div>
+<div class="clip subs" data-start="673.396" data-duration="1.915" data-track-index="2"><span>KI nutzen.</span></div>
+<div class="clip subs" data-start="675.496" data-duration="1.973" data-track-index="2"><span>Selber denken.</span></div>
+<div class="clip subs" data-start="677.655" data-duration="2.437" data-track-index="2"><span>Verantwortung übernehmen.</span></div>
+<div class="clip subs" data-start="680.498" data-duration="3.319" data-track-index="2"><span>Das wünsche ich mir für unsere Zusammenarbeit.</span></div>
+<div class="clip subs" data-start="684.073" data-duration="3.324" data-track-index="2"><span>Wenn ihr Fragen habt, könnt ihr mich jederzeit kontaktieren:</span></div>
+<div class="clip subs" data-start="687.347" data-duration="6.326" data-track-index="2"><span>per E-Mail an sophie@hundertmark.ch oder gern per WhatsApp.</span></div>
+<div class="clip subs" data-start="694.010" data-duration="2.994" data-track-index="2"><span>Scannt dafür einfach den QR-Code.</span></div>
+<div class="clip subs" data-start="697.225" data-duration="2.669" data-track-index="2"><span>Ich freue mich auf den Austausch.</span></div>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+tl.fromTo("#b0",{opacity:0},{opacity:1,duration:0.6,ease:"none"},0.000);
+tl.fromTo("#b1",{opacity:0},{opacity:1,duration:0.6,ease:"none"},4.107);
+tl.fromTo("#b2",{opacity:0},{opacity:1,duration:0.6,ease:"none"},16.125);
+tl.fromTo("#b3",{opacity:0},{opacity:1,duration:0.6,ease:"none"},24.605);
+tl.fromTo("#b4",{opacity:0},{opacity:1,duration:0.6,ease:"none"},29.398);
+tl.fromTo("#b5",{opacity:0},{opacity:1,duration:0.6,ease:"none"},39.296);
+tl.fromTo("#b6",{opacity:0},{opacity:1,duration:0.6,ease:"none"},46.677);
+tl.fromTo("#b7",{opacity:0},{opacity:1,duration:0.6,ease:"none"},54.360);
+tl.fromTo("#b8",{opacity:0},{opacity:1,duration:0.6,ease:"none"},60.786);
+tl.fromTo("#b9",{opacity:0},{opacity:1,duration:0.6,ease:"none"},67.646);
+tl.fromTo("#b10",{opacity:0},{opacity:1,duration:0.6,ease:"none"},76.338);
+tl.fromTo("#b11",{opacity:0},{opacity:1,duration:0.6,ease:"none"},82.126);
+tl.fromTo("#b12",{opacity:0},{opacity:1,duration:0.6,ease:"none"},89.625);
+tl.fromTo("#b13",{opacity:0},{opacity:1,duration:0.6,ease:"none"},95.697);
+tl.fromTo("#b14",{opacity:0},{opacity:1,duration:0.6,ease:"none"},101.670);
+tl.fromTo("#b15",{opacity:0},{opacity:1,duration:0.6,ease:"none"},107.358);
+tl.fromTo("#b16",{opacity:0},{opacity:1,duration:0.6,ease:"none"},111.363);
+tl.fromTo("#b17",{opacity:0},{opacity:1,duration:0.6,ease:"none"},115.471);
+tl.fromTo("#b18",{opacity:0},{opacity:1,duration:0.6,ease:"none"},120.705);
+tl.fromTo("#b19",{opacity:0},{opacity:1,duration:0.6,ease:"none"},128.908);
+tl.fromTo("#b20",{opacity:0},{opacity:1,duration:0.6,ease:"none"},136.887);
+tl.fromTo("#b21",{opacity:0},{opacity:1,duration:0.6,ease:"none"},141.027);
+tl.fromTo("#b22",{opacity:0},{opacity:1,duration:0.6,ease:"none"},148.827);
+tl.fromTo("#b23",{opacity:0},{opacity:1,duration:0.6,ease:"none"},153.523);
+tl.fromTo("#b24",{opacity:0},{opacity:1,duration:0.6,ease:"none"},158.537);
+tl.fromTo("#b25",{opacity:0},{opacity:1,duration:0.6,ease:"none"},161.519);
+tl.fromTo("#b26",{opacity:0},{opacity:1,duration:0.6,ease:"none"},166.443);
+tl.fromTo("#b27",{opacity:0},{opacity:1,duration:0.6,ease:"none"},169.978);
+tl.fromTo("#b28",{opacity:0},{opacity:1,duration:0.6,ease:"none"},176.665);
+tl.fromTo("#b29",{opacity:0},{opacity:1,duration:0.6,ease:"none"},180.297);
+tl.fromTo("#b30",{opacity:0},{opacity:1,duration:0.6,ease:"none"},183.605);
+tl.fromTo("#b31",{opacity:0},{opacity:1,duration:0.6,ease:"none"},193.854);
+tl.fromTo("#b32",{opacity:0},{opacity:1,duration:0.6,ease:"none"},199.479);
+tl.fromTo("#b33",{opacity:0},{opacity:1,duration:0.6,ease:"none"},206.270);
+tl.fromTo("#b34",{opacity:0},{opacity:1,duration:0.6,ease:"none"},216.207);
+tl.fromTo("#b35",{opacity:0},{opacity:1,duration:0.6,ease:"none"},223.365);
+tl.fromTo("#b36",{opacity:0},{opacity:1,duration:0.6,ease:"none"},226.521);
+tl.fromTo("#b37",{opacity:0},{opacity:1,duration:0.6,ease:"none"},230.781);
+tl.fromTo("#b38",{opacity:0},{opacity:1,duration:0.6,ease:"none"},233.741);
+tl.fromTo("#b39",{opacity:0},{opacity:1,duration:0.6,ease:"none"},239.021);
+tl.fromTo("#b40",{opacity:0},{opacity:1,duration:0.6,ease:"none"},243.079);
+tl.fromTo("#b41",{opacity:0},{opacity:1,duration:0.6,ease:"none"},246.886);
+tl.fromTo("#b42",{opacity:0},{opacity:1,duration:0.6,ease:"none"},254.733);
+tl.fromTo("#b43",{opacity:0},{opacity:1,duration:0.6,ease:"none"},258.382);
+tl.fromTo("#b44",{opacity:0},{opacity:1,duration:0.6,ease:"none"},265.927);
+tl.fromTo("#b45",{opacity:0},{opacity:1,duration:0.6,ease:"none"},270.698);
+tl.fromTo("#b46",{opacity:0},{opacity:1,duration:0.6,ease:"none"},275.866);
+tl.fromTo("#b47",{opacity:0},{opacity:1,duration:0.6,ease:"none"},279.104);
+tl.fromTo("#b48",{opacity:0},{opacity:1,duration:0.6,ease:"none"},282.853);
+tl.fromTo("#b49",{opacity:0},{opacity:1,duration:0.6,ease:"none"},288.367);
+tl.fromTo("#b50",{opacity:0},{opacity:1,duration:0.6,ease:"none"},295.919);
+tl.fromTo("#b51",{opacity:0},{opacity:1,duration:0.6,ease:"none"},303.028);
+tl.fromTo("#b52",{opacity:0},{opacity:1,duration:0.6,ease:"none"},308.028);
+tl.fromTo("#b53",{opacity:0},{opacity:1,duration:0.6,ease:"none"},313.282);
+tl.fromTo("#b54",{opacity:0},{opacity:1,duration:0.6,ease:"none"},320.154);
+tl.fromTo("#b55",{opacity:0},{opacity:1,duration:0.6,ease:"none"},327.478);
+tl.fromTo("#b56",{opacity:0},{opacity:1,duration:0.6,ease:"none"},332.838);
+tl.fromTo("#b57",{opacity:0},{opacity:1,duration:0.6,ease:"none"},339.675);
+tl.fromTo("#b58",{opacity:0},{opacity:1,duration:0.6,ease:"none"},344.028);
+tl.fromTo("#b59",{opacity:0},{opacity:1,duration:0.6,ease:"none"},347.521);
+tl.fromTo("#b60",{opacity:0},{opacity:1,duration:0.6,ease:"none"},351.119);
+tl.fromTo("#b61",{opacity:0},{opacity:1,duration:0.6,ease:"none"},356.141);
+tl.fromTo("#b62",{opacity:0},{opacity:1,duration:0.6,ease:"none"},361.141);
+tl.fromTo("#b63",{opacity:0},{opacity:1,duration:0.6,ease:"none"},365.826);
+tl.fromTo("#b64",{opacity:0},{opacity:1,duration:0.6,ease:"none"},373.650);
+tl.fromTo("#b65",{opacity:0},{opacity:1,duration:0.6,ease:"none"},381.961);
+tl.fromTo("#b66",{opacity:0},{opacity:1,duration:0.6,ease:"none"},384.793);
+tl.fromTo("#b67",{opacity:0},{opacity:1,duration:0.6,ease:"none"},391.516);
+tl.fromTo("#b68",{opacity:0},{opacity:1,duration:0.6,ease:"none"},402.438);
+tl.fromTo("#b69",{opacity:0},{opacity:1,duration:0.6,ease:"none"},409.644);
+tl.fromTo("#b70",{opacity:0},{opacity:1,duration:0.6,ease:"none"},415.808);
+tl.fromTo("#b71",{opacity:0},{opacity:1,duration:0.6,ease:"none"},419.406);
+tl.fromTo("#b72",{opacity:0},{opacity:1,duration:0.6,ease:"none"},432.930);
+tl.fromTo("#b73",{opacity:0},{opacity:1,duration:0.6,ease:"none"},438.281);
+tl.fromTo("#b74",{opacity:0},{opacity:1,duration:0.6,ease:"none"},443.281);
+tl.fromTo("#b75",{opacity:0},{opacity:1,duration:0.6,ease:"none"},447.850);
+tl.fromTo("#b76",{opacity:0},{opacity:1,duration:0.6,ease:"none"},453.003);
+tl.fromTo("#b77",{opacity:0},{opacity:1,duration:0.6,ease:"none"},456.787);
+tl.fromTo("#b78",{opacity:0},{opacity:1,duration:0.6,ease:"none"},464.445);
+tl.fromTo("#b79",{opacity:0},{opacity:1,duration:0.6,ease:"none"},471.677);
+tl.fromTo("#b80",{opacity:0},{opacity:1,duration:0.6,ease:"none"},478.426);
+tl.fromTo("#b81",{opacity:0},{opacity:1,duration:0.6,ease:"none"},488.850);
+tl.fromTo("#b82",{opacity:0},{opacity:1,duration:0.6,ease:"none"},494.212);
+tl.fromTo("#b83",{opacity:0},{opacity:1,duration:0.6,ease:"none"},498.541);
+tl.fromTo("#b84",{opacity:0},{opacity:1,duration:0.6,ease:"none"},505.790);
+tl.fromTo("#b85",{opacity:0},{opacity:1,duration:0.6,ease:"none"},508.773);
+tl.fromTo("#b86",{opacity:0},{opacity:1,duration:0.6,ease:"none"},513.428);
+tl.fromTo("#b87",{opacity:0},{opacity:1,duration:0.6,ease:"none"},518.628);
+tl.fromTo("#b88",{opacity:0},{opacity:1,duration:0.6,ease:"none"},522.005);
+tl.fromTo("#b89",{opacity:0},{opacity:1,duration:0.6,ease:"none"},524.953);
+tl.fromTo("#b90",{opacity:0},{opacity:1,duration:0.6,ease:"none"},531.095);
+tl.fromTo("#b91",{opacity:0},{opacity:1,duration:0.6,ease:"none"},535.234);
+tl.fromTo("#b92",{opacity:0},{opacity:1,duration:0.6,ease:"none"},541.351);
+tl.fromTo("#b93",{opacity:0},{opacity:1,duration:0.6,ease:"none"},547.817);
+tl.fromTo("#b94",{opacity:0},{opacity:1,duration:0.6,ease:"none"},550.788);
+tl.fromTo("#b95",{opacity:0},{opacity:1,duration:0.6,ease:"none"},558.559);
+tl.fromTo("#b96",{opacity:0},{opacity:1,duration:0.6,ease:"none"},564.266);
+tl.fromTo("#b97",{opacity:0},{opacity:1,duration:0.6,ease:"none"},579.303);
+tl.fromTo("#b98",{opacity:0},{opacity:1,duration:0.6,ease:"none"},585.543);
+tl.fromTo("#b99",{opacity:0},{opacity:1,duration:0.6,ease:"none"},590.697);
+tl.fromTo("#b100",{opacity:0},{opacity:1,duration:0.6,ease:"none"},593.587);
+tl.fromTo("#b101",{opacity:0},{opacity:1,duration:0.6,ease:"none"},599.635);
+tl.fromTo("#b102",{opacity:0},{opacity:1,duration:0.6,ease:"none"},607.132);
+tl.fromTo("#b103",{opacity:0},{opacity:1,duration:0.6,ease:"none"},612.316);
+tl.fromTo("#b104",{opacity:0},{opacity:1,duration:0.6,ease:"none"},615.844);
+tl.fromTo("#b105",{opacity:0},{opacity:1,duration:0.6,ease:"none"},619.489);
+tl.fromTo("#b106",{opacity:0},{opacity:1,duration:0.6,ease:"none"},623.481);
+tl.fromTo("#b107",{opacity:0},{opacity:1,duration:0.6,ease:"none"},628.531);
+tl.fromTo("#b108",{opacity:0},{opacity:1,duration:0.6,ease:"none"},632.757);
+tl.fromTo("#b109",{opacity:0},{opacity:1,duration:0.6,ease:"none"},636.735);
+tl.fromTo("#b110",{opacity:0},{opacity:1,duration:0.6,ease:"none"},640.542);
+tl.fromTo("#b111",{opacity:0},{opacity:1,duration:0.6,ease:"none"},645.904);
+tl.fromTo("#b112",{opacity:0},{opacity:1,duration:0.6,ease:"none"},653.067);
+tl.fromTo("#b113",{opacity:0},{opacity:1,duration:0.6,ease:"none"},659.764);
+tl.fromTo("#b114",{opacity:0},{opacity:1,duration:0.6,ease:"none"},664.296);
+tl.fromTo("#b115",{opacity:0},{opacity:1,duration:0.6,ease:"none"},672.296);
+tl.fromTo("#b116",{opacity:0},{opacity:1,duration:0.6,ease:"none"},680.148);
+tl.fromTo("#b117",{opacity:0},{opacity:1,duration:0.6,ease:"none"},683.723);
+tl.fromTo("#b118",{opacity:0},{opacity:1,duration:0.6,ease:"none"},701.020);
+tl.to({}, {duration: 0.01}, 708.010);
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,600 @@
+1
+00:00:03,900 --> 00:00:08,822
+Ein kurzer Hinweis vorweg: Dieses Video ist KI-generiert.
+
+2
+00:00:09,112 --> 00:00:11,816
+Die Stimme ist eine KI-Stimme.
+
+3
+00:00:12,002 --> 00:00:14,984
+Die Inhalte sind meine Position.
+
+4
+00:00:17,225 --> 00:00:21,253
+Stell dir vor, ihr plant zusammen einen kurzen Workshop.
+
+5
+00:00:21,508 --> 00:00:24,700
+Du bittest eine Kollegin um einen Vorschlag.
+
+6
+00:00:24,955 --> 00:00:28,263
+Zurück kommen zwei mögliche Antworten.
+
+7
+00:00:30,498 --> 00:00:36,457
+Links: ein langer Text mit vielen Ideen, schönen Formulierungen und Aussagen,
+
+8
+00:00:36,407 --> 00:00:39,309
+bei denen du nicht weisst, ob sie stimmen.
+
+9
+00:00:39,646 --> 00:00:42,315
+Rechts: ein paar Zeilen.
+
+10
+00:00:42,535 --> 00:00:46,621
+Ein Vorschlag, ein Ablauf, eine offene Frage.
+
+11
+00:00:47,027 --> 00:00:50,231
+Welche Nachricht hilft dir wirklich weiter?
+
+12
+00:00:55,460 --> 00:01:00,707
+Bei der langen Nachricht musst du alles lesen, sortieren und prüfen.
+
+13
+00:01:00,962 --> 00:01:03,980
+Die andere Person hat vielleicht Zeit gespart.
+
+14
+00:01:04,200 --> 00:01:07,554
+Du hast dafür zusätzliche Arbeit bekommen.
+
+15
+00:01:07,810 --> 00:01:11,350
+Die eigentliche Denkarbeit wurde nur weitergereicht.
+
+16
+00:01:11,570 --> 00:01:15,203
+Das passiert im Studium genauso wie im Team.
+
+17
+00:01:17,438 --> 00:01:21,942
+Ich bin Sophie Hundertmark, und ich arbeite selbst gern mit KI.
+
+18
+00:01:22,278 --> 00:01:24,314
+Sie hilft mir, Ideen zu sammeln,
+
+19
+00:01:24,264 --> 00:01:29,568
+Gedanken zu strukturieren und eine andere Sicht auf ein Konzept zu bekommen.
+
+20
+00:01:29,975 --> 00:01:34,559
+Genau dazu möchte ich euch ermutigen: Nutzt KI!
+
+21
+00:01:36,797 --> 00:01:41,730
+Aber ein KI-Ergebnis ist noch kein gutes Arbeitsergebnis.
+
+22
+00:01:42,020 --> 00:01:47,453
+Was ihr weitergebt, müsst ihr selbst gelesen, verstanden und geprüft haben.
+
+23
+00:01:47,708 --> 00:01:51,295
+Wählt aus, was die andere Person wirklich braucht.
+
+24
+00:01:51,515 --> 00:01:55,485
+Und sagt offen, wofür ihr KI genutzt habt.
+
+25
+00:01:55,821 --> 00:01:59,559
+Für das Ergebnis übernehmt ihr die Verantwortung.
+
+26
+00:02:01,805 --> 00:02:04,978
+Wer die eigenen Überlegungen komplett überspringt,
+
+27
+00:02:04,928 --> 00:02:08,491
+übt das Begründen und Entscheiden weniger.
+
+28
+00:02:08,828 --> 00:02:11,769
+KI kann diesen Lernprozess aber auch stärken:
+
+29
+00:02:11,719 --> 00:02:15,758
+mit Rückfragen, Feedback und anderen Sichtweisen.
+
+30
+00:02:17,987 --> 00:02:22,885
+Darum mein Leitsatz für unsere Zusammenarbeit: KI nutzen.
+
+31
+00:02:23,071 --> 00:02:24,939
+Selber denken.
+
+32
+00:02:25,125 --> 00:02:27,678
+Verantwortung übernehmen.
+
+33
+00:02:29,927 --> 00:02:33,583
+Bevor ich ein Tool öffne, kläre ich ein paar Dinge.
+
+34
+00:02:33,873 --> 00:02:36,357
+Was soll am Ende entstehen?
+
+35
+00:02:36,484 --> 00:02:38,318
+Für wen ist es?
+
+36
+00:02:38,573 --> 00:02:41,370
+Was möchte ich selbst dabei lernen?
+
+37
+00:02:41,591 --> 00:02:45,305
+Und welche Informationen braucht es dafür wirklich?
+
+38
+00:02:47,543 --> 00:02:50,073
+Dann prüfe ich die Daten.
+
+39
+00:02:50,328 --> 00:02:53,362
+Ist das Tool für diesen Einsatz freigegeben,
+
+40
+00:02:53,312 --> 00:02:56,759
+von meiner Hochschule oder meinem Unternehmen?
+
+41
+00:02:57,015 --> 00:03:00,392
+Dürfen diese Daten dort verarbeitet werden?
+
+42
+00:03:00,647 --> 00:03:03,131
+Sind Personen erkennbar?
+
+43
+00:03:03,421 --> 00:03:07,187
+Und was weiss ich darüber, wie Eingaben gespeichert werden,
+
+44
+00:03:07,137 --> 00:03:12,720
+wer darauf zugreift und ob sie weiterverwendet werden, etwa zum Training?
+
+45
+00:03:14,954 --> 00:03:19,574
+Wichtig: Nur den Namen zu löschen, reicht nicht immer.
+
+46
+00:03:19,829 --> 00:03:21,156
+Auch eine Funktion,
+
+47
+00:03:21,106 --> 00:03:26,283
+ein Ort oder ein besonderes Ereignis kann eine Person erkennbar machen.
+
+48
+00:03:26,620 --> 00:03:30,090
+Wenn ihr unsicher seid, klärt es vor dem Upload.
+
+49
+00:03:30,276 --> 00:03:35,058
+Oder arbeitet mit einem fiktiven Beispiel, so wie wir jetzt.
+
+50
+00:03:37,307 --> 00:03:43,494
+Unser Beispiel: Eine Gruppe plant einen Workshop zum verantwortungsvollen KI-Einsatz.
+
+51
+00:03:43,715 --> 00:03:46,581
+Dreissig Minuten, zwölf Erwachsene.
+
+52
+00:03:46,871 --> 00:03:50,841
+Niemand soll dafür einen eigenen KI-Account brauchen.
+
+53
+00:03:51,131 --> 00:03:53,835
+Raum und Technik sind noch offen.
+
+54
+00:03:54,091 --> 00:03:57,886
+Daran zeige ich euch vier sinnvolle Anwendungen.
+
+55
+00:04:00,121 --> 00:04:02,906
+Erstens: Brainstorming.
+
+56
+00:04:03,197 --> 00:04:06,899
+Ich starte nicht mit der KI, sondern mit mir.
+
+57
+00:04:07,236 --> 00:04:10,014
+Zwei eigene Ideen notiere ich zuerst:
+
+58
+00:04:09,964 --> 00:04:14,224
+einen Nachrichtenvergleich und eine gemeinsame Fehlersuche.
+
+59
+00:04:14,514 --> 00:04:18,089
+Erst dann frage ich nach weiteren Möglichkeiten.
+
+60
+00:04:18,732 --> 00:04:24,606
+Mein Prompt nennt das Ziel, die Gruppe, die Zeit und meine eigenen Ideen.
+
+61
+00:04:24,861 --> 00:04:30,026
+Für jede neue Idee verlange ich Nutzen, Nachteil und Zeitbedarf.
+
+62
+00:04:30,282 --> 00:04:35,250
+Und ich schreibe ausdrücklich: Wähle noch nichts für mich aus.
+
+63
+00:04:35,891 --> 00:04:39,048
+Die Antwort liefert fünf Vorschläge.
+
+64
+00:04:39,268 --> 00:04:41,845
+Ich übernehme nicht die ganze Liste.
+
+65
+00:04:42,100 --> 00:04:44,844
+Für unseren Workshop nehme ich den Nachrichtenvergleich,
+
+66
+00:04:44,794 --> 00:04:48,159
+weil die Gruppe den Nutzen direkt erlebt.
+
+67
+00:04:48,415 --> 00:04:51,014
+Das Rollenspiel lasse ich weg.
+
+68
+00:04:51,351 --> 00:04:55,634
+Es braucht für dreissig Minuten zu viel Vorbereitung.
+
+69
+00:04:56,269 --> 00:05:01,899
+Probier es selbst: Notiere zwei eigene Ideen, bevor du KI fragst.
+
+70
+00:05:09,128 --> 00:05:13,295
+Zweitens: ein Konzept kritisch hinterfragen.
+
+71
+00:05:13,632 --> 00:05:20,086
+Hier ist KI besonders wertvoll: als Gegenüber, das unbequeme Fragen stellt.
+
+72
+00:05:20,306 --> 00:05:27,085
+Ich bitte um Schwächen, unausgesprochene Annahmen und eine ernstzunehmende Gegenposition.
+
+73
+00:05:27,422 --> 00:05:32,251
+Und ich schreibe: Bestätige mein Konzept nicht einfach.
+
+74
+00:05:32,886 --> 00:05:35,119
+Die Beispielantwort weist darauf hin,
+
+75
+00:05:35,069 --> 00:05:39,433
+dass vielleicht nicht alle Zugang zu einem KI-Tool haben.
+
+76
+00:05:39,723 --> 00:05:43,960
+Das nehme ich ernst und plane eine gemeinsame Demo.
+
+77
+00:05:44,180 --> 00:05:47,337
+Sie schlägt aber auch einen Wettbewerb vor.
+
+78
+00:05:47,593 --> 00:05:51,214
+Den übernehme ich nicht, weil er vom Lernziel ablenkt.
+
+79
+00:05:51,469 --> 00:05:54,998
+Auch die Kritik der KI bewerte ich selbst.
+
+80
+00:06:02,241 --> 00:06:05,595
+Drittens: einen Entwurf erstellen.
+
+81
+00:06:05,932 --> 00:06:09,360
+Ein guter Prompt enthält fünf Bausteine: Ziel,
+
+82
+00:06:09,310 --> 00:06:13,512
+Kontext, Material, Grenzen und Ausgabeformat.
+
+83
+00:06:13,802 --> 00:06:17,208
+Ich gebe nur, was feststeht: zwölf Erwachsene,
+
+84
+00:06:17,158 --> 00:06:21,789
+dreissig Minuten, unser Lernziel, kein eigener Account.
+
+85
+00:06:22,079 --> 00:06:24,574
+Ich wünsche mir eine Tabelle.
+
+86
+00:06:24,829 --> 00:06:31,226
+Und ich sage, was nicht passieren darf: keine erfundenen Quellen, Zahlen oder Zusagen.
+
+87
+00:06:31,866 --> 00:06:34,361
+Schaut euch die Antwort an.
+
+88
+00:06:34,547 --> 00:06:39,399
+Einstieg zehn Minuten, Prüfung fünfzehn, Austausch fünfzehn.
+
+89
+00:06:39,654 --> 00:06:42,567
+Insgesamt dreissig Minuten.
+
+90
+00:06:42,788 --> 00:06:44,911
+Fällt euch etwas auf?
+
+91
+00:06:49,541 --> 00:06:55,298
+Zehn plus fünfzehn plus fünfzehn ergibt vierzig, nicht dreissig.
+
+92
+00:06:55,554 --> 00:06:59,094
+Die Antwort klingt sicher und ist trotzdem falsch.
+
+93
+00:06:59,349 --> 00:07:05,123
+Also korrigiere ich konkret: fünf Minuten Einstieg, zehn Minuten Prüfung,
+
+94
+00:07:05,073 --> 00:07:09,449
+zehn Minuten Überarbeitung und fünf Minuten Austausch.
+
+95
+00:07:09,740 --> 00:07:12,687
+Das sind genau dreissig Minuten.
+
+96
+00:07:12,978 --> 00:07:17,133
+Für die Freigabe bin ich zuständig, nicht die KI.
+
+97
+00:07:24,381 --> 00:07:27,712
+Viertens: Unterlagen für andere.
+
+98
+00:07:27,967 --> 00:07:32,285
+Das Organisationsteam braucht nicht meinen ganzen Chatverlauf.
+
+99
+00:07:32,506 --> 00:07:36,847
+Es braucht eine Seite, mit der es den Workshop vorbereiten kann.
+
+100
+00:07:37,137 --> 00:07:39,172
+Darum sage ich der KI genau,
+
+101
+00:07:39,122 --> 00:07:44,160
+wer die Unterlage bekommt und was diese Personen damit tun sollen.
+
+102
+00:07:44,795 --> 00:07:47,910
+Danach lese ich die Kurzfassung vollständig,
+
+103
+00:07:47,860 --> 00:07:51,319
+streiche Wiederholungen und prüfe die Angaben.
+
+104
+00:07:51,655 --> 00:07:58,144
+Das Team sieht sofort, was geplant ist, was vorzubereiten ist und was noch offen ist.
+
+105
+00:07:58,776 --> 00:08:02,119
+Genau hier liegt für mich Effizienz.
+
+106
+00:08:02,409 --> 00:08:08,689
+Wir betrachten den Aufwand aller Beteiligten: Erstellen, Prüfen, Lesen und Nacharbeiten.
+
+107
+00:08:09,025 --> 00:08:14,040
+Ein schnell erzeugter Text spart wenig, wenn andere ihn erst entwirren müssen.
+
+108
+00:08:14,295 --> 00:08:17,394
+Dann wurde Arbeit nur verschoben.
+
+109
+00:08:19,641 --> 00:08:22,960
+Bevor ich etwas weitergebe, prüfe ich.
+
+110
+00:08:23,216 --> 00:08:25,920
+Und zwar mehr als die Rechtschreibung.
+
+111
+00:08:26,140 --> 00:08:28,902
+Stimmen Fakten und Zahlen?
+
+112
+00:08:29,123 --> 00:08:33,522
+Gibt es die genannten Quellen wirklich, und stützen sie die Aussage?
+
+113
+00:08:33,778 --> 00:08:38,688
+Dafür öffne ich die Quelle und lese nach, statt nur auf den Link zu schauen.
+
+114
+00:08:38,978 --> 00:08:42,135
+Welche Annahmen hat die KI ergänzt?
+
+115
+00:08:42,355 --> 00:08:44,212
+Was ist noch offen?
+
+116
+00:08:44,618 --> 00:08:49,958
+Und ist die Kurzfassung für die empfangende Person verständlich und hilfreich?
+
+117
+00:08:52,195 --> 00:08:55,329
+Zwei Fallen möchte ich euch nennen.
+
+118
+00:08:55,584 --> 00:09:01,411
+Erstens: Eine zweite Antwort derselben KI ist keine unabhängige Bestätigung.
+
+119
+00:09:01,701 --> 00:09:07,877
+Zweitens: Die Aufforderung «Erfinde nichts» hilft, ist aber keine Garantie.
+
+120
+00:09:08,167 --> 00:09:10,848
+Gute Sprache ist kein Beleg.
+
+121
+00:09:11,138 --> 00:09:17,418
+Findet ihr keine belastbare Grundlage, streicht die Aussage oder markiert sie als offen.
+
+122
+00:09:19,659 --> 00:09:24,225
+Zum Schluss ergänze ich einen kurzen KI-Hinweis, zum Beispiel:
+
+123
+00:09:24,175 --> 00:09:29,642
+KI wurde für Ideen, einen Ablaufentwurf und sprachliche Kürzung genutzt.
+
+124
+00:09:29,898 --> 00:09:34,378
+Auswahl, Überarbeitung und Prüfung habe ich übernommen.
+
+125
+00:09:34,599 --> 00:09:38,174
+Noch offen: Raum und Technik.
+
+126
+00:09:40,403 --> 00:09:45,417
+So ein Hinweis gehört für mich selbstverständlich zu guter Zusammenarbeit.
+
+127
+00:09:45,638 --> 00:09:50,014
+Aber schreibt ihn nur so, wenn ihr diese Schritte wirklich gemacht habt.
+
+128
+00:09:50,304 --> 00:09:53,368
+Ein Hinweis ersetzt keine Prüfung.
+
+129
+00:09:53,589 --> 00:09:59,474
+Und er macht eine Nutzung, die nach den Prüfungsregeln nicht erlaubt ist, nicht zulässig.
+
+130
+00:09:59,810 --> 00:10:05,997
+Für Studienleistungen gelten zusätzlich die jeweiligen Dokumentations- und Prüfungsregeln.
+
+131
+00:10:08,232 --> 00:10:12,376
+Vor jeder Übergabe stellt ihr euch fünf Fragen.
+
+132
+00:10:12,666 --> 00:10:15,974
+Darf ich diese Daten in diesem Tool verwenden?
+
+133
+00:10:16,194 --> 00:10:19,583
+Habe ich alles gelesen und verstanden?
+
+134
+00:10:19,839 --> 00:10:23,576
+Habe ich relevante Fakten und Quellen geprüft?
+
+135
+00:10:23,831 --> 00:10:27,917
+Ist die Übergabe kurz, verständlich und hilfreich?
+
+136
+00:10:28,207 --> 00:10:31,608
+Und ist mein KI-Einsatz transparent?
+
+137
+00:10:33,857 --> 00:10:40,021
+Ich wünsche mir, dass wir alle nach diesem Video das gleiche Verständnis von KI haben.
+
+138
+00:10:40,276 --> 00:10:45,151
+Dass wir sie sinnvoll, verantwortungsvoll und transparent nutzen.
+
+139
+00:10:45,488 --> 00:10:50,472
+Und dass wir so gemeinsam zu mehr Qualität und echter Effizienz beitragen,
+
+140
+00:10:50,422 --> 00:10:52,743
+für alle Beteiligten.
+
+141
+00:10:53,080 --> 00:10:58,930
+Alle Prompts, die fünf Fragen und die Quellen findet ihr im Begleitmaterial.
+
+142
+00:10:59,267 --> 00:11:03,167
+Und wenn etwas unklar ist, sprecht mich gern an.
+
+143
+00:11:13,396 --> 00:11:15,311
+KI nutzen.
+
+144
+00:11:15,496 --> 00:11:17,469
+Selber denken.
+
+145
+00:11:17,655 --> 00:11:20,092
+Verantwortung übernehmen.
+
+146
+00:11:20,498 --> 00:11:23,817
+Das wünsche ich mir für unsere Zusammenarbeit.
+
+147
+00:11:24,073 --> 00:11:27,397
+Wenn ihr Fragen habt, könnt ihr mich jederzeit kontaktieren:
+
+148
+00:11:27,347 --> 00:11:33,673
+per E-Mail an sophie@hundertmark.ch oder gern per WhatsApp.
+
+149
+00:11:34,010 --> 00:11:37,004
+Scannt dafür einfach den QR-Code.
+
+150
+00:11:37,225 --> 00:11:39,894
+Ich freue mich auf den Austausch.
+
